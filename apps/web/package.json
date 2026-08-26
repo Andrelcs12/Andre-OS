@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "biome check",
     "typecheck": "tsc --noEmit",
-    "db:types": "supabase gen types typescript --linked > src/types/database.generated.ts",
+    "db:types": "node scripts/generate-supabase-types.mjs",
     "format": "biome format --write"
   },
   "dependencies": {
