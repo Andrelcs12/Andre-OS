@@ -1,9 +1,7 @@
 "use client";
 
-import { useState } from "react";
-
 import { Button } from "@/components/ui/button";
-import { createClient } from "@/lib/supabase/client";
+import { getApiUrl } from "@/lib/api/api-client";
 
 function GoogleMark() {
   return (
@@ -29,44 +27,17 @@ function GoogleMark() {
 }
 
 export function GoogleSignInButton() {
-  const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  async function handleSignIn() {
-    setError(null);
-    setIsLoading(true);
-    try {
-      const supabase = createClient();
-      const { error: authError } = await supabase.auth.signInWithOAuth({
-        provider: "google",
-        options: { redirectTo: `${window.location.origin}/auth/callback` },
-      });
-      if (authError)
-        setError(
-          "Não foi possível iniciar o login com Google. Tente novamente.",
-        );
-    } catch {
-      setError("Supabase ainda não está configurado neste ambiente.");
-    } finally {
-      setIsLoading(false);
-    }
-  }
   return (
-    <div className="space-y-3">
-      <Button
-        type="button"
-        className="w-full"
-        size="lg"
-        onClick={handleSignIn}
-        disabled={isLoading}
-      >
-        <GoogleMark />
-        {isLoading ? "Redirecionando…" : "Continuar com Google"}
-      </Button>
-      {error ? (
-        <p role="alert" className="text-sm text-destructive">
-          {error}
-        </p>
-      ) : null}
-    </div>
+    <Button
+      type="button"
+      className="w-full"
+      size="lg"
+      onClick={() => {
+        window.location.assign(`${getApiUrl()}/auth/google`);
+      }}
+    >
+      <GoogleMark />
+      Continuar com Google
+    </Button>
   );
 }

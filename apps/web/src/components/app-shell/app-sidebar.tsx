@@ -2,7 +2,7 @@
 
 import { LogOut, Menu } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import { BrandLogo } from "@/components/brand/brand-logo";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -20,7 +20,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { signOut } from "@/lib/auth/actions";
+import { apiFetch } from "@/lib/api/api-client";
 import { navigationItems } from "@/lib/constants/navigation";
 import { cn } from "@/lib/utils";
 import type { AuthenticatedProfile } from "@/types/auth";
@@ -53,6 +53,7 @@ function Navigation({ onNavigate }: { onNavigate?: () => void }) {
 }
 
 function UserMenu({ profile }: { profile: AuthenticatedProfile }) {
+  const router = useRouter();
   return (
     <div className="mt-auto border-t p-3">
       <div className="flex items-center gap-3 px-1">
@@ -71,16 +72,19 @@ function UserMenu({ profile }: { profile: AuthenticatedProfile }) {
         </div>
         <Tooltip>
           <TooltipTrigger asChild>
-            <form action={signOut}>
-              <Button
-                type="submit"
-                variant="ghost"
-                size="icon-sm"
-                aria-label="Sair"
-              >
-                <LogOut className="size-4" />
-              </Button>
-            </form>
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon-sm"
+              aria-label="Sair"
+              onClick={async () => {
+                await apiFetch("/auth/logout", { method: "POST" });
+                router.replace("/login");
+                router.refresh();
+              }}
+            >
+              <LogOut className="size-4" />
+            </Button>
           </TooltipTrigger>
           <TooltipContent>Sair</TooltipContent>
         </Tooltip>

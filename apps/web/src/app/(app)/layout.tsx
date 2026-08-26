@@ -2,11 +2,9 @@ import { redirect } from "next/navigation";
 import type { ReactNode } from "react";
 
 import { AppHeader } from "@/components/app-shell/app-header";
-import { isSupabaseConfigured } from "@/lib/supabase/env";
 import { getCurrentProfile } from "@/services/profile.service";
 
 export default async function AppLayout({ children }: { children: ReactNode }) {
-  if (!isSupabaseConfigured()) redirect("/login");
   const profile = await getCurrentProfile();
   if (!profile) redirect("/login");
   return (

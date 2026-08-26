@@ -10,8 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { isSupabaseConfigured } from "@/lib/supabase/env";
-import { getCurrentUser } from "@/services/auth.service";
+import { getCurrentProfile } from "@/services/profile.service";
 
 type LoginPageProps = { searchParams: Promise<{ error?: string }> };
 const errors: Record<string, string> = {
@@ -21,7 +20,7 @@ const errors: Record<string, string> = {
 
 export default async function LoginPage({ searchParams }: LoginPageProps) {
   const { error } = await searchParams;
-  if (isSupabaseConfigured() && (await getCurrentUser())) redirect("/today");
+  if (await getCurrentProfile()) redirect("/today");
   return (
     <main className="flex min-h-screen items-center justify-center p-5">
       <div className="absolute top-5 left-5">
@@ -45,7 +44,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
             </p>
           ) : null}
           <p className="mt-4 text-xs leading-5 text-muted-foreground">
-            A conta é autenticada pelo Google via Supabase Auth.
+            A conta é autenticada pelo Google através da API do ANDRÉ OS.
           </p>
         </CardContent>
       </Card>
