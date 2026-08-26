@@ -1,0 +1,14 @@
+{
+  "name": "andre-os",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev:web": "npm run dev --workspace @andre-os/web",
+    "dev:api": "npm run dev --workspace @andre-os/api",
+    "lint": "npm run lint --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "build": "npm run build --workspaces --if-present"
+  }
+}
