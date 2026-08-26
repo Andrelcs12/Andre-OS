@@ -1,9 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
 
-import {
-  LOCAL_DEV_SESSION_COOKIE,
-  LOCAL_DEV_SESSION_VALUE,
-} from "@/lib/auth/constants";
+import { isSupabaseConfigured } from "@/lib/supabase/env";
+import { updateSession } from "@/lib/supabase/proxy";
 
 const protectedPaths = [
   "/today",
@@ -13,38 +11,34 @@ const protectedPaths = [
   "/history",
   "/analytics",
 ];
+function isProtectedPath(pathname: string) {
+  return protectedPaths.some((path) => pathname.startsWith(path));
+}
+function redirectWithCookies(url: URL, source: NextResponse) {
+  const response = NextResponse.redirect(url);
+  source.cookies.getAll().forEach((cookie) => {
+    response.cookies.set(cookie);
+  });
+  return response;
+}
 
-/**
- * TEMPORARY DEV AUTH route guard. Replace with Supabase Auth in Phase 2.
- * Next.js 16 uses proxy.ts instead of the deprecated middleware.ts convention.
- */
-export function proxy(request: NextRequest) {
-  const isProtected = protectedPaths.some((path) =>
-    request.nextUrl.pathname.startsWith(path),
-  );
-  const hasSession =
-    request.cookies.get(LOCAL_DEV_SESSION_COOKIE)?.value ===
-    LOCAL_DEV_SESSION_VALUE;
-
-  if (isProtected && !hasSession) {
-    return NextResponse.redirect(new URL("/login", request.url));
-  }
-
-  if (request.nextUrl.pathname === "/login" && hasSession) {
-    return NextResponse.redirect(new URL("/today", request.url));
-  }
-
-  return NextResponse.next();
+export async function proxy(request: NextRequest) {
+  const pathname = request.nextUrl.pathname;
+  if (!isSupabaseConfigured())
+    return isProtectedPath(pathname)
+      ? NextResponse.redirect(new URL("/login", request.url))
+      : NextResponse.next();
+  const { claims, response } = await updateSession(request);
+  const isAuthenticated = Boolean(claims?.sub);
+  if (isProtectedPath(pathname) && !isAuthenticated)
+    return redirectWithCookies(new URL("/login", request.url), response);
+  if (pathname === "/login" && isAuthenticated)
+    return redirectWithCookies(new URL("/today", request.url), response);
+  return response;
 }
 
 export const config = {
   matcher: [
-    "/login",
-    "/today/:path*",
-    "/tasks/:path*",
-    "/routines/:path*",
-    "/links/:path*",
-    "/history/:path*",
-    "/analytics/:path*",
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
   ],
 };

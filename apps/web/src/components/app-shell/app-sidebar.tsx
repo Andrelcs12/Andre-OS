@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { BrandLogo } from "@/components/brand/brand-logo";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -20,9 +20,10 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { endLocalDevSession } from "@/lib/auth/actions";
+import { signOut } from "@/lib/auth/actions";
 import { navigationItems } from "@/lib/constants/navigation";
 import { cn } from "@/lib/utils";
+import type { AuthenticatedProfile } from "@/types/auth";
 
 function Navigation({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = usePathname();
@@ -51,24 +52,26 @@ function Navigation({ onNavigate }: { onNavigate?: () => void }) {
   );
 }
 
-function UserMenu() {
+function UserMenu({ profile }: { profile: AuthenticatedProfile }) {
   return (
     <div className="mt-auto border-t p-3">
       <div className="flex items-center gap-3 px-1">
         <Avatar className="size-8">
+          <AvatarImage
+            src={profile.avatarUrl ?? undefined}
+            alt={profile.displayName}
+          />
           <AvatarFallback className="bg-primary-subtle text-xs font-semibold text-primary">
-            AL
+            {profile.displayName.slice(0, 2).toUpperCase()}
           </AvatarFallback>
         </Avatar>
         <div className="min-w-0 flex-1">
-          <p className="truncate text-sm font-medium">André Lucas</p>
-          <p className="truncate text-xs text-muted-foreground">
-            Sessão local DEV
-          </p>
+          <p className="truncate text-sm font-medium">{profile.displayName}</p>
+          <p className="truncate text-xs text-muted-foreground">Conta Google</p>
         </div>
         <Tooltip>
           <TooltipTrigger asChild>
-            <form action={endLocalDevSession}>
+            <form action={signOut}>
               <Button
                 type="submit"
                 variant="ghost"
@@ -86,7 +89,13 @@ function UserMenu() {
   );
 }
 
-function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
+function SidebarContent({
+  onNavigate,
+  profile,
+}: {
+  onNavigate?: () => void;
+  profile: AuthenticatedProfile;
+}) {
   return (
     <div className="flex h-full flex-col">
       <div className="flex h-16 items-center px-5">
@@ -96,16 +105,16 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
       <div className="flex-1 p-3">
         <Navigation onNavigate={onNavigate} />
       </div>
-      <UserMenu />
+      <UserMenu profile={profile} />
     </div>
   );
 }
 
-export function AppSidebar() {
+export function AppSidebar({ profile }: { profile: AuthenticatedProfile }) {
   return (
     <>
       <aside className="fixed inset-y-0 left-0 z-30 hidden w-60 border-r bg-card lg:block">
-        <SidebarContent />
+        <SidebarContent profile={profile} />
       </aside>
       <Sheet>
         <SheetTrigger asChild>
@@ -122,7 +131,7 @@ export function AppSidebar() {
           <SheetHeader className="sr-only">
             <SheetTitle>Navegação</SheetTitle>
           </SheetHeader>
-          <SidebarContent />
+          <SidebarContent profile={profile} />
         </SheetContent>
       </Sheet>
     </>

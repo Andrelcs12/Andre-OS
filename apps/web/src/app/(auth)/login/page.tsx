@@ -1,8 +1,8 @@
 import { redirect } from "next/navigation";
 
+import { GoogleSignInButton } from "@/components/auth/google-sign-in-button";
 import { BrandLogo } from "@/components/brand/brand-logo";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -10,12 +10,18 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { startLocalDevSession } from "@/lib/auth/actions";
-import { getLocalDevSession } from "@/lib/auth/local-session";
+import { isSupabaseConfigured } from "@/lib/supabase/env";
+import { getCurrentUser } from "@/services/auth.service";
 
-export default async function LoginPage() {
-  if (await getLocalDevSession()) redirect("/today");
+type LoginPageProps = { searchParams: Promise<{ error?: string }> };
+const errors: Record<string, string> = {
+  oauth_callback: "Não foi possível concluir o login. Tente novamente.",
+  oauth_cancelled: "Login cancelado. Você pode tentar novamente quando quiser.",
+};
 
+export default async function LoginPage({ searchParams }: LoginPageProps) {
+  const { error } = await searchParams;
+  if (isSupabaseConfigured() && (await getCurrentUser())) redirect("/today");
   return (
     <main className="flex min-h-screen items-center justify-center p-5">
       <div className="absolute top-5 left-5">
@@ -26,24 +32,20 @@ export default async function LoginPage() {
       </div>
       <Card className="w-full max-w-sm border">
         <CardHeader className="gap-2">
-          <p className="text-xs font-medium tracking-wide text-primary uppercase">
-            DEV AUTH / LOCAL SESSION
-          </p>
           <CardTitle className="text-xl">Bem-vindo ao ANDRÉ OS</CardTitle>
           <CardDescription>
-            Uma sessão local temporária para validar a área protegida nesta
-            fase.
+            Entre para acompanhar sua execução, aprendizado e evolução.
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form action={startLocalDevSession}>
-            <Button className="w-full" size="lg">
-              Entrar como André
-            </Button>
-          </form>
+          <GoogleSignInButton />
+          {error ? (
+            <p role="alert" className="mt-4 text-sm text-destructive">
+              {errors[error] ?? "Não foi possível concluir a autenticação."}
+            </p>
+          ) : null}
           <p className="mt-4 text-xs leading-5 text-muted-foreground">
-            Não é autenticação de produção. Supabase Auth substituirá este fluxo
-            na Fase 2.
+            A conta é autenticada pelo Google via Supabase Auth.
           </p>
         </CardContent>
       </Card>
