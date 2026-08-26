@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
 import { ThemeProvider } from "@/components/theme/theme-provider";
@@ -13,8 +13,30 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: { default: "ANDRÉ OS", template: "%s | ANDRÉ OS" },
-  description: "Meu sistema pessoal de execução, aprendizado e evolução.",
+  title: { default: "ANDRÉ OS", template: "%s · ANDRÉ OS" },
+  description:
+    "Personal operating system for tasks, routines, saved links, time tracking and personal analytics.",
+  applicationName: "ANDRÉ OS",
+  manifest: "/manifest.webmanifest",
+  icons: {
+    icon: [
+      {
+        url: "/brand/app-icon-dark.png",
+        media: "(prefers-color-scheme: dark)",
+      },
+      {
+        url: "/brand/app-icon-light.png",
+        media: "(prefers-color-scheme: light)",
+      },
+    ],
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#F8F9FB" },
+    { media: "(prefers-color-scheme: dark)", color: "#0F1014" },
+  ],
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

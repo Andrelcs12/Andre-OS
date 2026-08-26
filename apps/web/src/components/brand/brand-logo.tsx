@@ -1,12 +1,28 @@
+import Image from "next/image";
+
 import { cn } from "@/lib/utils";
 
-type BrandLogoProps = { className?: string };
+type BrandLogoProps = { className?: string; priority?: boolean };
 
-/** Temporary typographic mark. Replace with the final SVG identity when available. */
-export function BrandLogo({ className }: BrandLogoProps) {
+export function BrandLogo({ className, priority = false }: BrandLogoProps) {
   return (
-    <span className={cn("text-sm font-bold tracking-[-0.04em]", className)}>
-      ANDRÉ <span className="text-primary">OS</span>
+    <span className={cn("relative block h-7 w-32", className)}>
+      <Image
+        src="/brand/wordmark-dark.png"
+        alt="ANDRÉ OS"
+        fill
+        priority={priority}
+        sizes="128px"
+        className="object-contain object-left dark:hidden"
+      />
+      <Image
+        src="/brand/wordmark-light.png"
+        alt="ANDRÉ OS"
+        fill
+        priority={priority}
+        sizes="128px"
+        className="hidden object-contain object-left dark:block"
+      />
     </span>
   );
 }
