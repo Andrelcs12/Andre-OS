@@ -7,5 +7,6 @@ export async function serverApiFetch(path: string) {
   return fetch(`${getApiUrl()}${path}`, {
     headers: { Cookie: cookieStore.toString(), Accept: "application/json" },
     cache: "no-store",
+    signal: AbortSignal.timeout(3_000),
   });
 }

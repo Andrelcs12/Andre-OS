@@ -12,6 +12,8 @@ import {
 } from "@/components/ui/card";
 import { getCurrentProfile } from "@/services/profile.service";
 
+export const dynamic = "force-dynamic";
+
 type LoginPageProps = { searchParams: Promise<{ error?: string }> };
 const errors: Record<string, string> = {
   oauth_callback: "Não foi possível concluir o login. Tente novamente.",

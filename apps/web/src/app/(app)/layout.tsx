@@ -4,6 +4,8 @@ import type { ReactNode } from "react";
 import { AppHeader } from "@/components/app-shell/app-header";
 import { getCurrentProfile } from "@/services/profile.service";
 
+export const dynamic = "force-dynamic";
+
 export default async function AppLayout({ children }: { children: ReactNode }) {
   const profile = await getCurrentProfile();
   if (!profile) redirect("/login");
