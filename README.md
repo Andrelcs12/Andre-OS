@@ -2,18 +2,36 @@
 
 Personal operating system for tasks, routines, saved links, time tracking and personal analytics.
 
-## Status
+## Stack oficial
 
-**Phase 2 — Infrastructure**: Supabase SSR, Google OAuth, schema PostgreSQL versionado, RLS, assets oficiais e metadata estão preparados.
+- **Frontend:** Next.js + React + TypeScript, Tailwind CSS, shadcn/ui e Lucide.
+- **Backend:** NestJS + Fastify.
+- **Database:** PostgreSQL + Prisma.
+- **Infrastructure:** Supabase PostgreSQL.
 
-O código está pronto para configuração externa de projeto Supabase e OAuth do Google. Consulte o README da aplicação para o passo a passo seguro.
+## Workspace
 
-## Rodar localmente
-
-```bash
-cd apps/web
-npm install
-npm run dev
+```text
+apps/web  # interface Next.js
+apps/api  # API NestJS/Fastify
 ```
 
-Consulte [apps/web/README.md](apps/web/README.md) para stack, scripts, estrutura e próximos passos.
+## Rodar
+
+```bash
+npm install
+npm run dev:web
+npm run dev:api
+```
+
+Veja `apps/web/.env.example` e `apps/api/.env.example`. Nunca versione envs reais.
+
+## Qualidade
+
+```bash
+npm run lint
+npm run typecheck
+npm run build
+```
+
+O banco existente deve ser baselineado conforme [docs/DATABASE.md](docs/DATABASE.md). Google OAuth permanece dependente da configuração externa segura no Google Cloud.
