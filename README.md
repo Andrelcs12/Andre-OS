@@ -4,9 +4,9 @@ Personal operating system for tasks, routines, saved links, time tracking and pe
 
 ## Status
 
-**Phase 1 — Foundation**: interface, design system, rotas protegidas com sessão local de desenvolvimento e estrutura base do App Router estão implementados.
+**Phase 2 — Infrastructure**: Supabase SSR, Google OAuth, schema PostgreSQL versionado, RLS, assets oficiais e metadata estão preparados.
 
-Supabase Auth + PostgreSQL integration will be added in Phase 2.
+O código está pronto para configuração externa de projeto Supabase e OAuth do Google. Consulte o README da aplicação para o passo a passo seguro.
 
 ## Rodar localmente
 

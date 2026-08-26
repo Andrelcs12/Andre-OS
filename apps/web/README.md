@@ -2,33 +2,27 @@
 
 Personal operating system for tasks, routines, saved links, time tracking and personal analytics.
 
-## Contexto
-
-ANDRÉ OS é uma aplicação pessoal para apoiar execução, aprendizado e evolução diária. Não é um SaaS nem uma aplicação multi-tenant.
-
 ## Status
 
-**Phase 1 — Foundation** concluída: interface, design system, rotas protegidas por sessão local de desenvolvimento e base do App Router estão disponíveis.
-
-Supabase Auth + PostgreSQL integration will be added in Phase 2.
+**Phase 2 — infraestrutura real de dados e autenticação.** A aplicação usa Supabase SSR, Google OAuth, migrations SQL e RLS. O código é versionável sem credenciais; a configuração externa depende de um projeto Supabase e de credenciais Google reais.
 
 ## Stack
 
-- Next.js (App Router)
-- React + TypeScript
-- Tailwind CSS v4
-- shadcn/ui + Lucide React
-- Geist Sans + Geist Mono
+- Next.js App Router + React + TypeScript
+- Tailwind CSS v4 + shadcn/ui + Lucide React
+- Supabase PostgreSQL, Auth e SSR
+- Google OAuth
 - Biome
 
-## Como rodar
+## Rodar localmente
 
 ```bash
 npm install
+copy .env.example .env.local
 npm run dev
 ```
 
-Abra [http://localhost:3000](http://localhost:3000). Em `/login`, use **Entrar como André** para criar a sessão local de desenvolvimento.
+Preencha apenas as variáveis indicadas em `.env.local`. Nunca versione esse arquivo.
 
 ## Scripts
 
@@ -37,25 +31,57 @@ npm run dev
 npm run lint
 npm run typecheck
 npm run build
+npm run db:types
 ```
 
-## Estrutura
+`db:types` exige que a CLI esteja vinculada a um projeto Supabase e gera `src/types/database.generated.ts`; esse arquivo não deve ser editado manualmente.
+
+## Arquitetura
 
 ```text
-src/
-  app/               # Rotas, layouts e route handlers
-  components/        # Shell, dashboard, tema, marca e shadcn/ui
-  lib/auth/          # TEMPORARY DEV AUTH / LOCAL SESSION
-  lib/constants/     # Navegação da aplicação
-  lib/mock/          # Dados temporários centralizados
-  lib/types/         # Tipos de domínio iniciais
+UI
+ ↓
+Client Supabase / Server Action / Route Handler
+ ↓
+Services
+ ↓
+Supabase SSR clients
+ ↓
+PostgreSQL + RLS
 ```
 
-## Próximos passos
+## Banco de dados
 
-- Supabase PostgreSQL e schema inicial
-- Supabase Auth e Google OAuth
-- Persistência real
-- CRUD inicial de tarefas e rotinas
+As migrations estão em `supabase/migrations`. A migration inicial cria:
 
-> A sessão atual é apenas para desenvolvimento e não deve ser usada como autenticação de produção.
+- profiles
+- tasks
+- routines
+- routine_entries
+- links
+- time_entries
+
+Todas as tabelas de usuário usam RLS e policies por proprietário. O profile é criado por trigger idempotente após o primeiro login.
+
+## Configuração automatizada
+
+- Clients Supabase para browser, servidor e `proxy.ts`.
+- Login Google, callback PKCE e logout.
+- Proteção SSR de rotas e refresh de sessão.
+- Schema, constraints, índices, RLS e policies versionados.
+- Assets oficiais em `public/brand` e metadata/manifest configurados.
+
+## Configuração manual de conta
+
+1. Crie ou vincule um projeto Supabase.
+2. Adicione `http://localhost:3000/auth/callback` às Redirect URLs de Auth.
+3. Aplique a migration em `supabase/migrations`.
+4. Copie a Project URL e a Publishable Key para `.env.local`.
+5. No Google Cloud, crie um OAuth Web Client e registre a callback fornecida pelo provider Google no Supabase.
+6. No Supabase Auth, habilite Google e informe o Client ID e Client Secret do Google.
+
+## Segurança
+
+- Não use nem exponha `service_role` nesta aplicação.
+- A Publishable Key pode ser pública; a proteção de dados é feita por RLS.
+- `NEXT_PUBLIC_SUPABASE_*` é validado ao executar fluxos que dependem do Supabase, sem impedir build ou revisão sem secrets.
