@@ -1,10 +1,5 @@
-import { BasePage } from "@/components/app-shell/base-page";
-export default function RoutinesPage() {
-  return (
-    <BasePage
-      title="Rotinas"
-      description="Acompanhe os rituais que sustentam sua evolução."
-      emptyMessage="Nenhuma rotina cadastrada."
-    />
-  );
+import { RoutineManager } from "@/features/routines/components/routine-manager";
+import { getRoutines } from "@/features/routines/services/routines.server";
+export default async function RoutinesPage() {
+  return <RoutineManager initialRoutines={await getRoutines()} />;
 }

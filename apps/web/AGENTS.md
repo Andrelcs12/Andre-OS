@@ -16,3 +16,10 @@ Read the relevant guide in `node_modules/next/dist/docs/` before using a Next.js
 - UI usa tokens em `src/app/globals.css`, Geist Sans/Mono, shadcn/ui e Lucide. Evite cores hardcoded, glow, neon e excessos de radius/sombra.
 - A marca oficial está em `public/brand`; metadata, manifest e ícone estão no App Router.
 - Preserve responsividade e acessibilidade: foco visível, semântica e labels/aria adequados.
+
+## Organização feature-first
+
+- `app/` concentra rotas, layouts, composition e route boundaries.
+- `features/` concentra componentes, services, types e utilitários específicos de cada domínio.
+- `components/` contém somente UI e componentes realmente compartilhados.
+- `lib/` contém infraestrutura técnica compartilhada, como cliente HTTP e utilitários.

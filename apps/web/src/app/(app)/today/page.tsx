@@ -1,18 +1,20 @@
 import { DailyProgress } from "@/components/dashboard/daily-progress";
 import { NextTasks } from "@/components/dashboard/next-tasks";
 import { NorthCard } from "@/components/dashboard/north-card";
-import { RoutinesCard } from "@/components/dashboard/routines-card";
+import { DailyRoutines } from "@/features/routines/components/daily-routines";
+import { getDailyRoutines } from "@/features/routines/services/routines.server";
 import { todayMock } from "@/lib/mock/today";
 import { getCurrentProfile } from "@/services/profile.service";
 import { getTasks } from "@/services/tasks.server";
 
 export default async function TodayPage() {
-  const [profile, inProgressTasks, pendingTasks, completedTasks] =
+  const [profile, inProgressTasks, pendingTasks, completedTasks, routines] =
     await Promise.all([
       getCurrentProfile(),
       getTasks({ status: "IN_PROGRESS" }),
       getTasks({ status: "PENDING" }),
       getTasks({ status: "COMPLETED" }),
+      getDailyRoutines(new Date().toISOString().slice(0, 10)),
     ]);
   const firstName = profile?.displayName.split(" ")[0] ?? "André";
   const today = new Date().toISOString().slice(0, 10);
@@ -44,7 +46,7 @@ export default async function TodayPage() {
         <NorthCard {...todayMock.north} />
       </section>
       <section className="grid gap-4 lg:grid-cols-2">
-        <RoutinesCard routines={todayMock.routines} />
+        <DailyRoutines initialRoutines={routines} date={today} />
         <NextTasks tasks={nextTasks} />
       </section>
     </div>
