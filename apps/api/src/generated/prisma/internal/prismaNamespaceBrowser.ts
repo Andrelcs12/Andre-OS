@@ -111,7 +111,10 @@ export const RoutineScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   title: 'title',
+  description: 'description',
   area: 'area',
+  schedule: 'schedule',
+  daysOfWeek: 'daysOfWeek',
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

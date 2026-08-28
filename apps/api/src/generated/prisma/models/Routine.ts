@@ -20,15 +20,27 @@ export type RoutineModel = runtime.Types.Result.DefaultSelection<Prisma.$Routine
 
 export type AggregateRoutine = {
   _count: RoutineCountAggregateOutputType | null
+  _avg: RoutineAvgAggregateOutputType | null
+  _sum: RoutineSumAggregateOutputType | null
   _min: RoutineMinAggregateOutputType | null
   _max: RoutineMaxAggregateOutputType | null
+}
+
+export type RoutineAvgAggregateOutputType = {
+  daysOfWeek: number | null
+}
+
+export type RoutineSumAggregateOutputType = {
+  daysOfWeek: number[]
 }
 
 export type RoutineMinAggregateOutputType = {
   id: string | null
   userId: string | null
   title: string | null
+  description: string | null
   area: $Enums.Area | null
+  schedule: $Enums.RoutineSchedule | null
   isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -38,7 +50,9 @@ export type RoutineMaxAggregateOutputType = {
   id: string | null
   userId: string | null
   title: string | null
+  description: string | null
   area: $Enums.Area | null
+  schedule: $Enums.RoutineSchedule | null
   isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -48,7 +62,10 @@ export type RoutineCountAggregateOutputType = {
   id: number
   userId: number
   title: number
+  description: number
   area: number
+  schedule: number
+  daysOfWeek: number
   isActive: number
   createdAt: number
   updatedAt: number
@@ -56,11 +73,21 @@ export type RoutineCountAggregateOutputType = {
 }
 
 
+export type RoutineAvgAggregateInputType = {
+  daysOfWeek?: true
+}
+
+export type RoutineSumAggregateInputType = {
+  daysOfWeek?: true
+}
+
 export type RoutineMinAggregateInputType = {
   id?: true
   userId?: true
   title?: true
+  description?: true
   area?: true
+  schedule?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
@@ -70,7 +97,9 @@ export type RoutineMaxAggregateInputType = {
   id?: true
   userId?: true
   title?: true
+  description?: true
   area?: true
+  schedule?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
@@ -80,7 +109,10 @@ export type RoutineCountAggregateInputType = {
   id?: true
   userId?: true
   title?: true
+  description?: true
   area?: true
+  schedule?: true
+  daysOfWeek?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
@@ -125,6 +157,18 @@ export type RoutineAggregateArgs<ExtArgs extends runtime.Types.Extensions.Intern
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: RoutineAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: RoutineSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: RoutineMinAggregateInputType
@@ -155,6 +199,8 @@ export type RoutineGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   _count?: RoutineCountAggregateInputType | true
+  _avg?: RoutineAvgAggregateInputType
+  _sum?: RoutineSumAggregateInputType
   _min?: RoutineMinAggregateInputType
   _max?: RoutineMaxAggregateInputType
 }
@@ -163,11 +209,16 @@ export type RoutineGroupByOutputType = {
   id: string
   userId: string
   title: string
+  description: string | null
   area: $Enums.Area | null
+  schedule: $Enums.RoutineSchedule
+  daysOfWeek: number[]
   isActive: boolean
   createdAt: Date
   updatedAt: Date
   _count: RoutineCountAggregateOutputType | null
+  _avg: RoutineAvgAggregateOutputType | null
+  _sum: RoutineSumAggregateOutputType | null
   _min: RoutineMinAggregateOutputType | null
   _max: RoutineMaxAggregateOutputType | null
 }
@@ -194,7 +245,10 @@ export type RoutineWhereInput = {
   id?: Prisma.UuidFilter<"Routine"> | string
   userId?: Prisma.UuidFilter<"Routine"> | string
   title?: Prisma.StringFilter<"Routine"> | string
+  description?: Prisma.StringNullableFilter<"Routine"> | string | null
   area?: Prisma.EnumAreaNullableFilter<"Routine"> | $Enums.Area | null
+  schedule?: Prisma.EnumRoutineScheduleFilter<"Routine"> | $Enums.RoutineSchedule
+  daysOfWeek?: Prisma.IntNullableListFilter<"Routine">
   isActive?: Prisma.BoolFilter<"Routine"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Routine"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Routine"> | Date | string
@@ -206,7 +260,10 @@ export type RoutineOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  description?: Prisma.SortOrderInput | Prisma.SortOrder
   area?: Prisma.SortOrderInput | Prisma.SortOrder
+  schedule?: Prisma.SortOrder
+  daysOfWeek?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -221,7 +278,10 @@ export type RoutineWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.RoutineWhereInput | Prisma.RoutineWhereInput[]
   userId?: Prisma.UuidFilter<"Routine"> | string
   title?: Prisma.StringFilter<"Routine"> | string
+  description?: Prisma.StringNullableFilter<"Routine"> | string | null
   area?: Prisma.EnumAreaNullableFilter<"Routine"> | $Enums.Area | null
+  schedule?: Prisma.EnumRoutineScheduleFilter<"Routine"> | $Enums.RoutineSchedule
+  daysOfWeek?: Prisma.IntNullableListFilter<"Routine">
   isActive?: Prisma.BoolFilter<"Routine"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Routine"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Routine"> | Date | string
@@ -233,13 +293,18 @@ export type RoutineOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  description?: Prisma.SortOrderInput | Prisma.SortOrder
   area?: Prisma.SortOrderInput | Prisma.SortOrder
+  schedule?: Prisma.SortOrder
+  daysOfWeek?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.RoutineCountOrderByAggregateInput
+  _avg?: Prisma.RoutineAvgOrderByAggregateInput
   _max?: Prisma.RoutineMaxOrderByAggregateInput
   _min?: Prisma.RoutineMinOrderByAggregateInput
+  _sum?: Prisma.RoutineSumOrderByAggregateInput
 }
 
 export type RoutineScalarWhereWithAggregatesInput = {
@@ -249,7 +314,10 @@ export type RoutineScalarWhereWithAggregatesInput = {
   id?: Prisma.UuidWithAggregatesFilter<"Routine"> | string
   userId?: Prisma.UuidWithAggregatesFilter<"Routine"> | string
   title?: Prisma.StringWithAggregatesFilter<"Routine"> | string
+  description?: Prisma.StringNullableWithAggregatesFilter<"Routine"> | string | null
   area?: Prisma.EnumAreaNullableWithAggregatesFilter<"Routine"> | $Enums.Area | null
+  schedule?: Prisma.EnumRoutineScheduleWithAggregatesFilter<"Routine"> | $Enums.RoutineSchedule
+  daysOfWeek?: Prisma.IntNullableListFilter<"Routine">
   isActive?: Prisma.BoolWithAggregatesFilter<"Routine"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Routine"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Routine"> | Date | string
@@ -258,7 +326,10 @@ export type RoutineScalarWhereWithAggregatesInput = {
 export type RoutineCreateInput = {
   id?: string
   title: string
+  description?: string | null
   area?: $Enums.Area | null
+  schedule?: $Enums.RoutineSchedule
+  daysOfWeek?: Prisma.RoutineCreatedaysOfWeekInput | number[]
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -270,7 +341,10 @@ export type RoutineUncheckedCreateInput = {
   id?: string
   userId: string
   title: string
+  description?: string | null
   area?: $Enums.Area | null
+  schedule?: $Enums.RoutineSchedule
+  daysOfWeek?: Prisma.RoutineCreatedaysOfWeekInput | number[]
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -280,7 +354,10 @@ export type RoutineUncheckedCreateInput = {
 export type RoutineUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   area?: Prisma.NullableEnumAreaFieldUpdateOperationsInput | $Enums.Area | null
+  schedule?: Prisma.EnumRoutineScheduleFieldUpdateOperationsInput | $Enums.RoutineSchedule
+  daysOfWeek?: Prisma.RoutineUpdatedaysOfWeekInput | number[]
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -292,7 +369,10 @@ export type RoutineUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   area?: Prisma.NullableEnumAreaFieldUpdateOperationsInput | $Enums.Area | null
+  schedule?: Prisma.EnumRoutineScheduleFieldUpdateOperationsInput | $Enums.RoutineSchedule
+  daysOfWeek?: Prisma.RoutineUpdatedaysOfWeekInput | number[]
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -303,7 +383,10 @@ export type RoutineCreateManyInput = {
   id?: string
   userId: string
   title: string
+  description?: string | null
   area?: $Enums.Area | null
+  schedule?: $Enums.RoutineSchedule
+  daysOfWeek?: Prisma.RoutineCreatedaysOfWeekInput | number[]
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -312,7 +395,10 @@ export type RoutineCreateManyInput = {
 export type RoutineUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   area?: Prisma.NullableEnumAreaFieldUpdateOperationsInput | $Enums.Area | null
+  schedule?: Prisma.EnumRoutineScheduleFieldUpdateOperationsInput | $Enums.RoutineSchedule
+  daysOfWeek?: Prisma.RoutineUpdatedaysOfWeekInput | number[]
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -322,7 +408,10 @@ export type RoutineUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   area?: Prisma.NullableEnumAreaFieldUpdateOperationsInput | $Enums.Area | null
+  schedule?: Prisma.EnumRoutineScheduleFieldUpdateOperationsInput | $Enums.RoutineSchedule
+  daysOfWeek?: Prisma.RoutineUpdatedaysOfWeekInput | number[]
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -338,21 +427,38 @@ export type RoutineOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
+export type IntNullableListFilter<$PrismaModel = never> = {
+  equals?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel> | null
+  has?: number | Prisma.IntFieldRefInput<$PrismaModel> | null
+  hasEvery?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel>
+  hasSome?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel>
+  isEmpty?: boolean
+}
+
 export type RoutineCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  description?: Prisma.SortOrder
   area?: Prisma.SortOrder
+  schedule?: Prisma.SortOrder
+  daysOfWeek?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type RoutineAvgOrderByAggregateInput = {
+  daysOfWeek?: Prisma.SortOrder
 }
 
 export type RoutineMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  description?: Prisma.SortOrder
   area?: Prisma.SortOrder
+  schedule?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -362,10 +468,16 @@ export type RoutineMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  description?: Prisma.SortOrder
   area?: Prisma.SortOrder
+  schedule?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type RoutineSumOrderByAggregateInput = {
+  daysOfWeek?: Prisma.SortOrder
 }
 
 export type RoutineScalarRelationFilter = {
@@ -415,8 +527,21 @@ export type RoutineUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.RoutineScalarWhereInput | Prisma.RoutineScalarWhereInput[]
 }
 
+export type RoutineCreatedaysOfWeekInput = {
+  set: number[]
+}
+
 export type NullableEnumAreaFieldUpdateOperationsInput = {
   set?: $Enums.Area | null
+}
+
+export type EnumRoutineScheduleFieldUpdateOperationsInput = {
+  set?: $Enums.RoutineSchedule
+}
+
+export type RoutineUpdatedaysOfWeekInput = {
+  set?: number[]
+  push?: number | number[]
 }
 
 export type BoolFieldUpdateOperationsInput = {
@@ -440,7 +565,10 @@ export type RoutineUpdateOneRequiredWithoutEntriesNestedInput = {
 export type RoutineCreateWithoutUserInput = {
   id?: string
   title: string
+  description?: string | null
   area?: $Enums.Area | null
+  schedule?: $Enums.RoutineSchedule
+  daysOfWeek?: Prisma.RoutineCreatedaysOfWeekInput | number[]
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -450,7 +578,10 @@ export type RoutineCreateWithoutUserInput = {
 export type RoutineUncheckedCreateWithoutUserInput = {
   id?: string
   title: string
+  description?: string | null
   area?: $Enums.Area | null
+  schedule?: $Enums.RoutineSchedule
+  daysOfWeek?: Prisma.RoutineCreatedaysOfWeekInput | number[]
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -490,7 +621,10 @@ export type RoutineScalarWhereInput = {
   id?: Prisma.UuidFilter<"Routine"> | string
   userId?: Prisma.UuidFilter<"Routine"> | string
   title?: Prisma.StringFilter<"Routine"> | string
+  description?: Prisma.StringNullableFilter<"Routine"> | string | null
   area?: Prisma.EnumAreaNullableFilter<"Routine"> | $Enums.Area | null
+  schedule?: Prisma.EnumRoutineScheduleFilter<"Routine"> | $Enums.RoutineSchedule
+  daysOfWeek?: Prisma.IntNullableListFilter<"Routine">
   isActive?: Prisma.BoolFilter<"Routine"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Routine"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Routine"> | Date | string
@@ -499,7 +633,10 @@ export type RoutineScalarWhereInput = {
 export type RoutineCreateWithoutEntriesInput = {
   id?: string
   title: string
+  description?: string | null
   area?: $Enums.Area | null
+  schedule?: $Enums.RoutineSchedule
+  daysOfWeek?: Prisma.RoutineCreatedaysOfWeekInput | number[]
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -510,7 +647,10 @@ export type RoutineUncheckedCreateWithoutEntriesInput = {
   id?: string
   userId: string
   title: string
+  description?: string | null
   area?: $Enums.Area | null
+  schedule?: $Enums.RoutineSchedule
+  daysOfWeek?: Prisma.RoutineCreatedaysOfWeekInput | number[]
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -535,7 +675,10 @@ export type RoutineUpdateToOneWithWhereWithoutEntriesInput = {
 export type RoutineUpdateWithoutEntriesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   area?: Prisma.NullableEnumAreaFieldUpdateOperationsInput | $Enums.Area | null
+  schedule?: Prisma.EnumRoutineScheduleFieldUpdateOperationsInput | $Enums.RoutineSchedule
+  daysOfWeek?: Prisma.RoutineUpdatedaysOfWeekInput | number[]
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -546,7 +689,10 @@ export type RoutineUncheckedUpdateWithoutEntriesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   area?: Prisma.NullableEnumAreaFieldUpdateOperationsInput | $Enums.Area | null
+  schedule?: Prisma.EnumRoutineScheduleFieldUpdateOperationsInput | $Enums.RoutineSchedule
+  daysOfWeek?: Prisma.RoutineUpdatedaysOfWeekInput | number[]
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -555,7 +701,10 @@ export type RoutineUncheckedUpdateWithoutEntriesInput = {
 export type RoutineCreateManyUserInput = {
   id?: string
   title: string
+  description?: string | null
   area?: $Enums.Area | null
+  schedule?: $Enums.RoutineSchedule
+  daysOfWeek?: Prisma.RoutineCreatedaysOfWeekInput | number[]
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -564,7 +713,10 @@ export type RoutineCreateManyUserInput = {
 export type RoutineUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   area?: Prisma.NullableEnumAreaFieldUpdateOperationsInput | $Enums.Area | null
+  schedule?: Prisma.EnumRoutineScheduleFieldUpdateOperationsInput | $Enums.RoutineSchedule
+  daysOfWeek?: Prisma.RoutineUpdatedaysOfWeekInput | number[]
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -574,7 +726,10 @@ export type RoutineUpdateWithoutUserInput = {
 export type RoutineUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   area?: Prisma.NullableEnumAreaFieldUpdateOperationsInput | $Enums.Area | null
+  schedule?: Prisma.EnumRoutineScheduleFieldUpdateOperationsInput | $Enums.RoutineSchedule
+  daysOfWeek?: Prisma.RoutineUpdatedaysOfWeekInput | number[]
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -584,7 +739,10 @@ export type RoutineUncheckedUpdateWithoutUserInput = {
 export type RoutineUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   area?: Prisma.NullableEnumAreaFieldUpdateOperationsInput | $Enums.Area | null
+  schedule?: Prisma.EnumRoutineScheduleFieldUpdateOperationsInput | $Enums.RoutineSchedule
+  daysOfWeek?: Prisma.RoutineUpdatedaysOfWeekInput | number[]
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -625,7 +783,10 @@ export type RoutineSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   id?: boolean
   userId?: boolean
   title?: boolean
+  description?: boolean
   area?: boolean
+  schedule?: boolean
+  daysOfWeek?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -638,7 +799,10 @@ export type RoutineSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   id?: boolean
   userId?: boolean
   title?: boolean
+  description?: boolean
   area?: boolean
+  schedule?: boolean
+  daysOfWeek?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -649,7 +813,10 @@ export type RoutineSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   id?: boolean
   userId?: boolean
   title?: boolean
+  description?: boolean
   area?: boolean
+  schedule?: boolean
+  daysOfWeek?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -660,13 +827,16 @@ export type RoutineSelectScalar = {
   id?: boolean
   userId?: boolean
   title?: boolean
+  description?: boolean
   area?: boolean
+  schedule?: boolean
+  daysOfWeek?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type RoutineOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "title" | "area" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["routine"]>
+export type RoutineOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "title" | "description" | "area" | "schedule" | "daysOfWeek" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["routine"]>
 export type RoutineInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   entries?: boolean | Prisma.Routine$entriesArgs<ExtArgs>
@@ -689,7 +859,10 @@ export type $RoutinePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     id: string
     userId: string
     title: string
+    description: string | null
     area: $Enums.Area | null
+    schedule: $Enums.RoutineSchedule
+    daysOfWeek: number[]
     isActive: boolean
     createdAt: Date
     updatedAt: Date
@@ -1121,7 +1294,10 @@ export interface RoutineFieldRefs {
   readonly id: Prisma.FieldRef<"Routine", 'String'>
   readonly userId: Prisma.FieldRef<"Routine", 'String'>
   readonly title: Prisma.FieldRef<"Routine", 'String'>
+  readonly description: Prisma.FieldRef<"Routine", 'String'>
   readonly area: Prisma.FieldRef<"Routine", 'Area'>
+  readonly schedule: Prisma.FieldRef<"Routine", 'RoutineSchedule'>
+  readonly daysOfWeek: Prisma.FieldRef<"Routine", 'Int[]'>
   readonly isActive: Prisma.FieldRef<"Routine", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Routine", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Routine", 'DateTime'>

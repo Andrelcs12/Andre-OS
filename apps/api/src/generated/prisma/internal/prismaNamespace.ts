@@ -941,7 +941,10 @@ export const RoutineScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   title: 'title',
+  description: 'description',
   area: 'area',
+  schedule: 'schedule',
+  daysOfWeek: 'daysOfWeek',
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -1102,6 +1105,20 @@ export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'In
  * Reference to a field of type 'Int[]'
  */
 export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+/**
+ * Reference to a field of type 'RoutineSchedule'
+ */
+export type EnumRoutineScheduleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RoutineSchedule'>
+    
+
+
+/**
+ * Reference to a field of type 'RoutineSchedule[]'
+ */
+export type ListEnumRoutineScheduleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RoutineSchedule[]'>
     
 
 

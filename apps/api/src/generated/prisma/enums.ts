@@ -38,3 +38,12 @@ export const TaskPriority = {
 } as const
 
 export type TaskPriority = (typeof TaskPriority)[keyof typeof TaskPriority]
+
+
+export const RoutineSchedule = {
+  DAILY: 'DAILY',
+  WEEKDAYS: 'WEEKDAYS',
+  CUSTOM: 'CUSTOM'
+} as const
+
+export type RoutineSchedule = (typeof RoutineSchedule)[keyof typeof RoutineSchedule]
