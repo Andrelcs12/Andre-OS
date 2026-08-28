@@ -35,18 +35,26 @@ enum TaskPriority {
   @@map("task_priority")
 }
 
+enum RoutineSchedule {
+  DAILY
+  WEEKDAYS
+  CUSTOM
+
+  @@map("routine_schedule")
+}
+
 model User {
-  id           String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  googleId     String      @unique @map("google_id")
-  email        String      @unique
-  displayName  String      @map("display_name")
-  avatarUrl    String?     @map("avatar_url")
-  createdAt    DateTime    @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt    DateTime    @updatedAt @map("updated_at") @db.Timestamptz(6)
-  tasks        Task[]
-  routines     Routine[]
-  links        Link[]
-  timeEntries  TimeEntry[]
+  id             String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  googleId       String         @unique @map("google_id")
+  email          String         @unique
+  displayName    String         @map("display_name")
+  avatarUrl      String?        @map("avatar_url")
+  createdAt      DateTime       @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt      DateTime       @updatedAt @map("updated_at") @db.Timestamptz(6)
+  tasks          Task[]
+  routines       Routine[]
+  links          Link[]
+  timeEntries    TimeEntry[]
   routineEntries RoutineEntry[]
 
   @@map("users")
@@ -75,30 +83,33 @@ model Task {
 }
 
 model Routine {
-  id        String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  userId    String         @map("user_id") @db.Uuid
-  title     String
-  area      Area?
-  isActive  Boolean        @default(true) @map("is_active")
-  createdAt DateTime       @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt DateTime       @updatedAt @map("updated_at") @db.Timestamptz(6)
-  user      User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  entries   RoutineEntry[]
+  id          String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId      String          @map("user_id") @db.Uuid
+  title       String
+  description String?
+  area        Area?
+  schedule    RoutineSchedule @default(DAILY)
+  daysOfWeek  Int[]           @default([]) @map("days_of_week")
+  isActive    Boolean         @default(true) @map("is_active")
+  createdAt   DateTime        @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt   DateTime        @updatedAt @map("updated_at") @db.Timestamptz(6)
+  user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  entries     RoutineEntry[]
 
   @@index([userId], map: "routines_user_id_idx")
   @@map("routines")
 }
 
 model RoutineEntry {
-  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  routineId   String   @map("routine_id") @db.Uuid
-  userId      String   @map("user_id") @db.Uuid
-  date        DateTime @default(now()) @db.Date
-  completed   Boolean  @default(false)
+  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  routineId   String    @map("routine_id") @db.Uuid
+  userId      String    @map("user_id") @db.Uuid
+  date        DateTime  @default(now()) @db.Date
+  completed   Boolean   @default(false)
   completedAt DateTime? @map("completed_at") @db.Timestamptz(6)
-  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
-  routine     Routine  @relation(fields: [routineId], references: [id], onDelete: Cascade)
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  routine     Routine   @relation(fields: [routineId], references: [id], onDelete: Cascade)
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([routineId, date])
   @@index([userId, date], map: "routine_entries_user_date_idx")
@@ -121,16 +132,16 @@ model Link {
 }
 
 model TimeEntry {
-  id              String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  userId          String   @map("user_id") @db.Uuid
-  taskId          String?  @map("task_id") @db.Uuid
+  id              String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId          String    @map("user_id") @db.Uuid
+  taskId          String?   @map("task_id") @db.Uuid
   area            Area?
-  startedAt       DateTime @map("started_at") @db.Timestamptz(6)
+  startedAt       DateTime  @map("started_at") @db.Timestamptz(6)
   endedAt         DateTime? @map("ended_at") @db.Timestamptz(6)
-  durationMinutes Int?     @map("duration_minutes")
-  createdAt       DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
-  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  task            Task?    @relation(fields: [taskId], references: [id], onDelete: SetNull)
+  durationMinutes Int?      @map("duration_minutes")
+  createdAt       DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  task            Task?     @relation(fields: [taskId], references: [id], onDelete: SetNull)
 
   @@index([userId, startedAt(sort: Desc)], map: "time_entries_user_started_at_idx")
   @@index([taskId], map: "time_entries_task_id_idx")
