@@ -2,6 +2,7 @@ import type { LucideIcon } from "lucide-react";
 import {
   BarChart3,
   CheckSquare,
+  Compass,
   History,
   House,
   Link2,
@@ -14,6 +15,7 @@ export const navigationItems: NavigationItem[] = [
   { href: "/today", label: "Hoje", icon: House },
   { href: "/tasks", label: "Tarefas", icon: CheckSquare },
   { href: "/routines", label: "Rotinas", icon: Repeat2 },
+  { href: "/north", label: "Norte", icon: Compass },
   { href: "/links", label: "Links", icon: Link2 },
   { href: "/history", label: "Histórico", icon: History },
   { href: "/analytics", label: "Analytics", icon: BarChart3 },
