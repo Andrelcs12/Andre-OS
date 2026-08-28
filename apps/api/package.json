@@ -8,6 +8,7 @@
     "start": "node dist/main.js",
     "lint": "biome check src prisma",
     "typecheck": "tsc --noEmit",
+    "test:tasks": "npm run build && node --test dist/tasks/tasks.service.spec.js",
     "prisma:generate": "prisma generate",
     "prisma:validate": "prisma validate",
     "prisma:migrate": "prisma migrate dev",
