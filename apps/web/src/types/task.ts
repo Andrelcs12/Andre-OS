@@ -42,7 +42,14 @@ export type TaskInput = {
   dueDate?: string;
 };
 
-export type UpdateTaskInput = Partial<TaskInput> & { status?: TaskStatus };
+export type UpdateTaskInput = Omit<
+  Partial<TaskInput>,
+  "dueDate" | "estimatedMinutes"
+> & {
+  dueDate?: string | null;
+  estimatedMinutes?: number | null;
+  status?: TaskStatus;
+};
 export type TaskFilters = Partial<
   Pick<Task, "status" | "area" | "priority"> & { search: string }
 >;

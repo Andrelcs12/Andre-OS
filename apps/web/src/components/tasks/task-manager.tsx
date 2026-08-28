@@ -47,6 +47,7 @@ import {
   type TaskStatus,
   taskAreas,
   taskPriorities,
+  type UpdateTaskInput,
 } from "@/types/task";
 
 const statusTabs: Array<{ label: string; status?: TaskStatus }> = [
@@ -89,10 +90,10 @@ export function TaskManager({ initialTasks }: { initialTasks: Task[] }) {
     setFilters(next);
     void reload(next);
   };
-  const save = async (input: TaskInput) => {
+  const save = async (input: TaskInput | UpdateTaskInput) => {
     const saved = editingTask
       ? await updateTask(editingTask.id, input)
-      : await createTask(input);
+      : await createTask(input as TaskInput);
     setTasks((current) =>
       editingTask
         ? current.map((task) => (task.id === saved.id ? saved : task))
@@ -385,7 +386,7 @@ function TaskForm({
   open: boolean;
   task: Task | null;
   onOpenChange: (open: boolean) => void;
-  onSave: (input: TaskInput) => Promise<void>;
+  onSave: (input: TaskInput | UpdateTaskInput) => Promise<void>;
 }) {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -393,16 +394,23 @@ function TaskForm({
     setSaving(true);
     setError(null);
     try {
-      await onSave({
+      const input: TaskInput | UpdateTaskInput = {
         title: String(form.get("title") ?? ""),
-        description: String(form.get("description") ?? "") || undefined,
+        description: String(form.get("description") ?? ""),
         area: String(form.get("area")) as TaskArea,
         priority: String(form.get("priority")) as TaskPriority,
-        estimatedMinutes: form.get("estimatedMinutes")
-          ? Number(form.get("estimatedMinutes"))
-          : undefined,
-        dueDate: String(form.get("dueDate") ?? "") || undefined,
-      });
+        ...(form.get("estimatedMinutes")
+          ? { estimatedMinutes: Number(form.get("estimatedMinutes")) }
+          : task
+            ? { estimatedMinutes: null }
+            : {}),
+        ...(form.get("dueDate")
+          ? { dueDate: String(form.get("dueDate")) }
+          : task
+            ? { dueDate: null }
+            : {}),
+      };
+      await onSave(input);
     } catch (cause) {
       setError(
         cause instanceof Error
