@@ -16,11 +16,11 @@ type GoogleProfile = {
 export class GoogleStrategy extends PassportStrategy(Strategy, "google") {
   constructor(@Inject(ConfigService) config: ConfigService) {
     super({
-      clientID: config.get<string>("GOOGLE_CLIENT_ID") ?? "not-configured",
+      clientID: config.get<string>("GOOGLE_CLIENT_ID") || "not-configured",
       clientSecret:
-        config.get<string>("GOOGLE_CLIENT_SECRET") ?? "not-configured",
+        config.get<string>("GOOGLE_CLIENT_SECRET") || "not-configured",
       callbackURL:
-        config.get<string>("GOOGLE_CALLBACK_URL") ??
+        config.get<string>("GOOGLE_CALLBACK_URL") ||
         "http://localhost:3001/auth/google/callback",
       scope: ["openid", "email", "profile"],
     });
