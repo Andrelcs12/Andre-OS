@@ -1,11 +1,6 @@
-import { BasePage } from "@/components/app-shell/base-page";
-export default function TasksPage() {
-  return (
-    <BasePage
-      title="Tarefas"
-      description="Organize o que precisa ser executado."
-      actionLabel="+ Nova tarefa"
-      emptyMessage="Nenhuma tarefa cadastrada."
-    />
-  );
+import { TaskManager } from "@/components/tasks/task-manager";
+import { getTasks } from "@/services/tasks.server";
+
+export default async function TasksPage() {
+  return <TaskManager initialTasks={await getTasks()} />;
 }
