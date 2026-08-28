@@ -1,10 +1,5 @@
-import { BasePage } from "@/components/app-shell/base-page";
-export default function HistoryPage() {
-  return (
-    <BasePage
-      title="Histórico"
-      description="Revise sua execução e o tempo investido ao longo do tempo."
-      emptyMessage="Seu histórico aparecerá aqui."
-    />
-  );
+import { HistoryList } from "@/features/history/components/history-list";
+import { getHistory } from "@/features/history/services/history.server";
+export default async function HistoryPage() {
+  return <HistoryList initialEvents={await getHistory()} />;
 }
