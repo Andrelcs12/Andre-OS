@@ -12,7 +12,7 @@ import { Progress } from "@/components/ui/progress";
 type DailyProgressProps = { completed: number; total: number };
 
 export function DailyProgress({ completed, total }: DailyProgressProps) {
-  const value = (completed / total) * 100;
+  const value = total ? (completed / total) * 100 : 0;
   return (
     <Card className="border">
       <CardHeader>
@@ -22,9 +22,9 @@ export function DailyProgress({ completed, total }: DailyProgressProps) {
       <CardContent className="space-y-4">
         <div className="flex items-end justify-between">
           <p className="text-2xl font-semibold tracking-tight">
-            {completed}{" "}
+            {total ? `${completed} ` : "Nenhuma "}
             <span className="text-base font-normal text-muted-foreground">
-              de {total} concluídas
+              {total ? `de ${total} concluídas` : "tarefa com prazo hoje"}
             </span>
           </p>
           <CheckCircle2 className="size-5 text-primary" />
