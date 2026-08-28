@@ -971,8 +971,9 @@ export const LinkScalarFieldEnum = {
   userId: 'userId',
   url: 'url',
   title: 'title',
-  category: 'category',
-  notes: 'notes',
+  description: 'description',
+  area: 'area',
+  isFavorite: 'isFavorite',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -984,6 +985,7 @@ export const TimeEntryScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   taskId: 'taskId',
+  description: 'description',
   area: 'area',
   startedAt: 'startedAt',
   endedAt: 'endedAt',

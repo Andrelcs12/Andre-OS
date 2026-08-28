@@ -240,13 +240,6 @@ export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedDateTimeNullableFilter<$PrismaModel>
 }
 
-export type EnumAreaNullableFilter<$PrismaModel = never> = {
-  equals?: $Enums.Area | Prisma.EnumAreaFieldRefInput<$PrismaModel> | null
-  in?: $Enums.Area[] | Prisma.ListEnumAreaFieldRefInput<$PrismaModel> | null
-  notIn?: $Enums.Area[] | Prisma.ListEnumAreaFieldRefInput<$PrismaModel> | null
-  not?: Prisma.NestedEnumAreaNullableFilter<$PrismaModel> | $Enums.Area | null
-}
-
 export type EnumRoutineScheduleFilter<$PrismaModel = never> = {
   equals?: $Enums.RoutineSchedule | Prisma.EnumRoutineScheduleFieldRefInput<$PrismaModel>
   in?: $Enums.RoutineSchedule[] | Prisma.ListEnumRoutineScheduleFieldRefInput<$PrismaModel>
@@ -257,16 +250,6 @@ export type EnumRoutineScheduleFilter<$PrismaModel = never> = {
 export type BoolFilter<$PrismaModel = never> = {
   equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
   not?: Prisma.NestedBoolFilter<$PrismaModel> | boolean
-}
-
-export type EnumAreaNullableWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.Area | Prisma.EnumAreaFieldRefInput<$PrismaModel> | null
-  in?: $Enums.Area[] | Prisma.ListEnumAreaFieldRefInput<$PrismaModel> | null
-  notIn?: $Enums.Area[] | Prisma.ListEnumAreaFieldRefInput<$PrismaModel> | null
-  not?: Prisma.NestedEnumAreaNullableWithAggregatesFilter<$PrismaModel> | $Enums.Area | null
-  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumAreaNullableFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumAreaNullableFilter<$PrismaModel>
 }
 
 export type EnumRoutineScheduleWithAggregatesFilter<$PrismaModel = never> = {
@@ -285,6 +268,23 @@ export type BoolWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedBoolFilter<$PrismaModel>
   _max?: Prisma.NestedBoolFilter<$PrismaModel>
+}
+
+export type EnumAreaNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.Area | Prisma.EnumAreaFieldRefInput<$PrismaModel> | null
+  in?: $Enums.Area[] | Prisma.ListEnumAreaFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.Area[] | Prisma.ListEnumAreaFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumAreaNullableFilter<$PrismaModel> | $Enums.Area | null
+}
+
+export type EnumAreaNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.Area | Prisma.EnumAreaFieldRefInput<$PrismaModel> | null
+  in?: $Enums.Area[] | Prisma.ListEnumAreaFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.Area[] | Prisma.ListEnumAreaFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumAreaNullableWithAggregatesFilter<$PrismaModel> | $Enums.Area | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumAreaNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumAreaNullableFilter<$PrismaModel>
 }
 
 export type UuidNullableFilter<$PrismaModel = never> = {
@@ -551,13 +551,6 @@ export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedDateTimeNullableFilter<$PrismaModel>
 }
 
-export type NestedEnumAreaNullableFilter<$PrismaModel = never> = {
-  equals?: $Enums.Area | Prisma.EnumAreaFieldRefInput<$PrismaModel> | null
-  in?: $Enums.Area[] | Prisma.ListEnumAreaFieldRefInput<$PrismaModel> | null
-  notIn?: $Enums.Area[] | Prisma.ListEnumAreaFieldRefInput<$PrismaModel> | null
-  not?: Prisma.NestedEnumAreaNullableFilter<$PrismaModel> | $Enums.Area | null
-}
-
 export type NestedEnumRoutineScheduleFilter<$PrismaModel = never> = {
   equals?: $Enums.RoutineSchedule | Prisma.EnumRoutineScheduleFieldRefInput<$PrismaModel>
   in?: $Enums.RoutineSchedule[] | Prisma.ListEnumRoutineScheduleFieldRefInput<$PrismaModel>
@@ -568,16 +561,6 @@ export type NestedEnumRoutineScheduleFilter<$PrismaModel = never> = {
 export type NestedBoolFilter<$PrismaModel = never> = {
   equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
   not?: Prisma.NestedBoolFilter<$PrismaModel> | boolean
-}
-
-export type NestedEnumAreaNullableWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.Area | Prisma.EnumAreaFieldRefInput<$PrismaModel> | null
-  in?: $Enums.Area[] | Prisma.ListEnumAreaFieldRefInput<$PrismaModel> | null
-  notIn?: $Enums.Area[] | Prisma.ListEnumAreaFieldRefInput<$PrismaModel> | null
-  not?: Prisma.NestedEnumAreaNullableWithAggregatesFilter<$PrismaModel> | $Enums.Area | null
-  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumAreaNullableFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumAreaNullableFilter<$PrismaModel>
 }
 
 export type NestedEnumRoutineScheduleWithAggregatesFilter<$PrismaModel = never> = {
@@ -596,6 +579,23 @@ export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedBoolFilter<$PrismaModel>
   _max?: Prisma.NestedBoolFilter<$PrismaModel>
+}
+
+export type NestedEnumAreaNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.Area | Prisma.EnumAreaFieldRefInput<$PrismaModel> | null
+  in?: $Enums.Area[] | Prisma.ListEnumAreaFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.Area[] | Prisma.ListEnumAreaFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumAreaNullableFilter<$PrismaModel> | $Enums.Area | null
+}
+
+export type NestedEnumAreaNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.Area | Prisma.EnumAreaFieldRefInput<$PrismaModel> | null
+  in?: $Enums.Area[] | Prisma.ListEnumAreaFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.Area[] | Prisma.ListEnumAreaFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumAreaNullableWithAggregatesFilter<$PrismaModel> | $Enums.Area | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumAreaNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumAreaNullableFilter<$PrismaModel>
 }
 
 export type NestedUuidNullableFilter<$PrismaModel = never> = {

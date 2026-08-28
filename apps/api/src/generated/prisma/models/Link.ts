@@ -29,8 +29,9 @@ export type LinkMinAggregateOutputType = {
   userId: string | null
   url: string | null
   title: string | null
-  category: string | null
-  notes: string | null
+  description: string | null
+  area: $Enums.Area | null
+  isFavorite: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -40,8 +41,9 @@ export type LinkMaxAggregateOutputType = {
   userId: string | null
   url: string | null
   title: string | null
-  category: string | null
-  notes: string | null
+  description: string | null
+  area: $Enums.Area | null
+  isFavorite: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -51,8 +53,9 @@ export type LinkCountAggregateOutputType = {
   userId: number
   url: number
   title: number
-  category: number
-  notes: number
+  description: number
+  area: number
+  isFavorite: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -64,8 +67,9 @@ export type LinkMinAggregateInputType = {
   userId?: true
   url?: true
   title?: true
-  category?: true
-  notes?: true
+  description?: true
+  area?: true
+  isFavorite?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -75,8 +79,9 @@ export type LinkMaxAggregateInputType = {
   userId?: true
   url?: true
   title?: true
-  category?: true
-  notes?: true
+  description?: true
+  area?: true
+  isFavorite?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -86,8 +91,9 @@ export type LinkCountAggregateInputType = {
   userId?: true
   url?: true
   title?: true
-  category?: true
-  notes?: true
+  description?: true
+  area?: true
+  isFavorite?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -170,8 +176,9 @@ export type LinkGroupByOutputType = {
   userId: string
   url: string
   title: string
-  category: string | null
-  notes: string | null
+  description: string | null
+  area: $Enums.Area | null
+  isFavorite: boolean
   createdAt: Date
   updatedAt: Date
   _count: LinkCountAggregateOutputType | null
@@ -202,8 +209,9 @@ export type LinkWhereInput = {
   userId?: Prisma.UuidFilter<"Link"> | string
   url?: Prisma.StringFilter<"Link"> | string
   title?: Prisma.StringFilter<"Link"> | string
-  category?: Prisma.StringNullableFilter<"Link"> | string | null
-  notes?: Prisma.StringNullableFilter<"Link"> | string | null
+  description?: Prisma.StringNullableFilter<"Link"> | string | null
+  area?: Prisma.EnumAreaNullableFilter<"Link"> | $Enums.Area | null
+  isFavorite?: Prisma.BoolFilter<"Link"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Link"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Link"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -214,8 +222,9 @@ export type LinkOrderByWithRelationInput = {
   userId?: Prisma.SortOrder
   url?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  category?: Prisma.SortOrderInput | Prisma.SortOrder
-  notes?: Prisma.SortOrderInput | Prisma.SortOrder
+  description?: Prisma.SortOrderInput | Prisma.SortOrder
+  area?: Prisma.SortOrderInput | Prisma.SortOrder
+  isFavorite?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
@@ -229,8 +238,9 @@ export type LinkWhereUniqueInput = Prisma.AtLeast<{
   userId?: Prisma.UuidFilter<"Link"> | string
   url?: Prisma.StringFilter<"Link"> | string
   title?: Prisma.StringFilter<"Link"> | string
-  category?: Prisma.StringNullableFilter<"Link"> | string | null
-  notes?: Prisma.StringNullableFilter<"Link"> | string | null
+  description?: Prisma.StringNullableFilter<"Link"> | string | null
+  area?: Prisma.EnumAreaNullableFilter<"Link"> | $Enums.Area | null
+  isFavorite?: Prisma.BoolFilter<"Link"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Link"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Link"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -241,8 +251,9 @@ export type LinkOrderByWithAggregationInput = {
   userId?: Prisma.SortOrder
   url?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  category?: Prisma.SortOrderInput | Prisma.SortOrder
-  notes?: Prisma.SortOrderInput | Prisma.SortOrder
+  description?: Prisma.SortOrderInput | Prisma.SortOrder
+  area?: Prisma.SortOrderInput | Prisma.SortOrder
+  isFavorite?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.LinkCountOrderByAggregateInput
@@ -258,8 +269,9 @@ export type LinkScalarWhereWithAggregatesInput = {
   userId?: Prisma.UuidWithAggregatesFilter<"Link"> | string
   url?: Prisma.StringWithAggregatesFilter<"Link"> | string
   title?: Prisma.StringWithAggregatesFilter<"Link"> | string
-  category?: Prisma.StringNullableWithAggregatesFilter<"Link"> | string | null
-  notes?: Prisma.StringNullableWithAggregatesFilter<"Link"> | string | null
+  description?: Prisma.StringNullableWithAggregatesFilter<"Link"> | string | null
+  area?: Prisma.EnumAreaNullableWithAggregatesFilter<"Link"> | $Enums.Area | null
+  isFavorite?: Prisma.BoolWithAggregatesFilter<"Link"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Link"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Link"> | Date | string
 }
@@ -268,8 +280,9 @@ export type LinkCreateInput = {
   id?: string
   url: string
   title: string
-  category?: string | null
-  notes?: string | null
+  description?: string | null
+  area?: $Enums.Area | null
+  isFavorite?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutLinksInput
@@ -280,8 +293,9 @@ export type LinkUncheckedCreateInput = {
   userId: string
   url: string
   title: string
-  category?: string | null
-  notes?: string | null
+  description?: string | null
+  area?: $Enums.Area | null
+  isFavorite?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -290,8 +304,9 @@ export type LinkUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  area?: Prisma.NullableEnumAreaFieldUpdateOperationsInput | $Enums.Area | null
+  isFavorite?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutLinksNestedInput
@@ -302,8 +317,9 @@ export type LinkUncheckedUpdateInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  area?: Prisma.NullableEnumAreaFieldUpdateOperationsInput | $Enums.Area | null
+  isFavorite?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -313,8 +329,9 @@ export type LinkCreateManyInput = {
   userId: string
   url: string
   title: string
-  category?: string | null
-  notes?: string | null
+  description?: string | null
+  area?: $Enums.Area | null
+  isFavorite?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -323,8 +340,9 @@ export type LinkUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  area?: Prisma.NullableEnumAreaFieldUpdateOperationsInput | $Enums.Area | null
+  isFavorite?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -334,8 +352,9 @@ export type LinkUncheckedUpdateManyInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  area?: Prisma.NullableEnumAreaFieldUpdateOperationsInput | $Enums.Area | null
+  isFavorite?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -355,8 +374,9 @@ export type LinkCountOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   url?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  category?: Prisma.SortOrder
-  notes?: Prisma.SortOrder
+  description?: Prisma.SortOrder
+  area?: Prisma.SortOrder
+  isFavorite?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -366,8 +386,9 @@ export type LinkMaxOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   url?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  category?: Prisma.SortOrder
-  notes?: Prisma.SortOrder
+  description?: Prisma.SortOrder
+  area?: Prisma.SortOrder
+  isFavorite?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -377,8 +398,9 @@ export type LinkMinOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   url?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  category?: Prisma.SortOrder
-  notes?: Prisma.SortOrder
+  description?: Prisma.SortOrder
+  area?: Prisma.SortOrder
+  isFavorite?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -425,12 +447,17 @@ export type LinkUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.LinkScalarWhereInput | Prisma.LinkScalarWhereInput[]
 }
 
+export type NullableEnumAreaFieldUpdateOperationsInput = {
+  set?: $Enums.Area | null
+}
+
 export type LinkCreateWithoutUserInput = {
   id?: string
   url: string
   title: string
-  category?: string | null
-  notes?: string | null
+  description?: string | null
+  area?: $Enums.Area | null
+  isFavorite?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -439,8 +466,9 @@ export type LinkUncheckedCreateWithoutUserInput = {
   id?: string
   url: string
   title: string
-  category?: string | null
-  notes?: string | null
+  description?: string | null
+  area?: $Enums.Area | null
+  isFavorite?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -479,8 +507,9 @@ export type LinkScalarWhereInput = {
   userId?: Prisma.UuidFilter<"Link"> | string
   url?: Prisma.StringFilter<"Link"> | string
   title?: Prisma.StringFilter<"Link"> | string
-  category?: Prisma.StringNullableFilter<"Link"> | string | null
-  notes?: Prisma.StringNullableFilter<"Link"> | string | null
+  description?: Prisma.StringNullableFilter<"Link"> | string | null
+  area?: Prisma.EnumAreaNullableFilter<"Link"> | $Enums.Area | null
+  isFavorite?: Prisma.BoolFilter<"Link"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Link"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Link"> | Date | string
 }
@@ -489,8 +518,9 @@ export type LinkCreateManyUserInput = {
   id?: string
   url: string
   title: string
-  category?: string | null
-  notes?: string | null
+  description?: string | null
+  area?: $Enums.Area | null
+  isFavorite?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -499,8 +529,9 @@ export type LinkUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  area?: Prisma.NullableEnumAreaFieldUpdateOperationsInput | $Enums.Area | null
+  isFavorite?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -509,8 +540,9 @@ export type LinkUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  area?: Prisma.NullableEnumAreaFieldUpdateOperationsInput | $Enums.Area | null
+  isFavorite?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -519,8 +551,9 @@ export type LinkUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  area?: Prisma.NullableEnumAreaFieldUpdateOperationsInput | $Enums.Area | null
+  isFavorite?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -532,8 +565,9 @@ export type LinkSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   userId?: boolean
   url?: boolean
   title?: boolean
-  category?: boolean
-  notes?: boolean
+  description?: boolean
+  area?: boolean
+  isFavorite?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -544,8 +578,9 @@ export type LinkSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   userId?: boolean
   url?: boolean
   title?: boolean
-  category?: boolean
-  notes?: boolean
+  description?: boolean
+  area?: boolean
+  isFavorite?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -556,8 +591,9 @@ export type LinkSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   userId?: boolean
   url?: boolean
   title?: boolean
-  category?: boolean
-  notes?: boolean
+  description?: boolean
+  area?: boolean
+  isFavorite?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -568,13 +604,14 @@ export type LinkSelectScalar = {
   userId?: boolean
   url?: boolean
   title?: boolean
-  category?: boolean
-  notes?: boolean
+  description?: boolean
+  area?: boolean
+  isFavorite?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type LinkOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "url" | "title" | "category" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["link"]>
+export type LinkOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "url" | "title" | "description" | "area" | "isFavorite" | "createdAt" | "updatedAt", ExtArgs["result"]["link"]>
 export type LinkInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -595,8 +632,9 @@ export type $LinkPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     userId: string
     url: string
     title: string
-    category: string | null
-    notes: string | null
+    description: string | null
+    area: $Enums.Area | null
+    isFavorite: boolean
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["link"]>
@@ -1027,8 +1065,9 @@ export interface LinkFieldRefs {
   readonly userId: Prisma.FieldRef<"Link", 'String'>
   readonly url: Prisma.FieldRef<"Link", 'String'>
   readonly title: Prisma.FieldRef<"Link", 'String'>
-  readonly category: Prisma.FieldRef<"Link", 'String'>
-  readonly notes: Prisma.FieldRef<"Link", 'String'>
+  readonly description: Prisma.FieldRef<"Link", 'String'>
+  readonly area: Prisma.FieldRef<"Link", 'Area'>
+  readonly isFavorite: Prisma.FieldRef<"Link", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Link", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Link", 'DateTime'>
 }
