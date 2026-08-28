@@ -4,18 +4,32 @@ import { NorthCard } from "@/components/dashboard/north-card";
 import { DailyRoutines } from "@/features/routines/components/daily-routines";
 import { getDailyRoutines } from "@/features/routines/services/routines.server";
 import { getTasks } from "@/features/tasks/services/tasks.server";
+import { TimeTrackingPanel } from "@/features/time-tracking/components/time-tracking-panel";
+import {
+  getActiveTimeEntry,
+  getTimeEntries,
+} from "@/features/time-tracking/services/time-tracking.server";
 import { todayMock } from "@/lib/mock/today";
 import { getCurrentProfile } from "@/services/profile.service";
 
 export default async function TodayPage() {
-  const [profile, inProgressTasks, pendingTasks, completedTasks, routines] =
-    await Promise.all([
-      getCurrentProfile(),
-      getTasks({ status: "IN_PROGRESS" }),
-      getTasks({ status: "PENDING" }),
-      getTasks({ status: "COMPLETED" }),
-      getDailyRoutines(new Date().toISOString().slice(0, 10)),
-    ]);
+  const [
+    profile,
+    inProgressTasks,
+    pendingTasks,
+    completedTasks,
+    routines,
+    activeEntry,
+    recentEntries,
+  ] = await Promise.all([
+    getCurrentProfile(),
+    getTasks({ status: "IN_PROGRESS" }),
+    getTasks({ status: "PENDING" }),
+    getTasks({ status: "COMPLETED" }),
+    getDailyRoutines(new Date().toISOString().slice(0, 10)),
+    getActiveTimeEntry(),
+    getTimeEntries(),
+  ]);
   const firstName = profile?.displayName.split(" ")[0] ?? "André";
   const today = new Date().toISOString().slice(0, 10);
   const dueToday = [
@@ -49,6 +63,11 @@ export default async function TodayPage() {
         <DailyRoutines initialRoutines={routines} date={today} />
         <NextTasks tasks={nextTasks} />
       </section>
+      <TimeTrackingPanel
+        initialActive={activeEntry}
+        initialEntries={recentEntries}
+        tasks={[...inProgressTasks, ...pendingTasks]}
+      />
     </div>
   );
 }
