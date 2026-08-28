@@ -38,6 +38,67 @@ export class AnalyticsService {
   constructor(@Inject(PrismaService) private readonly prisma: PrismaService) {}
   async overview(user: AuthenticatedUser, query: AnalyticsRangeQueryDto) {
     const dates = rangeDates(query.from, query.to);
+    const firstDate = dates[0];
+    if (!firstDate) throw new BadRequestException("Intervalo inválido.");
+    const previousEnd = new Date(firstDate);
+    previousEnd.setUTCDate(previousEnd.getUTCDate() - 1);
+    const previousStart = new Date(previousEnd);
+    previousStart.setUTCDate(previousStart.getUTCDate() - dates.length + 1);
+    const current = await this.calculate(user, dates, true);
+    const previous = await this.calculate(
+      user,
+      rangeDates(day(previousStart), day(previousEnd)),
+      false,
+    );
+    return {
+      range: { from: query.from, to: query.to },
+      ...current,
+      comparison: {
+        previousRange: { from: day(previousStart), to: day(previousEnd) },
+        previous: previous.summary,
+        delta: {
+          tasksCompleted:
+            current.summary.tasksCompleted - previous.summary.tasksCompleted,
+          trackedMinutes:
+            current.summary.trackedMinutes - previous.summary.trackedMinutes,
+          trackedSessions:
+            current.summary.trackedSessions - previous.summary.trackedSessions,
+          routineCompletionRatePoints:
+            current.summary.routineCompletionRate === null ||
+            previous.summary.routineCompletionRate === null
+              ? null
+              : Math.round(
+                  (current.summary.routineCompletionRate -
+                    previous.summary.routineCompletionRate) *
+                    10_000,
+                ) / 100,
+        },
+      },
+    };
+  }
+  private async calculate(
+    user: AuthenticatedUser,
+    requestedDates: Date[],
+    capFuture: boolean,
+  ) {
+    const today = day(new Date());
+    const dates = capFuture
+      ? requestedDates.filter((date) => day(date) <= today)
+      : requestedDates;
+    if (!dates.length)
+      return {
+        daily: [],
+        areas: [],
+        summary: {
+          tasksCompleted: 0,
+          routinePlanned: 0,
+          routineCompleted: 0,
+          routineCompletionRate: null,
+          trackedMinutes: 0,
+          trackedSessions: 0,
+          averageSessionMinutes: 0,
+        },
+      };
     const from = dates[0];
     const lastDate = dates[dates.length - 1];
     if (!lastDate) throw new BadRequestException("Intervalo inválido.");
@@ -135,7 +196,6 @@ export class AnalyticsService {
       0,
     );
     return {
-      range: { from: query.from, to: query.to },
       summary: {
         tasksCompleted: tasks.length,
         routinePlanned,

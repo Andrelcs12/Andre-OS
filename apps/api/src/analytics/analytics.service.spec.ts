@@ -70,14 +70,14 @@ test("agrega apenas consultas do owner, agendas, tempo e fallback de área", asy
   assert.equal(result.areas[0]?.trackedMinutes, 120);
   assert.equal(result.daily[0]?.routinesPlanned, 3);
   assert.equal(result.daily[1]?.routinesPlanned, 2);
-  assert.equal(result.daily[6]?.routinesPlanned, 1);
+  assert.equal(result.daily.length, 5);
   assert.deepEqual(calls.task[0], {
     where: {
       userId: user.id,
       status: "COMPLETED",
       completedAt: {
         gte: new Date("2026-08-24T00:00:00.000Z"),
-        lt: new Date("2026-08-31T00:00:00.000Z"),
+        lt: new Date("2026-08-29T00:00:00.000Z"),
       },
     },
     select: { id: true, area: true, completedAt: true },

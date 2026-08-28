@@ -1,6 +1,9 @@
 import { DailyProgress } from "@/components/dashboard/daily-progress";
 import { NextTasks } from "@/components/dashboard/next-tasks";
-import { NorthCard } from "@/components/dashboard/north-card";
+import { WeeklySummary } from "@/features/analytics/components/weekly-summary";
+import { getAnalyticsOverview } from "@/features/analytics/services/analytics.server";
+import { NorthTodayCard } from "@/features/north/components/north-today-card";
+import { getNorthOverview } from "@/features/north/services/north.server";
 import { DailyRoutines } from "@/features/routines/components/daily-routines";
 import { getDailyRoutines } from "@/features/routines/services/routines.server";
 import { getTasks } from "@/features/tasks/services/tasks.server";
@@ -9,10 +12,14 @@ import {
   getActiveTimeEntry,
   getTimeEntries,
 } from "@/features/time-tracking/services/time-tracking.server";
-import { todayMock } from "@/lib/mock/today";
 import { getCurrentProfile } from "@/services/profile.service";
 
 export default async function TodayPage() {
+  const now = new Date();
+  const monday = new Date(now);
+  monday.setDate(now.getDate() - ((now.getDay() + 6) % 7));
+  const sunday = new Date(monday);
+  sunday.setDate(monday.getDate() + 6);
   const [
     profile,
     inProgressTasks,
@@ -21,6 +28,8 @@ export default async function TodayPage() {
     routines,
     activeEntry,
     recentEntries,
+    north,
+    weeklyAnalytics,
   ] = await Promise.all([
     getCurrentProfile(),
     getTasks({ status: "IN_PROGRESS" }),
@@ -29,6 +38,11 @@ export default async function TodayPage() {
     getDailyRoutines(new Date().toISOString().slice(0, 10)),
     getActiveTimeEntry(),
     getTimeEntries(),
+    getNorthOverview(),
+    getAnalyticsOverview(
+      monday.toISOString().slice(0, 10),
+      sunday.toISOString().slice(0, 10),
+    ),
   ]);
   const firstName = profile?.displayName.split(" ")[0] ?? "André";
   const today = new Date().toISOString().slice(0, 10);
@@ -57,8 +71,9 @@ export default async function TodayPage() {
       </section>
       <section className="grid gap-4 lg:grid-cols-2">
         <DailyProgress completed={completedToday} total={dueToday.length} />
-        <NorthCard {...todayMock.north} />
+        <NorthTodayCard initial={north} />
       </section>
+      <WeeklySummary data={weeklyAnalytics} />
       <section className="grid gap-4 lg:grid-cols-2">
         <DailyRoutines initialRoutines={routines} date={today} />
         <NextTasks tasks={nextTasks} />

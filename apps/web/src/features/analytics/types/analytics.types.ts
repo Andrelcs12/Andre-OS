@@ -22,4 +22,14 @@ export type AnalyticsOverview = {
     tasksCompleted: number;
     trackedMinutes: number;
   }>;
+  comparison: {
+    previousRange: { from: string; to: string };
+    previous: AnalyticsOverview["summary"];
+    delta: {
+      tasksCompleted: number;
+      trackedMinutes: number;
+      trackedSessions: number;
+      routineCompletionRatePoints: number | null;
+    };
+  };
 };

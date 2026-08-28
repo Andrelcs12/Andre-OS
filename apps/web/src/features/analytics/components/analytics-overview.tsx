@@ -113,6 +113,7 @@ export function AnalyticsDashboard({
               icon={ListChecks}
               label="Tarefas concluídas"
               value={String(data.summary.tasksCompleted)}
+              delta={`${signed(data.comparison.delta.tasksCompleted)} vs semana anterior`}
             />
             <Metric
               icon={Repeat2}
@@ -127,11 +128,17 @@ export function AnalyticsDashboard({
                   ? "—"
                   : `${Math.round(data.summary.routineCompletionRate * 100)}%`
               }
+              delta={
+                data.comparison.delta.routineCompletionRatePoints === null
+                  ? "—"
+                  : `${signed(data.comparison.delta.routineCompletionRatePoints)} p.p.`
+              }
             />
             <Metric
               icon={Clock3}
               label="Tempo registrado"
               value={formatDuration(data.summary.trackedMinutes)}
+              delta={`${signedDuration(data.comparison.delta.trackedMinutes)} vs semana anterior`}
             />
           </section>
           <Card>
@@ -215,10 +222,12 @@ function Metric({
   icon: Icon,
   label,
   value,
+  delta,
 }: {
   icon: typeof Clock3;
   label: string;
   value: string;
+  delta?: string;
 }) {
   return (
     <Card>
@@ -226,7 +235,13 @@ function Metric({
         <Icon className="size-4 text-primary" />
         <p className="mt-3 font-mono text-xl font-semibold">{value}</p>
         <p className="mt-1 text-sm text-muted-foreground">{label}</p>
+        {delta ? (
+          <p className="mt-2 text-xs text-muted-foreground">{delta}</p>
+        ) : null}
       </CardContent>
     </Card>
   );
 }
+const signed = (value: number) => `${value >= 0 ? "+" : "−"}${Math.abs(value)}`;
+const signedDuration = (value: number) =>
+  `${value >= 0 ? "+" : "−"}${formatDuration(Math.abs(value))}`;
