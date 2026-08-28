@@ -3,9 +3,9 @@ import { NextTasks } from "@/components/dashboard/next-tasks";
 import { NorthCard } from "@/components/dashboard/north-card";
 import { DailyRoutines } from "@/features/routines/components/daily-routines";
 import { getDailyRoutines } from "@/features/routines/services/routines.server";
+import { getTasks } from "@/features/tasks/services/tasks.server";
 import { todayMock } from "@/lib/mock/today";
 import { getCurrentProfile } from "@/services/profile.service";
-import { getTasks } from "@/services/tasks.server";
 
 export default async function TodayPage() {
   const [profile, inProgressTasks, pendingTasks, completedTasks, routines] =

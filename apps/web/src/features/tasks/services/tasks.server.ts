@@ -1,5 +1,5 @@
 import { serverApiFetch } from "@/lib/api/server-api";
-import type { Task, TaskFilters } from "@/types/task";
+import type { Task, TaskFilters } from "../types/task.types";
 
 function toQuery(filters: Partial<TaskFilters> = {}) {
   const params = new URLSearchParams();

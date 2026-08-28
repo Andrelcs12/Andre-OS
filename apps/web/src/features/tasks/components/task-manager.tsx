@@ -34,7 +34,7 @@ import {
   deleteTask,
   listTasks,
   updateTask,
-} from "@/services/tasks.service";
+} from "../services/tasks.service";
 import {
   areaLabels,
   priorityLabels,
@@ -48,7 +48,7 @@ import {
   taskAreas,
   taskPriorities,
   type UpdateTaskInput,
-} from "@/types/task";
+} from "../types/task.types";
 
 const statusTabs: Array<{ label: string; status?: TaskStatus }> = [
   { label: "Todas" },

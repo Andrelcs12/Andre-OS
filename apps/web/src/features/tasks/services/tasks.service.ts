@@ -4,7 +4,7 @@ import type {
   TaskFilters,
   TaskInput,
   UpdateTaskInput,
-} from "@/types/task";
+} from "../types/task.types";
 
 function toQuery(filters: Partial<TaskFilters> = {}) {
   const params = new URLSearchParams();

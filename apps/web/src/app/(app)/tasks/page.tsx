@@ -1,5 +1,5 @@
-import { TaskManager } from "@/components/tasks/task-manager";
-import { getTasks } from "@/services/tasks.server";
+import { TaskManager } from "@/features/tasks/components/task-manager";
+import { getTasks } from "@/features/tasks/services/tasks.server";
 
 export default async function TasksPage() {
   return <TaskManager initialTasks={await getTasks()} />;
