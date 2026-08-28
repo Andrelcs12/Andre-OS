@@ -1,4 +1,9 @@
-import { Controller, Get, Inject } from "@nestjs/common";
+import {
+  Controller,
+  Get,
+  Inject,
+  ServiceUnavailableException,
+} from "@nestjs/common";
 
 import { PrismaService } from "../prisma/prisma.service.js";
 
@@ -8,7 +13,14 @@ export class HealthController {
 
   @Get()
   async getHealth() {
-    await this.prisma.checkConnection();
-    return { status: "ok", service: "andre-os-api" };
+    try {
+      await this.prisma.checkConnection();
+      return { status: "ok", database: "ok" };
+    } catch {
+      throw new ServiceUnavailableException({
+        status: "unavailable",
+        database: "unavailable",
+      });
+    }
   }
 }

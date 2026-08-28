@@ -23,6 +23,14 @@ export const createTrack = (data: object) =>
       body: JSON.stringify(data),
     }),
   );
+export const updateTrack = (id: string, data: object) =>
+  read<NorthTrack>(
+    apiFetch(`/north/tracks/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    }),
+  );
 export const createItem = (trackId: string, data: object) =>
   read<NorthItem>(
     apiFetch(`/north/tracks/${trackId}/items`, {
@@ -31,7 +39,17 @@ export const createItem = (trackId: string, data: object) =>
       body: JSON.stringify(data),
     }),
   );
-export const updateItem = (id: string, data: { status?: NorthStatus }) =>
+export const updateItem = (
+  id: string,
+  data: {
+    title?: string;
+    description?: string | null;
+    plannedMinutes?: number | null;
+    scheduledDate?: string | null;
+    position?: number;
+    status?: NorthStatus;
+  },
+) =>
   read<NorthItem>(
     apiFetch(`/north/items/${id}`, {
       method: "PATCH",

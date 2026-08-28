@@ -17,6 +17,7 @@ O produto reduz a fragmentação entre tarefas, rotinas, estudos, projetos, refe
 - **History:** histórico de execução.
 - **Time Tracking:** tempo investido por área e atividade.
 - **Analytics:** leitura diária, semanal e mensal da evolução.
+- **Norte:** trilha principal de estudo e trabalho profundo, executada em sequência.
 
 ## Áreas
 
@@ -28,7 +29,7 @@ Pessoal antes de genérico; execução antes de volume de recursos; dados privad
 
 ## Escopo atual
 
-A fundação visual, navegação, autenticação Supabase, schema inicial versionado e integração de branding estão presentes. Os dados exibidos nas telas de produto ainda podem ser mockados enquanto os fluxos reais são implementados.
+Tasks, Routines, Links, Time Tracking, History, Analytics, Today e Norte usam a API Nest e PostgreSQL. O login é Google OAuth administrado pela API, com cookie HttpOnly da aplicação.
 
 ## Fora de escopo atual
 

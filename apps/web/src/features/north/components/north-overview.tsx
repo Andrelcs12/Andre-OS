@@ -1,5 +1,5 @@
 "use client";
-import { Compass, Play, Plus, RotateCcw, Trash2 } from "lucide-react";
+import { Compass, Pencil, Play, Plus, RotateCcw, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -11,9 +11,15 @@ import {
   deleteItem,
   getNorth,
   updateItem,
+  updateTrack,
 } from "../services/north.service";
-import type { NorthItem, NorthOverview } from "../types/north.types";
+import type {
+  NorthItem,
+  NorthOverview,
+  NorthTrack,
+} from "../types/north.types";
 
+type Action = () => Promise<unknown>;
 export function NorthOverviewPanel({
   initial,
 }: {
@@ -22,13 +28,18 @@ export function NorthOverviewPanel({
   const [data, setData] = useState(initial);
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
-  const refresh = async () => setData(await getNorth());
-  const action = async (fn: () => Promise<unknown>) => {
+  const [trackEdit, setTrackEdit] = useState(false);
+  const [itemEdit, setItemEdit] = useState<NorthItem | null>(null);
+  const [itemCreate, setItemCreate] = useState(false);
+  const action = async (fn: Action) => {
     setPending(true);
     setError(null);
     try {
       await fn();
-      await refresh();
+      setData(await getNorth());
+      setTrackEdit(false);
+      setItemEdit(null);
+      setItemCreate(false);
     } catch (e) {
       setError(
         e instanceof Error ? e.message : "Não foi possível atualizar o Norte.",
@@ -50,29 +61,46 @@ export function NorthOverviewPanel({
       <TrackForm
         pending={pending}
         error={error}
-        onCreate={(title) => action(() => createTrack({ title }))}
+        onSubmit={(value) => action(() => createTrack(value))}
       />
     );
+  const track = data.track;
   const completed = data.items.filter(
     (item) => item.status === "COMPLETED",
   ).length;
-  const track = data.track;
   return (
     <div className="space-y-4">
       <Card>
-        <CardHeader>
+        <CardHeader className="flex-row items-center justify-between">
           <CardTitle className="flex items-center gap-2">
             <Compass className="size-5 text-primary" />
-            {data.track.title}
+            {track.title}
           </CardTitle>
+          <Button
+            size="icon-sm"
+            variant="ghost"
+            aria-label="Editar Norte"
+            onClick={() => setTrackEdit(true)}
+          >
+            <Pencil />
+          </Button>
         </CardHeader>
         <CardContent>
           <p className="text-sm text-muted-foreground">
-            {data.track.description || "Sua trilha principal de evolução."}
+            {track.description || "Sua trilha principal de evolução."}
           </p>
           <p className="mt-3 font-mono text-sm">
             {completed} / {data.items.length} concluídos
           </p>
+          {trackEdit ? (
+            <TrackForm
+              initial={track}
+              pending={pending}
+              error={error}
+              onCancel={() => setTrackEdit(false)}
+              onSubmit={(value) => action(() => updateTrack(track.id, value))}
+            />
+          ) : null}
         </CardContent>
       </Card>
       <Card>
@@ -80,26 +108,43 @@ export function NorthOverviewPanel({
           <CardTitle>Sequência</CardTitle>
           <Button
             size="sm"
-            onClick={() => {
-              const title = window.prompt("Título do item");
-              if (title) void action(() => createItem(track.id, { title }));
-            }}
             disabled={pending}
+            onClick={() => setItemCreate(true)}
           >
             <Plus />
             Adicionar item
           </Button>
         </CardHeader>
         <CardContent className="space-y-2">
+          {itemCreate ? (
+            <ItemForm
+              pending={pending}
+              error={error}
+              onCancel={() => setItemCreate(false)}
+              onSubmit={(value) => action(() => createItem(track.id, value))}
+            />
+          ) : null}
           {data.items.length ? (
-            data.items.map((item) => (
-              <Item
-                key={item.id}
-                item={item}
-                pending={pending}
-                onAction={action}
-              />
-            ))
+            data.items.map((item) =>
+              itemEdit?.id === item.id ? (
+                <ItemForm
+                  key={item.id}
+                  initial={item}
+                  pending={pending}
+                  error={error}
+                  onCancel={() => setItemEdit(null)}
+                  onSubmit={(value) => action(() => updateItem(item.id, value))}
+                />
+              ) : (
+                <Item
+                  key={item.id}
+                  item={item}
+                  pending={pending}
+                  onEdit={() => setItemEdit(item)}
+                  onAction={action}
+                />
+              ),
+            )
           ) : (
             <p className="text-sm text-muted-foreground">
               Adicione o primeiro item da sua sequência.
@@ -112,53 +157,155 @@ export function NorthOverviewPanel({
   );
 }
 function TrackForm({
+  initial,
   pending,
   error,
-  onCreate,
+  onCancel,
+  onSubmit,
 }: {
+  initial?: NorthTrack;
   pending: boolean;
   error: string | null;
-  onCreate: (title: string) => void;
+  onCancel?: () => void;
+  onSubmit: (value: object) => void;
 }) {
   return (
-    <Card>
-      <CardContent className="py-8">
-        <Compass className="mb-3 size-6 text-primary" />
-        <h2 className="text-lg font-semibold">Nenhum Norte definido.</h2>
-        <p className="mt-1 text-sm text-muted-foreground">
-          Defina a trilha principal que você quer executar agora.
-        </p>
-        <form
-          className="mt-4 flex max-w-md gap-2"
-          action={(form) => onCreate(String(form.get("title")))}
-        >
-          <input
-            required
-            name="title"
-            maxLength={120}
-            placeholder="Ex.: Arquitetura de sistemas"
-            className="h-9 min-w-0 flex-1 rounded-md border bg-background px-3 text-sm"
-          />
-          <Button disabled={pending}>
-            <Plus />
-            Criar Norte
+    <form
+      className="mt-4 grid max-w-xl gap-3 rounded-lg border p-3"
+      action={(form) =>
+        onSubmit({
+          title: String(form.get("title")),
+          description: String(form.get("description")) || undefined,
+          targetDate: String(form.get("targetDate")) || undefined,
+        })
+      }
+    >
+      <input
+        required
+        name="title"
+        defaultValue={initial?.title}
+        maxLength={120}
+        placeholder="Título do Norte"
+        className="h-9 rounded-md border bg-background px-3 text-sm"
+      />
+      <textarea
+        name="description"
+        defaultValue={initial?.description ?? ""}
+        maxLength={2000}
+        placeholder="Descrição opcional"
+        className="min-h-20 rounded-md border bg-background p-3 text-sm"
+      />
+      <input
+        name="targetDate"
+        type="date"
+        defaultValue={initial?.targetDate?.slice(0, 10)}
+        className="h-9 rounded-md border bg-background px-3 text-sm"
+      />
+      <div className="flex gap-2">
+        <Button disabled={pending}>
+          {pending ? "Salvando..." : initial ? "Salvar" : "Criar Norte"}
+        </Button>
+        {onCancel ? (
+          <Button
+            type="button"
+            variant="ghost"
+            disabled={pending}
+            onClick={onCancel}
+          >
+            Cancelar
           </Button>
-        </form>
-        {error ? (
-          <p className="mt-3 text-sm text-destructive">{error}</p>
         ) : null}
-      </CardContent>
-    </Card>
+      </div>
+      {error ? <p className="text-sm text-destructive">{error}</p> : null}
+    </form>
+  );
+}
+function ItemForm({
+  initial,
+  pending,
+  error,
+  onCancel,
+  onSubmit,
+}: {
+  initial?: NorthItem;
+  pending: boolean;
+  error: string | null;
+  onCancel: () => void;
+  onSubmit: (value: object) => void;
+}) {
+  return (
+    <form
+      className="grid gap-2 rounded-lg border bg-muted/20 p-3"
+      action={(form) =>
+        onSubmit({
+          title: String(form.get("title")),
+          description: String(form.get("description")) || undefined,
+          plannedMinutes: form.get("plannedMinutes")
+            ? Number(form.get("plannedMinutes"))
+            : undefined,
+          scheduledDate: String(form.get("scheduledDate")) || undefined,
+        })
+      }
+    >
+      <input
+        required
+        name="title"
+        defaultValue={initial?.title}
+        maxLength={160}
+        placeholder="Título do item"
+        className="h-9 rounded-md border bg-background px-3 text-sm"
+      />
+      <textarea
+        name="description"
+        defaultValue={initial?.description ?? ""}
+        maxLength={2000}
+        placeholder="Descrição opcional"
+        className="min-h-16 rounded-md border bg-background p-3 text-sm"
+      />
+      <div className="grid gap-2 sm:grid-cols-2">
+        <input
+          name="plannedMinutes"
+          type="number"
+          min="1"
+          defaultValue={initial?.plannedMinutes ?? ""}
+          placeholder="Tempo planejado (min)"
+          className="h-9 rounded-md border bg-background px-3 text-sm"
+        />
+        <input
+          name="scheduledDate"
+          type="date"
+          defaultValue={initial?.scheduledDate?.slice(0, 10)}
+          className="h-9 rounded-md border bg-background px-3 text-sm"
+        />
+      </div>
+      <div className="flex gap-2">
+        <Button size="sm" disabled={pending}>
+          {pending ? "Salvando..." : initial ? "Salvar" : "Adicionar"}
+        </Button>
+        <Button
+          type="button"
+          size="sm"
+          variant="ghost"
+          disabled={pending}
+          onClick={onCancel}
+        >
+          Cancelar
+        </Button>
+      </div>
+      {error ? <p className="text-sm text-destructive">{error}</p> : null}
+    </form>
   );
 }
 function Item({
   item,
   pending,
+  onEdit,
   onAction,
 }: {
   item: NorthItem;
   pending: boolean;
-  onAction: (fn: () => Promise<unknown>) => void;
+  onEdit: () => void;
+  onAction: (fn: Action) => void;
 }) {
   const next =
     item.status === "TODO"
@@ -202,7 +349,6 @@ function Item({
             size="sm"
             variant="ghost"
             disabled={pending}
-            aria-label={`Iniciar foco em ${item.title}`}
             onClick={() =>
               void onAction(() => startTimeEntry({ northItemId: item.id }))
             }
@@ -213,9 +359,21 @@ function Item({
         <Button
           size="icon-sm"
           variant="ghost"
+          aria-label={`Editar ${item.title}`}
+          disabled={pending}
+          onClick={onEdit}
+        >
+          <Pencil />
+        </Button>
+        <Button
+          size="icon-sm"
+          variant="ghost"
           aria-label={`Excluir ${item.title}`}
           disabled={pending}
-          onClick={() => void onAction(() => deleteItem(item.id))}
+          onClick={() => {
+            if (window.confirm(`Excluir “${item.title}”?`))
+              void onAction(() => deleteItem(item.id));
+          }}
         >
           <Trash2 />
         </Button>

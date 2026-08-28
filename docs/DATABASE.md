@@ -1,6 +1,6 @@
 # Banco de dados
 
-O PostgreSQL do projeto `andre-os` (Supabase, `sa-east-1`) é infraestrutura de persistência. Prisma em `apps/api/prisma/schema.prisma` é o ORM oficial e modela `User`, `Task`, `Routine`, `RoutineEntry`, `Link` e `TimeEntry`.
+O PostgreSQL do projeto `andre-os` (Supabase, `sa-east-1`) é infraestrutura de persistência. Prisma em `apps/api/prisma/schema.prisma` é o ORM oficial e modela `User`, `Task`, `Routine`, `RoutineEntry`, `Link`, `TimeEntry`, `NorthTrack` e `NorthItem`.
 
 ## Baseline e transição
 
@@ -15,4 +15,4 @@ npx prisma migrate resolve --applied 20260826214000_consolidate_user_identity
 
 A migration de consolidação deve ser aplicada de forma controlada antes do resolve: ela renomeia `profiles` para `users`, remove o vínculo com `auth.users`, adiciona identidade Google e remove policies ligadas a `auth.uid()`. Não execute sem confirmar backup/ausência de usuários ativos.
 
-Para mudanças futuras, use `prisma migrate dev` localmente e `prisma migrate deploy` no ambiente publicado. RLS segue habilitado como proteção da Data API, sem policies permissivas; o Nest aplica ownership por `userId`.
+Para mudanças futuras, use `prisma migrate dev` localmente e `prisma migrate deploy` no ambiente publicado. Antes de aplicar uma migration pendente em um banco existente, confirme o schema e a tabela `_prisma_migrations`; nunca use reset ou `migrate resolve` apenas para ocultar divergências. RLS segue habilitado como proteção da Data API, sem policies permissivas; o Nest aplica ownership por `userId`.

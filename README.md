@@ -24,6 +24,16 @@ npm run dev:web
 npm run dev:api
 ```
 
+## Quick start
+
+1. Execute `npm install` na raiz.
+2. Crie `apps/api/.env` a partir de `apps/api/.env.example` e preencha as variáveis server-side.
+3. Crie `apps/web/.env.local` a partir de `apps/web/.env.example` com `NEXT_PUBLIC_API_URL`.
+4. Verifique o banco com `cd apps/api && npm run prisma:validate && npm run prisma:generate`.
+5. Inicie API e web em terminais separados com os comandos acima.
+
+As migrations são versionadas em `apps/api/prisma/migrations`. Em um banco existente, valide o estado remoto e o histórico do Prisma antes de aplicar migrations pendentes. Google OAuth exige callback registrada no Google Cloud; não há Supabase Auth no runtime da aplicação.
+
 Veja `apps/web/.env.example` e `apps/api/.env.example`. Nunca versione envs reais.
 
 ## Qualidade
