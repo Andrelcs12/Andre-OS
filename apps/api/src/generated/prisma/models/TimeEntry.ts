@@ -38,6 +38,7 @@ export type TimeEntryMinAggregateOutputType = {
   id: string | null
   userId: string | null
   taskId: string | null
+  northItemId: string | null
   description: string | null
   area: $Enums.Area | null
   startedAt: Date | null
@@ -50,6 +51,7 @@ export type TimeEntryMaxAggregateOutputType = {
   id: string | null
   userId: string | null
   taskId: string | null
+  northItemId: string | null
   description: string | null
   area: $Enums.Area | null
   startedAt: Date | null
@@ -62,6 +64,7 @@ export type TimeEntryCountAggregateOutputType = {
   id: number
   userId: number
   taskId: number
+  northItemId: number
   description: number
   area: number
   startedAt: number
@@ -84,6 +87,7 @@ export type TimeEntryMinAggregateInputType = {
   id?: true
   userId?: true
   taskId?: true
+  northItemId?: true
   description?: true
   area?: true
   startedAt?: true
@@ -96,6 +100,7 @@ export type TimeEntryMaxAggregateInputType = {
   id?: true
   userId?: true
   taskId?: true
+  northItemId?: true
   description?: true
   area?: true
   startedAt?: true
@@ -108,6 +113,7 @@ export type TimeEntryCountAggregateInputType = {
   id?: true
   userId?: true
   taskId?: true
+  northItemId?: true
   description?: true
   area?: true
   startedAt?: true
@@ -207,6 +213,7 @@ export type TimeEntryGroupByOutputType = {
   id: string
   userId: string
   taskId: string | null
+  northItemId: string | null
   description: string | null
   area: $Enums.Area | null
   startedAt: Date
@@ -242,6 +249,7 @@ export type TimeEntryWhereInput = {
   id?: Prisma.UuidFilter<"TimeEntry"> | string
   userId?: Prisma.UuidFilter<"TimeEntry"> | string
   taskId?: Prisma.UuidNullableFilter<"TimeEntry"> | string | null
+  northItemId?: Prisma.UuidNullableFilter<"TimeEntry"> | string | null
   description?: Prisma.StringNullableFilter<"TimeEntry"> | string | null
   area?: Prisma.EnumAreaNullableFilter<"TimeEntry"> | $Enums.Area | null
   startedAt?: Prisma.DateTimeFilter<"TimeEntry"> | Date | string
@@ -250,12 +258,14 @@ export type TimeEntryWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"TimeEntry"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   task?: Prisma.XOR<Prisma.TaskNullableScalarRelationFilter, Prisma.TaskWhereInput> | null
+  northItem?: Prisma.XOR<Prisma.NorthItemNullableScalarRelationFilter, Prisma.NorthItemWhereInput> | null
 }
 
 export type TimeEntryOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   taskId?: Prisma.SortOrderInput | Prisma.SortOrder
+  northItemId?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   area?: Prisma.SortOrderInput | Prisma.SortOrder
   startedAt?: Prisma.SortOrder
@@ -264,6 +274,7 @@ export type TimeEntryOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   task?: Prisma.TaskOrderByWithRelationInput
+  northItem?: Prisma.NorthItemOrderByWithRelationInput
 }
 
 export type TimeEntryWhereUniqueInput = Prisma.AtLeast<{
@@ -273,6 +284,7 @@ export type TimeEntryWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.TimeEntryWhereInput | Prisma.TimeEntryWhereInput[]
   userId?: Prisma.UuidFilter<"TimeEntry"> | string
   taskId?: Prisma.UuidNullableFilter<"TimeEntry"> | string | null
+  northItemId?: Prisma.UuidNullableFilter<"TimeEntry"> | string | null
   description?: Prisma.StringNullableFilter<"TimeEntry"> | string | null
   area?: Prisma.EnumAreaNullableFilter<"TimeEntry"> | $Enums.Area | null
   startedAt?: Prisma.DateTimeFilter<"TimeEntry"> | Date | string
@@ -281,12 +293,14 @@ export type TimeEntryWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"TimeEntry"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   task?: Prisma.XOR<Prisma.TaskNullableScalarRelationFilter, Prisma.TaskWhereInput> | null
+  northItem?: Prisma.XOR<Prisma.NorthItemNullableScalarRelationFilter, Prisma.NorthItemWhereInput> | null
 }, "id">
 
 export type TimeEntryOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   taskId?: Prisma.SortOrderInput | Prisma.SortOrder
+  northItemId?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   area?: Prisma.SortOrderInput | Prisma.SortOrder
   startedAt?: Prisma.SortOrder
@@ -307,6 +321,7 @@ export type TimeEntryScalarWhereWithAggregatesInput = {
   id?: Prisma.UuidWithAggregatesFilter<"TimeEntry"> | string
   userId?: Prisma.UuidWithAggregatesFilter<"TimeEntry"> | string
   taskId?: Prisma.UuidNullableWithAggregatesFilter<"TimeEntry"> | string | null
+  northItemId?: Prisma.UuidNullableWithAggregatesFilter<"TimeEntry"> | string | null
   description?: Prisma.StringNullableWithAggregatesFilter<"TimeEntry"> | string | null
   area?: Prisma.EnumAreaNullableWithAggregatesFilter<"TimeEntry"> | $Enums.Area | null
   startedAt?: Prisma.DateTimeWithAggregatesFilter<"TimeEntry"> | Date | string
@@ -325,12 +340,14 @@ export type TimeEntryCreateInput = {
   createdAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutTimeEntriesInput
   task?: Prisma.TaskCreateNestedOneWithoutTimeEntriesInput
+  northItem?: Prisma.NorthItemCreateNestedOneWithoutTimeEntriesInput
 }
 
 export type TimeEntryUncheckedCreateInput = {
   id?: string
   userId: string
   taskId?: string | null
+  northItemId?: string | null
   description?: string | null
   area?: $Enums.Area | null
   startedAt: Date | string
@@ -349,12 +366,14 @@ export type TimeEntryUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutTimeEntriesNestedInput
   task?: Prisma.TaskUpdateOneWithoutTimeEntriesNestedInput
+  northItem?: Prisma.NorthItemUpdateOneWithoutTimeEntriesNestedInput
 }
 
 export type TimeEntryUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   taskId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  northItemId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   area?: Prisma.NullableEnumAreaFieldUpdateOperationsInput | $Enums.Area | null
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -367,6 +386,7 @@ export type TimeEntryCreateManyInput = {
   id?: string
   userId: string
   taskId?: string | null
+  northItemId?: string | null
   description?: string | null
   area?: $Enums.Area | null
   startedAt: Date | string
@@ -389,6 +409,7 @@ export type TimeEntryUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   taskId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  northItemId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   area?: Prisma.NullableEnumAreaFieldUpdateOperationsInput | $Enums.Area | null
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -411,6 +432,7 @@ export type TimeEntryCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   taskId?: Prisma.SortOrder
+  northItemId?: Prisma.SortOrder
   description?: Prisma.SortOrder
   area?: Prisma.SortOrder
   startedAt?: Prisma.SortOrder
@@ -427,6 +449,7 @@ export type TimeEntryMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   taskId?: Prisma.SortOrder
+  northItemId?: Prisma.SortOrder
   description?: Prisma.SortOrder
   area?: Prisma.SortOrder
   startedAt?: Prisma.SortOrder
@@ -439,6 +462,7 @@ export type TimeEntryMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   taskId?: Prisma.SortOrder
+  northItemId?: Prisma.SortOrder
   description?: Prisma.SortOrder
   area?: Prisma.SortOrder
   startedAt?: Prisma.SortOrder
@@ -535,6 +559,48 @@ export type TimeEntryUncheckedUpdateManyWithoutTaskNestedInput = {
   deleteMany?: Prisma.TimeEntryScalarWhereInput | Prisma.TimeEntryScalarWhereInput[]
 }
 
+export type TimeEntryCreateNestedManyWithoutNorthItemInput = {
+  create?: Prisma.XOR<Prisma.TimeEntryCreateWithoutNorthItemInput, Prisma.TimeEntryUncheckedCreateWithoutNorthItemInput> | Prisma.TimeEntryCreateWithoutNorthItemInput[] | Prisma.TimeEntryUncheckedCreateWithoutNorthItemInput[]
+  connectOrCreate?: Prisma.TimeEntryCreateOrConnectWithoutNorthItemInput | Prisma.TimeEntryCreateOrConnectWithoutNorthItemInput[]
+  createMany?: Prisma.TimeEntryCreateManyNorthItemInputEnvelope
+  connect?: Prisma.TimeEntryWhereUniqueInput | Prisma.TimeEntryWhereUniqueInput[]
+}
+
+export type TimeEntryUncheckedCreateNestedManyWithoutNorthItemInput = {
+  create?: Prisma.XOR<Prisma.TimeEntryCreateWithoutNorthItemInput, Prisma.TimeEntryUncheckedCreateWithoutNorthItemInput> | Prisma.TimeEntryCreateWithoutNorthItemInput[] | Prisma.TimeEntryUncheckedCreateWithoutNorthItemInput[]
+  connectOrCreate?: Prisma.TimeEntryCreateOrConnectWithoutNorthItemInput | Prisma.TimeEntryCreateOrConnectWithoutNorthItemInput[]
+  createMany?: Prisma.TimeEntryCreateManyNorthItemInputEnvelope
+  connect?: Prisma.TimeEntryWhereUniqueInput | Prisma.TimeEntryWhereUniqueInput[]
+}
+
+export type TimeEntryUpdateManyWithoutNorthItemNestedInput = {
+  create?: Prisma.XOR<Prisma.TimeEntryCreateWithoutNorthItemInput, Prisma.TimeEntryUncheckedCreateWithoutNorthItemInput> | Prisma.TimeEntryCreateWithoutNorthItemInput[] | Prisma.TimeEntryUncheckedCreateWithoutNorthItemInput[]
+  connectOrCreate?: Prisma.TimeEntryCreateOrConnectWithoutNorthItemInput | Prisma.TimeEntryCreateOrConnectWithoutNorthItemInput[]
+  upsert?: Prisma.TimeEntryUpsertWithWhereUniqueWithoutNorthItemInput | Prisma.TimeEntryUpsertWithWhereUniqueWithoutNorthItemInput[]
+  createMany?: Prisma.TimeEntryCreateManyNorthItemInputEnvelope
+  set?: Prisma.TimeEntryWhereUniqueInput | Prisma.TimeEntryWhereUniqueInput[]
+  disconnect?: Prisma.TimeEntryWhereUniqueInput | Prisma.TimeEntryWhereUniqueInput[]
+  delete?: Prisma.TimeEntryWhereUniqueInput | Prisma.TimeEntryWhereUniqueInput[]
+  connect?: Prisma.TimeEntryWhereUniqueInput | Prisma.TimeEntryWhereUniqueInput[]
+  update?: Prisma.TimeEntryUpdateWithWhereUniqueWithoutNorthItemInput | Prisma.TimeEntryUpdateWithWhereUniqueWithoutNorthItemInput[]
+  updateMany?: Prisma.TimeEntryUpdateManyWithWhereWithoutNorthItemInput | Prisma.TimeEntryUpdateManyWithWhereWithoutNorthItemInput[]
+  deleteMany?: Prisma.TimeEntryScalarWhereInput | Prisma.TimeEntryScalarWhereInput[]
+}
+
+export type TimeEntryUncheckedUpdateManyWithoutNorthItemNestedInput = {
+  create?: Prisma.XOR<Prisma.TimeEntryCreateWithoutNorthItemInput, Prisma.TimeEntryUncheckedCreateWithoutNorthItemInput> | Prisma.TimeEntryCreateWithoutNorthItemInput[] | Prisma.TimeEntryUncheckedCreateWithoutNorthItemInput[]
+  connectOrCreate?: Prisma.TimeEntryCreateOrConnectWithoutNorthItemInput | Prisma.TimeEntryCreateOrConnectWithoutNorthItemInput[]
+  upsert?: Prisma.TimeEntryUpsertWithWhereUniqueWithoutNorthItemInput | Prisma.TimeEntryUpsertWithWhereUniqueWithoutNorthItemInput[]
+  createMany?: Prisma.TimeEntryCreateManyNorthItemInputEnvelope
+  set?: Prisma.TimeEntryWhereUniqueInput | Prisma.TimeEntryWhereUniqueInput[]
+  disconnect?: Prisma.TimeEntryWhereUniqueInput | Prisma.TimeEntryWhereUniqueInput[]
+  delete?: Prisma.TimeEntryWhereUniqueInput | Prisma.TimeEntryWhereUniqueInput[]
+  connect?: Prisma.TimeEntryWhereUniqueInput | Prisma.TimeEntryWhereUniqueInput[]
+  update?: Prisma.TimeEntryUpdateWithWhereUniqueWithoutNorthItemInput | Prisma.TimeEntryUpdateWithWhereUniqueWithoutNorthItemInput[]
+  updateMany?: Prisma.TimeEntryUpdateManyWithWhereWithoutNorthItemInput | Prisma.TimeEntryUpdateManyWithWhereWithoutNorthItemInput[]
+  deleteMany?: Prisma.TimeEntryScalarWhereInput | Prisma.TimeEntryScalarWhereInput[]
+}
+
 export type TimeEntryCreateWithoutUserInput = {
   id?: string
   description?: string | null
@@ -544,11 +610,13 @@ export type TimeEntryCreateWithoutUserInput = {
   durationMinutes?: number | null
   createdAt?: Date | string
   task?: Prisma.TaskCreateNestedOneWithoutTimeEntriesInput
+  northItem?: Prisma.NorthItemCreateNestedOneWithoutTimeEntriesInput
 }
 
 export type TimeEntryUncheckedCreateWithoutUserInput = {
   id?: string
   taskId?: string | null
+  northItemId?: string | null
   description?: string | null
   area?: $Enums.Area | null
   startedAt: Date | string
@@ -590,6 +658,7 @@ export type TimeEntryScalarWhereInput = {
   id?: Prisma.UuidFilter<"TimeEntry"> | string
   userId?: Prisma.UuidFilter<"TimeEntry"> | string
   taskId?: Prisma.UuidNullableFilter<"TimeEntry"> | string | null
+  northItemId?: Prisma.UuidNullableFilter<"TimeEntry"> | string | null
   description?: Prisma.StringNullableFilter<"TimeEntry"> | string | null
   area?: Prisma.EnumAreaNullableFilter<"TimeEntry"> | $Enums.Area | null
   startedAt?: Prisma.DateTimeFilter<"TimeEntry"> | Date | string
@@ -607,11 +676,13 @@ export type TimeEntryCreateWithoutTaskInput = {
   durationMinutes?: number | null
   createdAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutTimeEntriesInput
+  northItem?: Prisma.NorthItemCreateNestedOneWithoutTimeEntriesInput
 }
 
 export type TimeEntryUncheckedCreateWithoutTaskInput = {
   id?: string
   userId: string
+  northItemId?: string | null
   description?: string | null
   area?: $Enums.Area | null
   startedAt: Date | string
@@ -646,9 +717,60 @@ export type TimeEntryUpdateManyWithWhereWithoutTaskInput = {
   data: Prisma.XOR<Prisma.TimeEntryUpdateManyMutationInput, Prisma.TimeEntryUncheckedUpdateManyWithoutTaskInput>
 }
 
+export type TimeEntryCreateWithoutNorthItemInput = {
+  id?: string
+  description?: string | null
+  area?: $Enums.Area | null
+  startedAt: Date | string
+  endedAt?: Date | string | null
+  durationMinutes?: number | null
+  createdAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutTimeEntriesInput
+  task?: Prisma.TaskCreateNestedOneWithoutTimeEntriesInput
+}
+
+export type TimeEntryUncheckedCreateWithoutNorthItemInput = {
+  id?: string
+  userId: string
+  taskId?: string | null
+  description?: string | null
+  area?: $Enums.Area | null
+  startedAt: Date | string
+  endedAt?: Date | string | null
+  durationMinutes?: number | null
+  createdAt?: Date | string
+}
+
+export type TimeEntryCreateOrConnectWithoutNorthItemInput = {
+  where: Prisma.TimeEntryWhereUniqueInput
+  create: Prisma.XOR<Prisma.TimeEntryCreateWithoutNorthItemInput, Prisma.TimeEntryUncheckedCreateWithoutNorthItemInput>
+}
+
+export type TimeEntryCreateManyNorthItemInputEnvelope = {
+  data: Prisma.TimeEntryCreateManyNorthItemInput | Prisma.TimeEntryCreateManyNorthItemInput[]
+  skipDuplicates?: boolean
+}
+
+export type TimeEntryUpsertWithWhereUniqueWithoutNorthItemInput = {
+  where: Prisma.TimeEntryWhereUniqueInput
+  update: Prisma.XOR<Prisma.TimeEntryUpdateWithoutNorthItemInput, Prisma.TimeEntryUncheckedUpdateWithoutNorthItemInput>
+  create: Prisma.XOR<Prisma.TimeEntryCreateWithoutNorthItemInput, Prisma.TimeEntryUncheckedCreateWithoutNorthItemInput>
+}
+
+export type TimeEntryUpdateWithWhereUniqueWithoutNorthItemInput = {
+  where: Prisma.TimeEntryWhereUniqueInput
+  data: Prisma.XOR<Prisma.TimeEntryUpdateWithoutNorthItemInput, Prisma.TimeEntryUncheckedUpdateWithoutNorthItemInput>
+}
+
+export type TimeEntryUpdateManyWithWhereWithoutNorthItemInput = {
+  where: Prisma.TimeEntryScalarWhereInput
+  data: Prisma.XOR<Prisma.TimeEntryUpdateManyMutationInput, Prisma.TimeEntryUncheckedUpdateManyWithoutNorthItemInput>
+}
+
 export type TimeEntryCreateManyUserInput = {
   id?: string
   taskId?: string | null
+  northItemId?: string | null
   description?: string | null
   area?: $Enums.Area | null
   startedAt: Date | string
@@ -666,11 +788,13 @@ export type TimeEntryUpdateWithoutUserInput = {
   durationMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   task?: Prisma.TaskUpdateOneWithoutTimeEntriesNestedInput
+  northItem?: Prisma.NorthItemUpdateOneWithoutTimeEntriesNestedInput
 }
 
 export type TimeEntryUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   taskId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  northItemId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   area?: Prisma.NullableEnumAreaFieldUpdateOperationsInput | $Enums.Area | null
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -682,6 +806,7 @@ export type TimeEntryUncheckedUpdateWithoutUserInput = {
 export type TimeEntryUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   taskId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  northItemId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   area?: Prisma.NullableEnumAreaFieldUpdateOperationsInput | $Enums.Area | null
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -693,6 +818,7 @@ export type TimeEntryUncheckedUpdateManyWithoutUserInput = {
 export type TimeEntryCreateManyTaskInput = {
   id?: string
   userId: string
+  northItemId?: string | null
   description?: string | null
   area?: $Enums.Area | null
   startedAt: Date | string
@@ -710,11 +836,13 @@ export type TimeEntryUpdateWithoutTaskInput = {
   durationMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutTimeEntriesNestedInput
+  northItem?: Prisma.NorthItemUpdateOneWithoutTimeEntriesNestedInput
 }
 
 export type TimeEntryUncheckedUpdateWithoutTaskInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  northItemId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   area?: Prisma.NullableEnumAreaFieldUpdateOperationsInput | $Enums.Area | null
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -726,6 +854,55 @@ export type TimeEntryUncheckedUpdateWithoutTaskInput = {
 export type TimeEntryUncheckedUpdateManyWithoutTaskInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  northItemId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  area?: Prisma.NullableEnumAreaFieldUpdateOperationsInput | $Enums.Area | null
+  startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  durationMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type TimeEntryCreateManyNorthItemInput = {
+  id?: string
+  userId: string
+  taskId?: string | null
+  description?: string | null
+  area?: $Enums.Area | null
+  startedAt: Date | string
+  endedAt?: Date | string | null
+  durationMinutes?: number | null
+  createdAt?: Date | string
+}
+
+export type TimeEntryUpdateWithoutNorthItemInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  area?: Prisma.NullableEnumAreaFieldUpdateOperationsInput | $Enums.Area | null
+  startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  durationMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutTimeEntriesNestedInput
+  task?: Prisma.TaskUpdateOneWithoutTimeEntriesNestedInput
+}
+
+export type TimeEntryUncheckedUpdateWithoutNorthItemInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  taskId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  area?: Prisma.NullableEnumAreaFieldUpdateOperationsInput | $Enums.Area | null
+  startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  durationMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type TimeEntryUncheckedUpdateManyWithoutNorthItemInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  taskId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   area?: Prisma.NullableEnumAreaFieldUpdateOperationsInput | $Enums.Area | null
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -740,6 +917,7 @@ export type TimeEntrySelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   id?: boolean
   userId?: boolean
   taskId?: boolean
+  northItemId?: boolean
   description?: boolean
   area?: boolean
   startedAt?: boolean
@@ -748,12 +926,14 @@ export type TimeEntrySelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   createdAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   task?: boolean | Prisma.TimeEntry$taskArgs<ExtArgs>
+  northItem?: boolean | Prisma.TimeEntry$northItemArgs<ExtArgs>
 }, ExtArgs["result"]["timeEntry"]>
 
 export type TimeEntrySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
   taskId?: boolean
+  northItemId?: boolean
   description?: boolean
   area?: boolean
   startedAt?: boolean
@@ -762,12 +942,14 @@ export type TimeEntrySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   createdAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   task?: boolean | Prisma.TimeEntry$taskArgs<ExtArgs>
+  northItem?: boolean | Prisma.TimeEntry$northItemArgs<ExtArgs>
 }, ExtArgs["result"]["timeEntry"]>
 
 export type TimeEntrySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
   taskId?: boolean
+  northItemId?: boolean
   description?: boolean
   area?: boolean
   startedAt?: boolean
@@ -776,12 +958,14 @@ export type TimeEntrySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   createdAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   task?: boolean | Prisma.TimeEntry$taskArgs<ExtArgs>
+  northItem?: boolean | Prisma.TimeEntry$northItemArgs<ExtArgs>
 }, ExtArgs["result"]["timeEntry"]>
 
 export type TimeEntrySelectScalar = {
   id?: boolean
   userId?: boolean
   taskId?: boolean
+  northItemId?: boolean
   description?: boolean
   area?: boolean
   startedAt?: boolean
@@ -790,18 +974,21 @@ export type TimeEntrySelectScalar = {
   createdAt?: boolean
 }
 
-export type TimeEntryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "taskId" | "description" | "area" | "startedAt" | "endedAt" | "durationMinutes" | "createdAt", ExtArgs["result"]["timeEntry"]>
+export type TimeEntryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "taskId" | "northItemId" | "description" | "area" | "startedAt" | "endedAt" | "durationMinutes" | "createdAt", ExtArgs["result"]["timeEntry"]>
 export type TimeEntryInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   task?: boolean | Prisma.TimeEntry$taskArgs<ExtArgs>
+  northItem?: boolean | Prisma.TimeEntry$northItemArgs<ExtArgs>
 }
 export type TimeEntryIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   task?: boolean | Prisma.TimeEntry$taskArgs<ExtArgs>
+  northItem?: boolean | Prisma.TimeEntry$northItemArgs<ExtArgs>
 }
 export type TimeEntryIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   task?: boolean | Prisma.TimeEntry$taskArgs<ExtArgs>
+  northItem?: boolean | Prisma.TimeEntry$northItemArgs<ExtArgs>
 }
 
 export type $TimeEntryPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -809,11 +996,13 @@ export type $TimeEntryPayload<ExtArgs extends runtime.Types.Extensions.InternalA
   objects: {
     user: Prisma.$UserPayload<ExtArgs>
     task: Prisma.$TaskPayload<ExtArgs> | null
+    northItem: Prisma.$NorthItemPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     userId: string
     taskId: string | null
+    northItemId: string | null
     description: string | null
     area: $Enums.Area | null
     startedAt: Date
@@ -1216,6 +1405,7 @@ export interface Prisma__TimeEntryClient<T, Null = never, ExtArgs extends runtim
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   task<T extends Prisma.TimeEntry$taskArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TimeEntry$taskArgs<ExtArgs>>): Prisma.Prisma__TaskClient<runtime.Types.Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  northItem<T extends Prisma.TimeEntry$northItemArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TimeEntry$northItemArgs<ExtArgs>>): Prisma.Prisma__NorthItemClient<runtime.Types.Result.GetResult<Prisma.$NorthItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1248,6 +1438,7 @@ export interface TimeEntryFieldRefs {
   readonly id: Prisma.FieldRef<"TimeEntry", 'String'>
   readonly userId: Prisma.FieldRef<"TimeEntry", 'String'>
   readonly taskId: Prisma.FieldRef<"TimeEntry", 'String'>
+  readonly northItemId: Prisma.FieldRef<"TimeEntry", 'String'>
   readonly description: Prisma.FieldRef<"TimeEntry", 'String'>
   readonly area: Prisma.FieldRef<"TimeEntry", 'Area'>
   readonly startedAt: Prisma.FieldRef<"TimeEntry", 'DateTime'>
@@ -1671,6 +1862,25 @@ export type TimeEntry$taskArgs<ExtArgs extends runtime.Types.Extensions.Internal
    */
   include?: Prisma.TaskInclude<ExtArgs> | null
   where?: Prisma.TaskWhereInput
+}
+
+/**
+ * TimeEntry.northItem
+ */
+export type TimeEntry$northItemArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the NorthItem
+   */
+  select?: Prisma.NorthItemSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the NorthItem
+   */
+  omit?: Prisma.NorthItemOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NorthItemInclude<ExtArgs> | null
+  where?: Prisma.NorthItemWhereInput
 }
 
 /**

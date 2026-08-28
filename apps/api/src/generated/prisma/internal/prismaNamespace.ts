@@ -402,7 +402,9 @@ export const ModelName = {
   Routine: 'Routine',
   RoutineEntry: 'RoutineEntry',
   Link: 'Link',
-  TimeEntry: 'TimeEntry'
+  TimeEntry: 'TimeEntry',
+  NorthTrack: 'NorthTrack',
+  NorthItem: 'NorthItem'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -418,7 +420,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "task" | "routine" | "routineEntry" | "link" | "timeEntry"
+    modelProps: "user" | "task" | "routine" | "routineEntry" | "link" | "timeEntry" | "northTrack" | "northItem"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -866,6 +868,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    NorthTrack: {
+      payload: Prisma.$NorthTrackPayload<ExtArgs>
+      fields: Prisma.NorthTrackFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.NorthTrackFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NorthTrackPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.NorthTrackFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NorthTrackPayload>
+        }
+        findFirst: {
+          args: Prisma.NorthTrackFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NorthTrackPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.NorthTrackFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NorthTrackPayload>
+        }
+        findMany: {
+          args: Prisma.NorthTrackFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NorthTrackPayload>[]
+        }
+        create: {
+          args: Prisma.NorthTrackCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NorthTrackPayload>
+        }
+        createMany: {
+          args: Prisma.NorthTrackCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.NorthTrackCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NorthTrackPayload>[]
+        }
+        delete: {
+          args: Prisma.NorthTrackDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NorthTrackPayload>
+        }
+        update: {
+          args: Prisma.NorthTrackUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NorthTrackPayload>
+        }
+        deleteMany: {
+          args: Prisma.NorthTrackDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.NorthTrackUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.NorthTrackUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NorthTrackPayload>[]
+        }
+        upsert: {
+          args: Prisma.NorthTrackUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NorthTrackPayload>
+        }
+        aggregate: {
+          args: Prisma.NorthTrackAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateNorthTrack>
+        }
+        groupBy: {
+          args: Prisma.NorthTrackGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.NorthTrackGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.NorthTrackCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.NorthTrackCountAggregateOutputType> | number
+        }
+      }
+    }
+    NorthItem: {
+      payload: Prisma.$NorthItemPayload<ExtArgs>
+      fields: Prisma.NorthItemFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.NorthItemFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NorthItemPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.NorthItemFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NorthItemPayload>
+        }
+        findFirst: {
+          args: Prisma.NorthItemFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NorthItemPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.NorthItemFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NorthItemPayload>
+        }
+        findMany: {
+          args: Prisma.NorthItemFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NorthItemPayload>[]
+        }
+        create: {
+          args: Prisma.NorthItemCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NorthItemPayload>
+        }
+        createMany: {
+          args: Prisma.NorthItemCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.NorthItemCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NorthItemPayload>[]
+        }
+        delete: {
+          args: Prisma.NorthItemDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NorthItemPayload>
+        }
+        update: {
+          args: Prisma.NorthItemUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NorthItemPayload>
+        }
+        deleteMany: {
+          args: Prisma.NorthItemDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.NorthItemUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.NorthItemUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NorthItemPayload>[]
+        }
+        upsert: {
+          args: Prisma.NorthItemUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NorthItemPayload>
+        }
+        aggregate: {
+          args: Prisma.NorthItemAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateNorthItem>
+        }
+        groupBy: {
+          args: Prisma.NorthItemGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.NorthItemGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.NorthItemCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.NorthItemCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -985,6 +1135,7 @@ export const TimeEntryScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   taskId: 'taskId',
+  northItemId: 'northItemId',
   description: 'description',
   area: 'area',
   startedAt: 'startedAt',
@@ -994,6 +1145,39 @@ export const TimeEntryScalarFieldEnum = {
 } as const
 
 export type TimeEntryScalarFieldEnum = (typeof TimeEntryScalarFieldEnum)[keyof typeof TimeEntryScalarFieldEnum]
+
+
+export const NorthTrackScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  title: 'title',
+  description: 'description',
+  area: 'area',
+  status: 'status',
+  startedAt: 'startedAt',
+  targetDate: 'targetDate',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type NorthTrackScalarFieldEnum = (typeof NorthTrackScalarFieldEnum)[keyof typeof NorthTrackScalarFieldEnum]
+
+
+export const NorthItemScalarFieldEnum = {
+  id: 'id',
+  trackId: 'trackId',
+  title: 'title',
+  description: 'description',
+  status: 'status',
+  position: 'position',
+  plannedMinutes: 'plannedMinutes',
+  scheduledDate: 'scheduledDate',
+  completedAt: 'completedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type NorthItemScalarFieldEnum = (typeof NorthItemScalarFieldEnum)[keyof typeof NorthItemScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1128,6 +1312,34 @@ export type ListEnumRoutineScheduleFieldRefInput<$PrismaModel> = FieldRefInputTy
  * Reference to a field of type 'Boolean'
  */
 export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+/**
+ * Reference to a field of type 'NorthTrackStatus'
+ */
+export type EnumNorthTrackStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NorthTrackStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'NorthTrackStatus[]'
+ */
+export type ListEnumNorthTrackStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NorthTrackStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'NorthItemStatus'
+ */
+export type EnumNorthItemStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NorthItemStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'NorthItemStatus[]'
+ */
+export type ListEnumNorthItemStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NorthItemStatus[]'>
     
 
 
@@ -1301,6 +1513,8 @@ export type GlobalOmitConfig = {
   routineEntry?: Prisma.RoutineEntryOmit
   link?: Prisma.LinkOmit
   timeEntry?: Prisma.TimeEntryOmit
+  northTrack?: Prisma.NorthTrackOmit
+  northItem?: Prisma.NorthItemOmit
 }
 
 /* Types for Logging */

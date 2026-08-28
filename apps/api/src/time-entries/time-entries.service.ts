@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ConflictException,
   Inject,
   Injectable,
@@ -23,7 +24,10 @@ export class TimeEntriesService {
   list(user: AuthenticatedUser, query: ListTimeEntriesQueryDto) {
     return this.prisma.timeEntry.findMany({
       where: { userId: user.id },
-      include: { task: { select: { id: true, title: true } } },
+      include: {
+        task: { select: { id: true, title: true } },
+        northItem: { select: { id: true, title: true } },
+      },
       orderBy: { startedAt: "desc" },
       take: query.limit ?? 20,
     });
@@ -31,16 +35,31 @@ export class TimeEntriesService {
   active(user: AuthenticatedUser) {
     return this.prisma.timeEntry.findFirst({
       where: { userId: user.id, endedAt: null },
-      include: { task: { select: { id: true, title: true } } },
+      include: {
+        task: { select: { id: true, title: true } },
+        northItem: { select: { id: true, title: true } },
+      },
       orderBy: { startedAt: "desc" },
     });
   }
   async start(user: AuthenticatedUser, dto: StartTimeEntryDto) {
+    if (dto.taskId && dto.northItemId)
+      throw new BadRequestException(
+        "Escolha uma tarefa ou um item do Norte, não ambos.",
+      );
     if (dto.taskId) {
       const task = await this.prisma.task.findFirst({
         where: { id: dto.taskId, userId: user.id },
       });
       if (!task) throw new NotFoundException("Tarefa não encontrada.");
+    }
+    if (dto.northItemId) {
+      const item = await this.prisma.northItem.findFirst({
+        where: { id: dto.northItemId, track: { userId: user.id } },
+        include: { track: { select: { area: true } } },
+      });
+      if (!item) throw new NotFoundException("Item do Norte não encontrado.");
+      dto.area ??= item.track.area ?? undefined;
     }
     if (await this.active(user))
       throw new ConflictException("Já existe uma sessão ativa.");
@@ -49,11 +68,15 @@ export class TimeEntriesService {
         data: {
           userId: user.id,
           taskId: dto.taskId,
+          northItemId: dto.northItemId,
           description: dto.description?.trim() || null,
           area: dto.area,
           startedAt: new Date(),
         },
-        include: { task: { select: { id: true, title: true } } },
+        include: {
+          task: { select: { id: true, title: true } },
+          northItem: { select: { id: true, title: true } },
+        },
       });
     } catch (error) {
       if (
@@ -77,7 +100,10 @@ export class TimeEntriesService {
       const stopped = await tx.timeEntry.update({
         where: { id },
         data: { endedAt, durationMinutes },
-        include: { task: { select: { id: true, title: true } } },
+        include: {
+          task: { select: { id: true, title: true } },
+          northItem: { select: { id: true, title: true } },
+        },
       });
       if (entry.taskId) {
         const result = await tx.timeEntry.aggregate({

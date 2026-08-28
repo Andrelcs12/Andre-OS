@@ -47,3 +47,13 @@ export type Link = Prisma.LinkModel
  * 
  */
 export type TimeEntry = Prisma.TimeEntryModel
+/**
+ * Model NorthTrack
+ * 
+ */
+export type NorthTrack = Prisma.NorthTrackModel
+/**
+ * Model NorthItem
+ * 
+ */
+export type NorthItem = Prisma.NorthItemModel

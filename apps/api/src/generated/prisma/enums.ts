@@ -47,3 +47,21 @@ export const RoutineSchedule = {
 } as const
 
 export type RoutineSchedule = (typeof RoutineSchedule)[keyof typeof RoutineSchedule]
+
+
+export const NorthTrackStatus = {
+  ACTIVE: 'ACTIVE',
+  PAUSED: 'PAUSED',
+  COMPLETED: 'COMPLETED'
+} as const
+
+export type NorthTrackStatus = (typeof NorthTrackStatus)[keyof typeof NorthTrackStatus]
+
+
+export const NorthItemStatus = {
+  TODO: 'TODO',
+  IN_PROGRESS: 'IN_PROGRESS',
+  COMPLETED: 'COMPLETED'
+} as const
+
+export type NorthItemStatus = (typeof NorthItemStatus)[keyof typeof NorthItemStatus]

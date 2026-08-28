@@ -203,6 +203,7 @@ export type UserWhereInput = {
   links?: Prisma.LinkListRelationFilter
   timeEntries?: Prisma.TimeEntryListRelationFilter
   routineEntries?: Prisma.RoutineEntryListRelationFilter
+  northTracks?: Prisma.NorthTrackListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -218,6 +219,7 @@ export type UserOrderByWithRelationInput = {
   links?: Prisma.LinkOrderByRelationAggregateInput
   timeEntries?: Prisma.TimeEntryOrderByRelationAggregateInput
   routineEntries?: Prisma.RoutineEntryOrderByRelationAggregateInput
+  northTracks?: Prisma.NorthTrackOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -236,6 +238,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   links?: Prisma.LinkListRelationFilter
   timeEntries?: Prisma.TimeEntryListRelationFilter
   routineEntries?: Prisma.RoutineEntryListRelationFilter
+  northTracks?: Prisma.NorthTrackListRelationFilter
 }, "id" | "googleId" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -277,6 +280,7 @@ export type UserCreateInput = {
   links?: Prisma.LinkCreateNestedManyWithoutUserInput
   timeEntries?: Prisma.TimeEntryCreateNestedManyWithoutUserInput
   routineEntries?: Prisma.RoutineEntryCreateNestedManyWithoutUserInput
+  northTracks?: Prisma.NorthTrackCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -292,6 +296,7 @@ export type UserUncheckedCreateInput = {
   links?: Prisma.LinkUncheckedCreateNestedManyWithoutUserInput
   timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutUserInput
   routineEntries?: Prisma.RoutineEntryUncheckedCreateNestedManyWithoutUserInput
+  northTracks?: Prisma.NorthTrackUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -307,6 +312,7 @@ export type UserUpdateInput = {
   links?: Prisma.LinkUpdateManyWithoutUserNestedInput
   timeEntries?: Prisma.TimeEntryUpdateManyWithoutUserNestedInput
   routineEntries?: Prisma.RoutineEntryUpdateManyWithoutUserNestedInput
+  northTracks?: Prisma.NorthTrackUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -322,6 +328,7 @@ export type UserUncheckedUpdateInput = {
   links?: Prisma.LinkUncheckedUpdateManyWithoutUserNestedInput
   timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutUserNestedInput
   routineEntries?: Prisma.RoutineEntryUncheckedUpdateManyWithoutUserNestedInput
+  northTracks?: Prisma.NorthTrackUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -471,6 +478,20 @@ export type UserUpdateOneRequiredWithoutTimeEntriesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutTimeEntriesInput, Prisma.UserUpdateWithoutTimeEntriesInput>, Prisma.UserUncheckedUpdateWithoutTimeEntriesInput>
 }
 
+export type UserCreateNestedOneWithoutNorthTracksInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutNorthTracksInput, Prisma.UserUncheckedCreateWithoutNorthTracksInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutNorthTracksInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutNorthTracksNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutNorthTracksInput, Prisma.UserUncheckedCreateWithoutNorthTracksInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutNorthTracksInput
+  upsert?: Prisma.UserUpsertWithoutNorthTracksInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutNorthTracksInput, Prisma.UserUpdateWithoutNorthTracksInput>, Prisma.UserUncheckedUpdateWithoutNorthTracksInput>
+}
+
 export type UserCreateWithoutTasksInput = {
   id?: string
   googleId: string
@@ -483,6 +504,7 @@ export type UserCreateWithoutTasksInput = {
   links?: Prisma.LinkCreateNestedManyWithoutUserInput
   timeEntries?: Prisma.TimeEntryCreateNestedManyWithoutUserInput
   routineEntries?: Prisma.RoutineEntryCreateNestedManyWithoutUserInput
+  northTracks?: Prisma.NorthTrackCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTasksInput = {
@@ -497,6 +519,7 @@ export type UserUncheckedCreateWithoutTasksInput = {
   links?: Prisma.LinkUncheckedCreateNestedManyWithoutUserInput
   timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutUserInput
   routineEntries?: Prisma.RoutineEntryUncheckedCreateNestedManyWithoutUserInput
+  northTracks?: Prisma.NorthTrackUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTasksInput = {
@@ -527,6 +550,7 @@ export type UserUpdateWithoutTasksInput = {
   links?: Prisma.LinkUpdateManyWithoutUserNestedInput
   timeEntries?: Prisma.TimeEntryUpdateManyWithoutUserNestedInput
   routineEntries?: Prisma.RoutineEntryUpdateManyWithoutUserNestedInput
+  northTracks?: Prisma.NorthTrackUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTasksInput = {
@@ -541,6 +565,7 @@ export type UserUncheckedUpdateWithoutTasksInput = {
   links?: Prisma.LinkUncheckedUpdateManyWithoutUserNestedInput
   timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutUserNestedInput
   routineEntries?: Prisma.RoutineEntryUncheckedUpdateManyWithoutUserNestedInput
+  northTracks?: Prisma.NorthTrackUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutRoutinesInput = {
@@ -555,6 +580,7 @@ export type UserCreateWithoutRoutinesInput = {
   links?: Prisma.LinkCreateNestedManyWithoutUserInput
   timeEntries?: Prisma.TimeEntryCreateNestedManyWithoutUserInput
   routineEntries?: Prisma.RoutineEntryCreateNestedManyWithoutUserInput
+  northTracks?: Prisma.NorthTrackCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutRoutinesInput = {
@@ -569,6 +595,7 @@ export type UserUncheckedCreateWithoutRoutinesInput = {
   links?: Prisma.LinkUncheckedCreateNestedManyWithoutUserInput
   timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutUserInput
   routineEntries?: Prisma.RoutineEntryUncheckedCreateNestedManyWithoutUserInput
+  northTracks?: Prisma.NorthTrackUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutRoutinesInput = {
@@ -599,6 +626,7 @@ export type UserUpdateWithoutRoutinesInput = {
   links?: Prisma.LinkUpdateManyWithoutUserNestedInput
   timeEntries?: Prisma.TimeEntryUpdateManyWithoutUserNestedInput
   routineEntries?: Prisma.RoutineEntryUpdateManyWithoutUserNestedInput
+  northTracks?: Prisma.NorthTrackUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutRoutinesInput = {
@@ -613,6 +641,7 @@ export type UserUncheckedUpdateWithoutRoutinesInput = {
   links?: Prisma.LinkUncheckedUpdateManyWithoutUserNestedInput
   timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutUserNestedInput
   routineEntries?: Prisma.RoutineEntryUncheckedUpdateManyWithoutUserNestedInput
+  northTracks?: Prisma.NorthTrackUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutRoutineEntriesInput = {
@@ -627,6 +656,7 @@ export type UserCreateWithoutRoutineEntriesInput = {
   routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
   links?: Prisma.LinkCreateNestedManyWithoutUserInput
   timeEntries?: Prisma.TimeEntryCreateNestedManyWithoutUserInput
+  northTracks?: Prisma.NorthTrackCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutRoutineEntriesInput = {
@@ -641,6 +671,7 @@ export type UserUncheckedCreateWithoutRoutineEntriesInput = {
   routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
   links?: Prisma.LinkUncheckedCreateNestedManyWithoutUserInput
   timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutUserInput
+  northTracks?: Prisma.NorthTrackUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutRoutineEntriesInput = {
@@ -671,6 +702,7 @@ export type UserUpdateWithoutRoutineEntriesInput = {
   routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
   links?: Prisma.LinkUpdateManyWithoutUserNestedInput
   timeEntries?: Prisma.TimeEntryUpdateManyWithoutUserNestedInput
+  northTracks?: Prisma.NorthTrackUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutRoutineEntriesInput = {
@@ -685,6 +717,7 @@ export type UserUncheckedUpdateWithoutRoutineEntriesInput = {
   routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
   links?: Prisma.LinkUncheckedUpdateManyWithoutUserNestedInput
   timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutUserNestedInput
+  northTracks?: Prisma.NorthTrackUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutLinksInput = {
@@ -699,6 +732,7 @@ export type UserCreateWithoutLinksInput = {
   routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
   timeEntries?: Prisma.TimeEntryCreateNestedManyWithoutUserInput
   routineEntries?: Prisma.RoutineEntryCreateNestedManyWithoutUserInput
+  northTracks?: Prisma.NorthTrackCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutLinksInput = {
@@ -713,6 +747,7 @@ export type UserUncheckedCreateWithoutLinksInput = {
   routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
   timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutUserInput
   routineEntries?: Prisma.RoutineEntryUncheckedCreateNestedManyWithoutUserInput
+  northTracks?: Prisma.NorthTrackUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutLinksInput = {
@@ -743,6 +778,7 @@ export type UserUpdateWithoutLinksInput = {
   routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
   timeEntries?: Prisma.TimeEntryUpdateManyWithoutUserNestedInput
   routineEntries?: Prisma.RoutineEntryUpdateManyWithoutUserNestedInput
+  northTracks?: Prisma.NorthTrackUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutLinksInput = {
@@ -757,6 +793,7 @@ export type UserUncheckedUpdateWithoutLinksInput = {
   routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
   timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutUserNestedInput
   routineEntries?: Prisma.RoutineEntryUncheckedUpdateManyWithoutUserNestedInput
+  northTracks?: Prisma.NorthTrackUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutTimeEntriesInput = {
@@ -771,6 +808,7 @@ export type UserCreateWithoutTimeEntriesInput = {
   routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
   links?: Prisma.LinkCreateNestedManyWithoutUserInput
   routineEntries?: Prisma.RoutineEntryCreateNestedManyWithoutUserInput
+  northTracks?: Prisma.NorthTrackCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTimeEntriesInput = {
@@ -785,6 +823,7 @@ export type UserUncheckedCreateWithoutTimeEntriesInput = {
   routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
   links?: Prisma.LinkUncheckedCreateNestedManyWithoutUserInput
   routineEntries?: Prisma.RoutineEntryUncheckedCreateNestedManyWithoutUserInput
+  northTracks?: Prisma.NorthTrackUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTimeEntriesInput = {
@@ -815,6 +854,7 @@ export type UserUpdateWithoutTimeEntriesInput = {
   routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
   links?: Prisma.LinkUpdateManyWithoutUserNestedInput
   routineEntries?: Prisma.RoutineEntryUpdateManyWithoutUserNestedInput
+  northTracks?: Prisma.NorthTrackUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTimeEntriesInput = {
@@ -829,6 +869,83 @@ export type UserUncheckedUpdateWithoutTimeEntriesInput = {
   routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
   links?: Prisma.LinkUncheckedUpdateManyWithoutUserNestedInput
   routineEntries?: Prisma.RoutineEntryUncheckedUpdateManyWithoutUserNestedInput
+  northTracks?: Prisma.NorthTrackUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutNorthTracksInput = {
+  id?: string
+  googleId: string
+  email: string
+  displayName: string
+  avatarUrl?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  tasks?: Prisma.TaskCreateNestedManyWithoutUserInput
+  routines?: Prisma.RoutineCreateNestedManyWithoutUserInput
+  links?: Prisma.LinkCreateNestedManyWithoutUserInput
+  timeEntries?: Prisma.TimeEntryCreateNestedManyWithoutUserInput
+  routineEntries?: Prisma.RoutineEntryCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutNorthTracksInput = {
+  id?: string
+  googleId: string
+  email: string
+  displayName: string
+  avatarUrl?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutUserInput
+  routines?: Prisma.RoutineUncheckedCreateNestedManyWithoutUserInput
+  links?: Prisma.LinkUncheckedCreateNestedManyWithoutUserInput
+  timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutUserInput
+  routineEntries?: Prisma.RoutineEntryUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutNorthTracksInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutNorthTracksInput, Prisma.UserUncheckedCreateWithoutNorthTracksInput>
+}
+
+export type UserUpsertWithoutNorthTracksInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutNorthTracksInput, Prisma.UserUncheckedUpdateWithoutNorthTracksInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutNorthTracksInput, Prisma.UserUncheckedCreateWithoutNorthTracksInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutNorthTracksInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutNorthTracksInput, Prisma.UserUncheckedUpdateWithoutNorthTracksInput>
+}
+
+export type UserUpdateWithoutNorthTracksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  googleId?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  displayName?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tasks?: Prisma.TaskUpdateManyWithoutUserNestedInput
+  routines?: Prisma.RoutineUpdateManyWithoutUserNestedInput
+  links?: Prisma.LinkUpdateManyWithoutUserNestedInput
+  timeEntries?: Prisma.TimeEntryUpdateManyWithoutUserNestedInput
+  routineEntries?: Prisma.RoutineEntryUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutNorthTracksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  googleId?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  displayName?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tasks?: Prisma.TaskUncheckedUpdateManyWithoutUserNestedInput
+  routines?: Prisma.RoutineUncheckedUpdateManyWithoutUserNestedInput
+  links?: Prisma.LinkUncheckedUpdateManyWithoutUserNestedInput
+  timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutUserNestedInput
+  routineEntries?: Prisma.RoutineEntryUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -842,6 +959,7 @@ export type UserCountOutputType = {
   links: number
   timeEntries: number
   routineEntries: number
+  northTracks: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -850,6 +968,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   links?: boolean | UserCountOutputTypeCountLinksArgs
   timeEntries?: boolean | UserCountOutputTypeCountTimeEntriesArgs
   routineEntries?: boolean | UserCountOutputTypeCountRoutineEntriesArgs
+  northTracks?: boolean | UserCountOutputTypeCountNorthTracksArgs
 }
 
 /**
@@ -897,6 +1016,13 @@ export type UserCountOutputTypeCountRoutineEntriesArgs<ExtArgs extends runtime.T
   where?: Prisma.RoutineEntryWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountNorthTracksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.NorthTrackWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -911,6 +1037,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   links?: boolean | Prisma.User$linksArgs<ExtArgs>
   timeEntries?: boolean | Prisma.User$timeEntriesArgs<ExtArgs>
   routineEntries?: boolean | Prisma.User$routineEntriesArgs<ExtArgs>
+  northTracks?: boolean | Prisma.User$northTracksArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -951,6 +1078,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   links?: boolean | Prisma.User$linksArgs<ExtArgs>
   timeEntries?: boolean | Prisma.User$timeEntriesArgs<ExtArgs>
   routineEntries?: boolean | Prisma.User$routineEntriesArgs<ExtArgs>
+  northTracks?: boolean | Prisma.User$northTracksArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -964,6 +1092,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     links: Prisma.$LinkPayload<ExtArgs>[]
     timeEntries: Prisma.$TimeEntryPayload<ExtArgs>[]
     routineEntries: Prisma.$RoutineEntryPayload<ExtArgs>[]
+    northTracks: Prisma.$NorthTrackPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1372,6 +1501,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   links<T extends Prisma.User$linksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$linksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LinkPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   timeEntries<T extends Prisma.User$timeEntriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$timeEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TimeEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   routineEntries<T extends Prisma.User$routineEntriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$routineEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RoutineEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  northTracks<T extends Prisma.User$northTracksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$northTracksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NorthTrackPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1918,6 +2048,30 @@ export type User$routineEntriesArgs<ExtArgs extends runtime.Types.Extensions.Int
   take?: number
   skip?: number
   distinct?: Prisma.RoutineEntryScalarFieldEnum | Prisma.RoutineEntryScalarFieldEnum[]
+}
+
+/**
+ * User.northTracks
+ */
+export type User$northTracksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the NorthTrack
+   */
+  select?: Prisma.NorthTrackSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the NorthTrack
+   */
+  omit?: Prisma.NorthTrackOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NorthTrackInclude<ExtArgs> | null
+  where?: Prisma.NorthTrackWhereInput
+  orderBy?: Prisma.NorthTrackOrderByWithRelationInput | Prisma.NorthTrackOrderByWithRelationInput[]
+  cursor?: Prisma.NorthTrackWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.NorthTrackScalarFieldEnum | Prisma.NorthTrackScalarFieldEnum[]
 }
 
 /**

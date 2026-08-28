@@ -43,6 +43,22 @@ enum RoutineSchedule {
   @@map("routine_schedule")
 }
 
+enum NorthTrackStatus {
+  ACTIVE
+  PAUSED
+  COMPLETED
+
+  @@map("north_track_status")
+}
+
+enum NorthItemStatus {
+  TODO
+  IN_PROGRESS
+  COMPLETED
+
+  @@map("north_item_status")
+}
+
 model User {
   id             String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   googleId       String         @unique @map("google_id")
@@ -56,6 +72,7 @@ model User {
   links          Link[]
   timeEntries    TimeEntry[]
   routineEntries RoutineEntry[]
+  northTracks    NorthTrack[]
 
   @@map("users")
 }
@@ -133,19 +150,61 @@ model Link {
 }
 
 model TimeEntry {
-  id              String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  userId          String    @map("user_id") @db.Uuid
-  taskId          String?   @map("task_id") @db.Uuid
+  id              String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId          String     @map("user_id") @db.Uuid
+  taskId          String?    @map("task_id") @db.Uuid
+  northItemId     String?    @map("north_item_id") @db.Uuid
   description     String?
   area            Area?
-  startedAt       DateTime  @map("started_at") @db.Timestamptz(6)
-  endedAt         DateTime? @map("ended_at") @db.Timestamptz(6)
-  durationMinutes Int?      @map("duration_minutes")
-  createdAt       DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
-  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  task            Task?     @relation(fields: [taskId], references: [id], onDelete: SetNull)
+  startedAt       DateTime   @map("started_at") @db.Timestamptz(6)
+  endedAt         DateTime?  @map("ended_at") @db.Timestamptz(6)
+  durationMinutes Int?       @map("duration_minutes")
+  createdAt       DateTime   @default(now()) @map("created_at") @db.Timestamptz(6)
+  user            User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  task            Task?      @relation(fields: [taskId], references: [id], onDelete: SetNull)
+  northItem       NorthItem? @relation(fields: [northItemId], references: [id], onDelete: SetNull)
 
   @@index([userId, startedAt(sort: Desc)], map: "time_entries_user_started_at_idx")
   @@index([taskId], map: "time_entries_task_id_idx")
+  @@index([northItemId], map: "time_entries_north_item_id_idx")
   @@map("time_entries")
+}
+
+model NorthTrack {
+  id          String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId      String           @map("user_id") @db.Uuid
+  title       String
+  description String?
+  area        Area?
+  status      NorthTrackStatus @default(ACTIVE)
+  startedAt   DateTime?        @map("started_at") @db.Timestamptz(6)
+  targetDate  DateTime?        @map("target_date") @db.Date
+  createdAt   DateTime         @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt   DateTime         @updatedAt @map("updated_at") @db.Timestamptz(6)
+  user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items       NorthItem[]
+
+  @@index([userId, status], map: "north_tracks_user_status_idx")
+  @@map("north_tracks")
+}
+
+model NorthItem {
+  id             String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  trackId        String          @map("track_id") @db.Uuid
+  title          String
+  description    String?
+  status         NorthItemStatus @default(TODO)
+  position       Int
+  plannedMinutes Int?            @map("planned_minutes")
+  scheduledDate  DateTime?       @map("scheduled_date") @db.Date
+  completedAt    DateTime?       @map("completed_at") @db.Timestamptz(6)
+  createdAt      DateTime        @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt      DateTime        @updatedAt @map("updated_at") @db.Timestamptz(6)
+  track          NorthTrack      @relation(fields: [trackId], references: [id], onDelete: Cascade)
+  timeEntries    TimeEntry[]
+
+  @@index([trackId, position], map: "north_items_track_position_idx")
+  @@index([trackId, status], map: "north_items_track_status_idx")
+  @@index([scheduledDate], map: "north_items_scheduled_date_idx")
+  @@map("north_items")
 }

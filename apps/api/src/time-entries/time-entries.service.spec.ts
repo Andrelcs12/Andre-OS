@@ -62,7 +62,10 @@ test("segunda sessão ativa é rejeitada e active filtra owner", async () => {
   await service.active(user);
   assert.deepEqual(calls[1], {
     where: { userId: user.id, endedAt: null },
-    include: { task: { select: { id: true, title: true } } },
+    include: {
+      task: { select: { id: true, title: true } },
+      northItem: { select: { id: true, title: true } },
+    },
     orderBy: { startedAt: "desc" },
   });
 });
@@ -93,7 +96,10 @@ test("lista somente owner por recência", async () => {
   await service.list(user, {});
   assert.deepEqual(calls[0], {
     where: { userId: user.id },
-    include: { task: { select: { id: true, title: true } } },
+    include: {
+      task: { select: { id: true, title: true } },
+      northItem: { select: { id: true, title: true } },
+    },
     orderBy: { startedAt: "desc" },
     take: 20,
   });

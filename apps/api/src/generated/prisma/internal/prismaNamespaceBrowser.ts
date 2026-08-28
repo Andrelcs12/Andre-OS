@@ -56,7 +56,9 @@ export const ModelName = {
   Routine: 'Routine',
   RoutineEntry: 'RoutineEntry',
   Link: 'Link',
-  TimeEntry: 'TimeEntry'
+  TimeEntry: 'TimeEntry',
+  NorthTrack: 'NorthTrack',
+  NorthItem: 'NorthItem'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -155,6 +157,7 @@ export const TimeEntryScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   taskId: 'taskId',
+  northItemId: 'northItemId',
   description: 'description',
   area: 'area',
   startedAt: 'startedAt',
@@ -164,6 +167,39 @@ export const TimeEntryScalarFieldEnum = {
 } as const
 
 export type TimeEntryScalarFieldEnum = (typeof TimeEntryScalarFieldEnum)[keyof typeof TimeEntryScalarFieldEnum]
+
+
+export const NorthTrackScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  title: 'title',
+  description: 'description',
+  area: 'area',
+  status: 'status',
+  startedAt: 'startedAt',
+  targetDate: 'targetDate',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type NorthTrackScalarFieldEnum = (typeof NorthTrackScalarFieldEnum)[keyof typeof NorthTrackScalarFieldEnum]
+
+
+export const NorthItemScalarFieldEnum = {
+  id: 'id',
+  trackId: 'trackId',
+  title: 'title',
+  description: 'description',
+  status: 'status',
+  position: 'position',
+  plannedMinutes: 'plannedMinutes',
+  scheduledDate: 'scheduledDate',
+  completedAt: 'completedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type NorthItemScalarFieldEnum = (typeof NorthItemScalarFieldEnum)[keyof typeof NorthItemScalarFieldEnum]
 
 
 export const SortOrder = {
