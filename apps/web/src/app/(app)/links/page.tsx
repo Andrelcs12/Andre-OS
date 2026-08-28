@@ -1,11 +1,5 @@
-import { BasePage } from "@/components/app-shell/base-page";
-export default function LinksPage() {
-  return (
-    <BasePage
-      title="Links"
-      description="Centralize referências, leituras e recursos salvos."
-      actionLabel="+ Salvar link"
-      emptyMessage="Nenhum link salvo."
-    />
-  );
+import { LinkManager } from "@/features/links/components/link-manager";
+import { getLinks } from "@/features/links/services/links.server";
+export default async function LinksPage() {
+  return <LinkManager initialLinks={await getLinks()} />;
 }
