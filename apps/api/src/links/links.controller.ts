@@ -13,10 +13,12 @@ import {
 import type { AuthenticatedUser } from "../auth/auth.types.js";
 import { CurrentUser } from "../auth/decorators/current-user.decorator.js";
 import { SessionAuthGuard } from "../auth/guards/session-auth.guard.js";
-import type { CreateLinkDto } from "./dto/create-link.dto.js";
-import type { ListLinksQueryDto } from "./dto/list-links-query.dto.js";
-import type { UpdateLinkDto } from "./dto/update-link.dto.js";
+import { CreateLinkDto } from "./dto/create-link.dto.js";
+import { ListLinksQueryDto } from "./dto/list-links-query.dto.js";
+import { UpdateLinkDto } from "./dto/update-link.dto.js";
 import { LinksService } from "./links.service.js";
+
+void [CreateLinkDto, ListLinksQueryDto, UpdateLinkDto];
 @Controller("links")
 @UseGuards(SessionAuthGuard)
 export class LinksController {

@@ -8,17 +8,19 @@ import {
   UnauthorizedException,
   UseGuards,
 } from "@nestjs/common";
-import { AuthGuard } from "@nestjs/passport";
 import type { FastifyReply, FastifyRequest } from "fastify";
 
 import { UsersService } from "../users/users.service.js";
 import { AuthService } from "./auth.service.js";
 import type { AuthenticatedUser, GoogleProfileData } from "./auth.types.js";
 import { CurrentUser } from "./decorators/current-user.decorator.js";
+import { GoogleOAuthGuard } from "./guards/google-oauth.guard.js";
 import { GoogleOAuthAvailableGuard } from "./guards/google-oauth-available.guard.js";
 import { SessionAuthGuard } from "./guards/session-auth.guard.js";
 
-type GoogleRequest = FastifyRequest & { user: GoogleProfileData };
+type GoogleRequest = FastifyRequest & {
+  raw: FastifyRequest["raw"] & { user: GoogleProfileData };
+};
 
 @Controller("auth")
 export class AuthController {
@@ -28,16 +30,16 @@ export class AuthController {
   ) {}
 
   @Get("google")
-  @UseGuards(GoogleOAuthAvailableGuard, AuthGuard("google"))
+  @UseGuards(GoogleOAuthAvailableGuard, GoogleOAuthGuard)
   googleLogin() {}
 
   @Get("google/callback")
-  @UseGuards(GoogleOAuthAvailableGuard, AuthGuard("google"))
+  @UseGuards(GoogleOAuthAvailableGuard, GoogleOAuthGuard)
   async googleCallback(
     @Req() request: GoogleRequest,
     @Res() reply: FastifyReply,
   ) {
-    await this.auth.completeGoogleSignIn(reply, request.user);
+    await this.auth.completeGoogleSignIn(reply, request.raw.user);
     return reply.redirect(
       `${process.env.WEB_URL ?? "http://localhost:3000"}/today`,
     );

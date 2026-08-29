@@ -14,11 +14,18 @@ import {
 import type { AuthenticatedUser } from "../auth/auth.types.js";
 import { CurrentUser } from "../auth/decorators/current-user.decorator.js";
 import { SessionAuthGuard } from "../auth/guards/session-auth.guard.js";
-import type { CreateRoutineDto } from "./dto/create-routine.dto.js";
-import type { ListRoutinesQueryDto } from "./dto/list-routines-query.dto.js";
-import type { RoutineEntryDto } from "./dto/routine-entry.dto.js";
-import type { UpdateRoutineDto } from "./dto/update-routine.dto.js";
+import { CreateRoutineDto } from "./dto/create-routine.dto.js";
+import { ListRoutinesQueryDto } from "./dto/list-routines-query.dto.js";
+import { RoutineEntryDto } from "./dto/routine-entry.dto.js";
+import { UpdateRoutineDto } from "./dto/update-routine.dto.js";
 import { RoutinesService } from "./routines.service.js";
+
+void [
+  CreateRoutineDto,
+  ListRoutinesQueryDto,
+  RoutineEntryDto,
+  UpdateRoutineDto,
+];
 @Controller("routines")
 @UseGuards(SessionAuthGuard)
 export class RoutinesController {

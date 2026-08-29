@@ -14,10 +14,12 @@ import {
 import type { AuthenticatedUser } from "../auth/auth.types.js";
 import { CurrentUser } from "../auth/decorators/current-user.decorator.js";
 import { SessionAuthGuard } from "../auth/guards/session-auth.guard.js";
-import type { CreateTaskDto } from "./dto/create-task.dto.js";
-import type { ListTasksQueryDto } from "./dto/list-tasks-query.dto.js";
-import type { UpdateTaskDto } from "./dto/update-task.dto.js";
+import { CreateTaskDto } from "./dto/create-task.dto.js";
+import { ListTasksQueryDto } from "./dto/list-tasks-query.dto.js";
+import { UpdateTaskDto } from "./dto/update-task.dto.js";
 import { TasksService } from "./tasks.service.js";
+
+void [CreateTaskDto, ListTasksQueryDto, UpdateTaskDto];
 
 @Controller("tasks")
 @UseGuards(SessionAuthGuard)

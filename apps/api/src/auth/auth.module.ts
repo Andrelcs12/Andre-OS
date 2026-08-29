@@ -6,11 +6,12 @@ import { UsersModule } from "../users/users.module.js";
 import { AuthController } from "./auth.controller.js";
 import { AuthService } from "./auth.service.js";
 import { GoogleStrategy } from "./google.strategy.js";
+import { GoogleOAuthGuard } from "./guards/google-oauth.guard.js";
 
 @Module({
   imports: [PassportModule, JwtModule.register({}), UsersModule],
   controllers: [AuthController],
-  providers: [AuthService, GoogleStrategy],
+  providers: [AuthService, GoogleStrategy, GoogleOAuthGuard],
   exports: [AuthService, JwtModule],
 })
 export class AuthModule {}

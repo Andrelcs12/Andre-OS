@@ -2,8 +2,10 @@ import { Controller, Get, Inject, Query, UseGuards } from "@nestjs/common";
 import type { AuthenticatedUser } from "../auth/auth.types.js";
 import { CurrentUser } from "../auth/decorators/current-user.decorator.js";
 import { SessionAuthGuard } from "../auth/guards/session-auth.guard.js";
-import type { ListHistoryQueryDto } from "./dto/list-history-query.dto.js";
+import { ListHistoryQueryDto } from "./dto/list-history-query.dto.js";
 import { HistoryService } from "./history.service.js";
+
+void ListHistoryQueryDto;
 @Controller("history")
 @UseGuards(SessionAuthGuard)
 export class HistoryController {

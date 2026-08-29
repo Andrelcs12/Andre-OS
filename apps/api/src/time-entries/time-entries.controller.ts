@@ -11,9 +11,11 @@ import {
 import type { AuthenticatedUser } from "../auth/auth.types.js";
 import { CurrentUser } from "../auth/decorators/current-user.decorator.js";
 import { SessionAuthGuard } from "../auth/guards/session-auth.guard.js";
-import type { ListTimeEntriesQueryDto } from "./dto/list-time-entries-query.dto.js";
-import type { StartTimeEntryDto } from "./dto/start-time-entry.dto.js";
+import { ListTimeEntriesQueryDto } from "./dto/list-time-entries-query.dto.js";
+import { StartTimeEntryDto } from "./dto/start-time-entry.dto.js";
 import { TimeEntriesService } from "./time-entries.service.js";
+
+void [ListTimeEntriesQueryDto, StartTimeEntryDto];
 @Controller("time-entries")
 @UseGuards(SessionAuthGuard)
 export class TimeEntriesController {
