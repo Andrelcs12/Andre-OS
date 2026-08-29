@@ -60,7 +60,7 @@ test("agrega apenas consultas do owner, agendas, tempo e fallback de área", asy
   const { calls, service } = subject();
   const result = await service.overview(user, {
     from: "2026-08-24",
-    to: "2026-08-30",
+    to: "2026-08-28",
   });
   assert.equal(result.summary.tasksCompleted, 1);
   assert.equal(result.summary.routineCompleted, 1);
