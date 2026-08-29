@@ -224,6 +224,11 @@ export function GlobalSearch() {
                     placeholder="Buscar em todo o ANDRÉ OS"
                     aria-label="Busca global"
                     aria-controls="global-search-results"
+                    aria-activedescendant={
+                      results[selected]
+                        ? `global-search-result-${results[selected].type}-${results[selected].id}`
+                        : undefined
+                    }
                     className="min-w-0 flex-1 bg-transparent text-sm outline-none"
                   />
                   {loading ? (
@@ -240,7 +245,12 @@ export function GlobalSearch() {
                 />
               </>
             ) : (
-              <QuickAdd onCreated={close} />
+              <QuickAdd
+                onCreated={() => {
+                  close();
+                  router.refresh();
+                }}
+              />
             )}
           </div>
         </SheetContent>
@@ -299,6 +309,7 @@ function SearchResults({
         return (
           <button
             key={`${result.type}-${result.id}`}
+            id={`global-search-result-${result.type}-${result.id}`}
             type="button"
             role="option"
             aria-selected={selected === index}

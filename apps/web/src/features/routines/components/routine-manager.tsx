@@ -50,6 +50,7 @@ export function RoutineManager({
   const [items, setItems] = useState(initialRoutines);
   const [editing, setEditing] = useState<Routine | null>(null);
   const [open, setOpen] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const save = async (input: RoutineInput) => {
     const saved = editing
       ? await updateRoutine(editing.id, input)
@@ -62,8 +63,19 @@ export function RoutineManager({
     setOpen(false);
     setEditing(null);
   };
-  const action = async (r: Routine, input: Partial<RoutineInput>) =>
-    setItems((old) => old.map((i) => (i.id === r.id ? { ...i, ...input } : i)));
+  const action = async (r: Routine, input: Partial<RoutineInput>) => {
+    setError(null);
+    try {
+      const saved = await updateRoutine(r.id, input);
+      setItems((old) => old.map((item) => (item.id === r.id ? saved : item)));
+    } catch (cause) {
+      setError(
+        cause instanceof Error
+          ? cause.message
+          : "Não foi possível atualizar a rotina.",
+      );
+    }
+  };
   const remove = async (r: Routine) => {
     if (!confirm(`Excluir permanentemente “${r.title}”?`)) return;
     await deleteRoutine(r.id);
@@ -88,6 +100,7 @@ export function RoutineManager({
           Nova rotina
         </Button>
       </section>
+      {error ? <p className="text-sm text-destructive">{error}</p> : null}
       {items.length ? (
         <div className="space-y-2">
           {items.map((r) => (

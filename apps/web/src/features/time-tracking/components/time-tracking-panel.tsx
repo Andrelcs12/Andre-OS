@@ -1,5 +1,6 @@
 "use client";
 import { Clock3, Play, Square } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -29,6 +30,7 @@ export function TimeTrackingPanel({
   initialEntries: TimeEntry[];
   tasks: Task[];
 }) {
+  const router = useRouter();
   const [active, setActive] = useState(initialActive);
   const [entries, setEntries] = useState(initialEntries);
   const [form, setForm] = useState(false);
@@ -49,6 +51,7 @@ export function TimeTrackingPanel({
       setActive(await startTimeEntry(input));
       setForm(false);
       await refresh();
+      router.refresh();
     } catch (e) {
       setError(
         e instanceof Error ? e.message : "Não foi possível iniciar a sessão.",
@@ -64,6 +67,7 @@ export function TimeTrackingPanel({
     try {
       await stopTimeEntry(active.id);
       await refresh();
+      router.refresh();
     } catch (e) {
       setError(
         e instanceof Error ? e.message : "Não foi possível encerrar a sessão.",

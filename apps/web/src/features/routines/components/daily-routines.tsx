@@ -1,5 +1,6 @@
 "use client";
 import { Check } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -13,15 +14,35 @@ export function DailyRoutines({
   date: string;
 }) {
   const [items, setItems] = useState(initialRoutines);
+  const router = useRouter();
+  const [pendingId, setPendingId] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const toggle = async (r: DailyRoutine) => {
-    const n = await setRoutineEntry(r.id, date, !r.completed);
-    setItems((old) =>
-      old.map((x) =>
-        x.id === r.id
-          ? { ...x, completed: n.completed, completedAt: n.completedAt }
-          : x,
-      ),
-    );
+    setPendingId(r.id);
+    setError(null);
+    try {
+      const entry = await setRoutineEntry(r.id, date, !r.completed);
+      setItems((old) =>
+        old.map((item) =>
+          item.id === r.id
+            ? {
+                ...item,
+                completed: entry.completed,
+                completedAt: entry.completedAt,
+              }
+            : item,
+        ),
+      );
+      router.refresh();
+    } catch (cause) {
+      setError(
+        cause instanceof Error
+          ? cause.message
+          : "Não foi possível atualizar a rotina.",
+      );
+    } finally {
+      setPendingId(null);
+    }
   };
   return (
     <Card>
@@ -46,6 +67,7 @@ export function DailyRoutines({
                 size="icon-sm"
                 variant={r.completed ? "secondary" : "outline"}
                 aria-label={`Marcar ${r.title}`}
+                disabled={pendingId === r.id}
                 onClick={() => void toggle(r)}
               >
                 <Check />
@@ -57,6 +79,7 @@ export function DailyRoutines({
             Nenhuma rotina planejada para hoje.
           </p>
         )}
+        {error ? <p className="text-sm text-destructive">{error}</p> : null}
       </CardContent>
     </Card>
   );
