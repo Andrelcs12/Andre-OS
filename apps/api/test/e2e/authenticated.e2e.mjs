@@ -49,13 +49,49 @@ async function expectStatus(path, expected, options) {
 }
 
 async function waitForApi() {
+  let lastFailure = "sem resposta";
   for (let attempt = 0; attempt < 50; attempt++) {
     try {
-      if ((await request("/health")).status === 200) return;
-    } catch {}
+      const health = await request("/health");
+      if (health.status === 200) return;
+      lastFailure = `health retornou ${health.status}`;
+    } catch (error) {
+      lastFailure = error instanceof Error ? error.message : "erro desconhecido";
+    }
     await delay(200);
   }
-  throw new Error("A API E2E não iniciou.");
+  throw new Error(`A API E2E não ficou saudável: ${lastFailure}.`);
+}
+
+async function cleanupTestUsers(prisma) {
+  const googleIds = identities.map((identity) => identity.googleId);
+  let failure;
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    try {
+      await prisma.user.deleteMany({ where: { googleId: { in: googleIds } } });
+      return;
+    } catch (error) {
+      failure = error;
+      if (attempt === 3) break;
+      await prisma.$disconnect().catch(() => undefined);
+      await delay(250 * attempt);
+      await prisma.$connect().catch(() => undefined);
+    }
+  }
+  throw failure;
+}
+
+async function stopServer(server) {
+  if (server.exitCode !== null) return;
+  const exited = new Promise((resolve) => server.once("exit", resolve));
+  server.kill();
+  await Promise.race([
+    exited,
+    delay(5_000).then(() => {
+      server.kill("SIGKILL");
+      return exited;
+    }),
+  ]);
 }
 
 function sessionCookie(value) {
@@ -73,6 +109,7 @@ test("fluxo HTTP autenticado, validação e isolamento por usuário", { timeout:
     stdio: "ignore",
   });
 
+  let flowError;
   try {
     await prisma.onModuleInit();
     await waitForApi();
@@ -86,7 +123,7 @@ test("fluxo HTTP autenticado, validação e isolamento por usuário", { timeout:
     const userA = await users.upsertGoogleUser(identities[0]);
     const userB = await users.upsertGoogleUser(identities[1]);
 
-    for (const path of ["/tasks", "/routines", "/links", "/time-entries", "/history", "/analytics/overview?from=2026-08-01&to=2026-08-01", "/north"]) {
+    for (const path of ["/tasks", "/routines", "/links", "/time-entries", "/history", "/analytics/overview?from=2026-08-01&to=2026-08-01", "/north", "/search?q=teste"]) {
       await expectStatus(path, 401);
     }
     assert.equal((await request("/health")).status, 200);
@@ -141,6 +178,13 @@ test("fluxo HTTP autenticado, validação e isolamento por usuário", { timeout:
     assert.equal((await expectStatus("/north", 200, { cookie: cookieA })).body.currentItem.id, item.body.id);
     await expectStatus(`/north/items/${item.body.id}`, 404, { method: "PATCH", cookie: cookieB, body: { status: "COMPLETED" } });
 
+    const search = await expectStatus("/search?q=editada", 200, { cookie: cookieA });
+    assert.deepEqual(
+      new Set(search.body.map((result) => result.type)),
+      new Set(["TASK", "LINK"]),
+    );
+    assert.deepEqual((await expectStatus("/search?q=editada", 200, { cookie: cookieB })).body, []);
+
     await expectStatus("/time-entries/start", 404, { method: "POST", cookie: cookieB, body: { taskId: task.body.id } });
     await expectStatus("/time-entries/start", 404, { method: "POST", cookie: cookieB, body: { northItemId: item.body.id } });
     const active = await expectStatus("/time-entries/start", 201, { method: "POST", cookie: cookieA, body: { northItemId: item.body.id, description: "Foco" } });
@@ -171,12 +215,27 @@ test("fluxo HTTP autenticado, validação e isolamento por usuário", { timeout:
     const logout = await expectStatus("/auth/logout", 204, { method: "POST", cookie: cookieA });
     assert.match(logout.headers.get("set-cookie") ?? "", /HttpOnly.*SameSite=Lax.*Max-Age=0/);
     await expectStatus("/tasks", 401);
+  } catch (error) {
+    flowError = error;
   } finally {
-    for (const identity of identities) {
-      const user = await prisma.user.findUnique({ where: { googleId: identity.googleId } });
-      if (user) await prisma.user.delete({ where: { id: user.id } });
+    let cleanupError;
+    try {
+      await cleanupTestUsers(prisma);
+    } catch (error) {
+      cleanupError = error;
+    } finally {
+      await prisma.onModuleDestroy().catch(() => undefined);
+      await stopServer(server);
     }
-    await prisma.onModuleDestroy();
-    server.kill();
+    if (flowError && cleanupError)
+      throw new AggregateError(
+        [flowError, cleanupError],
+        `O fluxo e o cleanup E2E falharam: ${flowError instanceof Error ? flowError.message : "erro desconhecido"} | ${cleanupError instanceof Error ? cleanupError.message : "erro desconhecido"}`,
+      );
+    if (flowError) throw flowError;
+    if (cleanupError)
+      throw new Error("Cleanup E2E falhou para os usuários de teste.", {
+        cause: cleanupError,
+      });
   }
 });
