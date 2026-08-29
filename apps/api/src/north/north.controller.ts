@@ -12,11 +12,18 @@ import {
 import type { AuthenticatedUser } from "../auth/auth.types.js";
 import { CurrentUser } from "../auth/decorators/current-user.decorator.js";
 import { SessionAuthGuard } from "../auth/guards/session-auth.guard.js";
-import type { CreateNorthItemDto } from "./dto/create-north-item.dto.js";
-import type { CreateNorthTrackDto } from "./dto/create-north-track.dto.js";
-import type { UpdateNorthItemDto } from "./dto/update-north-item.dto.js";
-import type { UpdateNorthTrackDto } from "./dto/update-north-track.dto.js";
+import { CreateNorthItemDto } from "./dto/create-north-item.dto.js";
+import { CreateNorthTrackDto } from "./dto/create-north-track.dto.js";
+import { UpdateNorthItemDto } from "./dto/update-north-item.dto.js";
+import { UpdateNorthTrackDto } from "./dto/update-north-track.dto.js";
 import { NorthService } from "./north.service.js";
+
+void [
+  CreateNorthItemDto,
+  CreateNorthTrackDto,
+  UpdateNorthItemDto,
+  UpdateNorthTrackDto,
+];
 
 @Controller("north")
 @UseGuards(SessionAuthGuard)

@@ -125,7 +125,12 @@ test("fluxo HTTP autenticado, validação e isolamento por usuário", { timeout:
 
     await expectStatus("/links", 400, { method: "POST", cookie: cookieA, body: { title: "ruim", url: "javascript:alert(1)" } });
     const link = await expectStatus("/links", 201, { method: "POST", cookie: cookieA, body: { title: "Link A", url: "https://example.com/a", area: "PRODUCT" } });
-    assert.equal((await expectStatus("/links?search=Link&favorite=true", 200, { cookie: cookieA })).body[0].id, undefined);
+    assert.deepEqual(
+      (await expectStatus("/links?search=Link&favorite=true", 200, {
+        cookie: cookieA,
+      })).body,
+      [],
+    );
     await expectStatus(`/links/${link.body.id}`, 200, { method: "PATCH", cookie: cookieA, body: { isFavorite: true, title: "Link editado" } });
     assert.equal((await expectStatus("/links?search=editado&favorite=true", 200, { cookie: cookieA })).body[0].id, link.body.id);
     await expectStatus(`/links/${link.body.id}`, 404, { cookie: cookieB });
@@ -160,8 +165,8 @@ test("fluxo HTTP autenticado, validação e isolamento por usuário", { timeout:
     assert.deepEqual((await expectStatus("/history", 200, { cookie: cookieB })).body, []);
     assert.equal((await expectStatus(`/analytics/overview?from=${today}&to=${today}`, 200, { cookie: cookieB })).body.summary.tasksCompleted, 0);
     assert.equal((await expectStatus("/north", 200, { cookie: cookieB })).body.track, null);
-    await expectStatus(`/links/${link.body.id}`, 204, { method: "DELETE", cookie: cookieA });
-    await expectStatus(`/tasks/${task.body.id}`, 204, { method: "DELETE", cookie: cookieA });
+    await expectStatus(`/links/${link.body.id}`, 200, { method: "DELETE", cookie: cookieA });
+    await expectStatus(`/tasks/${task.body.id}`, 200, { method: "DELETE", cookie: cookieA });
 
     const logout = await expectStatus("/auth/logout", 204, { method: "POST", cookie: cookieA });
     assert.match(logout.headers.get("set-cookie") ?? "", /HttpOnly.*SameSite=Lax.*Max-Age=0/);

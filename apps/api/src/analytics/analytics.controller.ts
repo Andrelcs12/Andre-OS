@@ -3,7 +3,9 @@ import type { AuthenticatedUser } from "../auth/auth.types.js";
 import { CurrentUser } from "../auth/decorators/current-user.decorator.js";
 import { SessionAuthGuard } from "../auth/guards/session-auth.guard.js";
 import { AnalyticsService } from "./analytics.service.js";
-import type { AnalyticsRangeQueryDto } from "./dto/analytics-range-query.dto.js";
+import { AnalyticsRangeQueryDto } from "./dto/analytics-range-query.dto.js";
+
+void AnalyticsRangeQueryDto;
 @Controller("analytics")
 @UseGuards(SessionAuthGuard)
 export class AnalyticsController {
