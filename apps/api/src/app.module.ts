@@ -9,6 +9,7 @@ import { LinksModule } from "./links/links.module.js";
 import { NorthModule } from "./north/north.module.js";
 import { PrismaModule } from "./prisma/prisma.module.js";
 import { RoutinesModule } from "./routines/routines.module.js";
+import { SearchModule } from "./search/search.module.js";
 import { TasksModule } from "./tasks/tasks.module.js";
 import { TimeEntriesModule } from "./time-entries/time-entries.module.js";
 import { UsersModule } from "./users/users.module.js";
@@ -22,6 +23,7 @@ import { UsersModule } from "./users/users.module.js";
     AuthModule,
     TasksModule,
     RoutinesModule,
+    SearchModule,
     LinksModule,
     NorthModule,
     TimeEntriesModule,
