@@ -91,7 +91,11 @@ export function RoutineManager({
       {items.length ? (
         <div className="space-y-2">
           {items.map((r) => (
-            <Card key={r.id} className={!r.isActive ? "opacity-60" : ""}>
+            <Card
+              key={r.id}
+              id={`routine-${r.id}`}
+              className={`${!r.isActive ? "opacity-60 " : ""}scroll-mt-20`}
+            >
               <CardContent className="flex items-center gap-3 p-4">
                 <div className="min-w-0 flex-1">
                   <p className="font-medium">{r.title}</p>

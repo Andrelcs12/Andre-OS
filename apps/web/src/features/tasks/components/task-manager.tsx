@@ -290,7 +290,7 @@ function TaskItem({
         ? "secondary"
         : "outline";
   return (
-    <Card className="border">
+    <Card id={`task-${task.id}`} className="border scroll-mt-20">
       <CardContent className="flex items-start gap-3 p-4">
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">

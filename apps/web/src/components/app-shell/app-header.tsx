@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { AppSidebar } from "@/components/app-shell/app-sidebar";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { GlobalSearch } from "@/features/search/components/global-search";
 import { navigationItems } from "@/lib/constants/navigation";
 import type { AuthenticatedProfile } from "@/types/auth";
 
@@ -35,6 +36,7 @@ export function AppHeader({ profile }: { profile: AuthenticatedProfile }) {
         </div>
       </div>
       <div className="flex items-center gap-2">
+        <GlobalSearch />
         <ThemeToggle />
         <Avatar className="size-8">
           <AvatarImage

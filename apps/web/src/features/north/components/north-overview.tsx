@@ -70,7 +70,7 @@ export function NorthOverviewPanel({
   ).length;
   return (
     <div className="space-y-4">
-      <Card>
+      <Card id={`north-track-${track.id}`} className="scroll-mt-20">
         <CardHeader className="flex-row items-center justify-between">
           <CardTitle className="flex items-center gap-2">
             <Compass className="size-5 text-primary" />
@@ -320,7 +320,10 @@ function Item({
         ? "Concluir"
         : "Reabrir";
   return (
-    <div className="flex flex-wrap items-center justify-between gap-3 rounded-lg border p-3">
+    <div
+      id={`north-item-${item.id}`}
+      className="flex scroll-mt-20 flex-wrap items-center justify-between gap-3 rounded-lg border p-3"
+    >
       <div>
         <p className="font-medium">
           {item.position}. {item.title}

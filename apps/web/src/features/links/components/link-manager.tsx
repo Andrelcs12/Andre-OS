@@ -224,7 +224,7 @@ function LinkItem({
     hostname = new URL(link.url).hostname;
   } catch {}
   return (
-    <Card className="border">
+    <Card id={`link-${link.id}`} className="border scroll-mt-20">
       <CardContent className="flex items-start gap-3 p-4">
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2">
