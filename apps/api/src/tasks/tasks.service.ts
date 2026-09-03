@@ -18,6 +18,9 @@ export class TasksService {
       ...(query.status ? { status: query.status } : {}),
       ...(query.area ? { area: query.area } : {}),
       ...(query.priority ? { priority: query.priority } : {}),
+      ...(query.plannedFor
+        ? { plannedFor: new Date(`${query.plannedFor}T00:00:00.000Z`) }
+        : {}),
       ...(search
         ? {
             OR: [
@@ -47,10 +50,11 @@ export class TasksService {
         userId: user.id,
         title: dto.title.trim(),
         description: dto.description?.trim() || null,
-        area: dto.area,
+        area: dto.area ?? "PERSONAL",
         priority: dto.priority,
         estimatedMinutes: dto.estimatedMinutes,
         dueDate: dto.dueDate,
+        ...(dto.plannedFor !== undefined ? { plannedFor: dto.plannedFor } : {}),
       },
     });
   }
@@ -68,6 +72,7 @@ export class TasksService {
         ? { estimatedMinutes: dto.estimatedMinutes }
         : {}),
       ...(dto.dueDate !== undefined ? { dueDate: dto.dueDate } : {}),
+      ...(dto.plannedFor !== undefined ? { plannedFor: dto.plannedFor } : {}),
       ...(dto.status !== undefined
         ? {
             status: dto.status,

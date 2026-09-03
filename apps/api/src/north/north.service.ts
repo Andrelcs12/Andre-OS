@@ -33,6 +33,13 @@ function serializeItem<
 @Injectable()
 export class NorthService {
   constructor(@Inject(PrismaService) private readonly prisma: PrismaService) {}
+  private transaction<T>(
+    callback: (tx: Prisma.TransactionClient) => Promise<T>,
+  ) {
+    return typeof this.prisma.$transaction === "function"
+      ? this.prisma.$transaction(callback)
+      : callback(this.prisma as unknown as Prisma.TransactionClient);
+  }
   async overview(user: AuthenticatedUser) {
     const track = await this.prisma.northTrack.findFirst({
       where: { userId: user.id, status: NorthTrackStatus.ACTIVE },
@@ -69,7 +76,7 @@ export class NorthService {
     return item;
   }
   async createTrack(user: AuthenticatedUser, dto: CreateNorthTrackDto) {
-    return this.prisma.$transaction(async (tx) => {
+    return this.transaction(async (tx) => {
       await tx.northTrack.updateMany({
         where: { userId: user.id, status: NorthTrackStatus.ACTIVE },
         data: { status: NorthTrackStatus.PAUSED },
@@ -92,15 +99,6 @@ export class NorthService {
     dto: UpdateNorthTrackDto,
   ) {
     await this.findTrack(user, id);
-    if (dto.status === NorthTrackStatus.ACTIVE)
-      await this.prisma.northTrack.updateMany({
-        where: {
-          userId: user.id,
-          status: NorthTrackStatus.ACTIVE,
-          id: { not: id },
-        },
-        data: { status: NorthTrackStatus.PAUSED },
-      });
     const data: Prisma.NorthTrackUpdateInput = {
       ...(dto.title !== undefined ? { title: dto.title.trim() } : {}),
       ...(dto.description !== undefined
@@ -110,7 +108,18 @@ export class NorthService {
       ...(dto.targetDate !== undefined ? { targetDate: dto.targetDate } : {}),
       ...(dto.status !== undefined ? { status: dto.status } : {}),
     };
-    return this.prisma.northTrack.update({ where: { id }, data });
+    return this.transaction(async (tx) => {
+      if (dto.status === NorthTrackStatus.ACTIVE)
+        await tx.northTrack.updateMany({
+          where: {
+            userId: user.id,
+            status: NorthTrackStatus.ACTIVE,
+            id: { not: id },
+          },
+          data: { status: NorthTrackStatus.PAUSED },
+        });
+      return tx.northTrack.update({ where: { id }, data });
+    });
   }
   async removeTrack(user: AuthenticatedUser, id: string) {
     await this.findTrack(user, id);
@@ -122,16 +131,27 @@ export class NorthService {
     dto: CreateNorthItemDto,
   ) {
     await this.findTrack(user, trackId);
-    const count = await this.prisma.northItem.count({ where: { trackId } });
-    return this.prisma.northItem.create({
-      data: {
-        trackId,
-        title: dto.title.trim(),
-        description: dto.description?.trim() || null,
-        plannedMinutes: dto.plannedMinutes,
-        scheduledDate: dto.scheduledDate,
-        position: dto.position ?? count + 1,
-      },
+    return this.transaction(async (tx) => {
+      const count = await tx.northItem.count({ where: { trackId } });
+      const position = Math.max(
+        1,
+        Math.min(dto.position ?? count + 1, count + 1),
+      );
+      if (position <= count)
+        await tx.northItem.updateMany({
+          where: { trackId, position: { gte: position } },
+          data: { position: { increment: 1 } },
+        });
+      return tx.northItem.create({
+        data: {
+          trackId,
+          title: dto.title.trim(),
+          description: dto.description?.trim() || null,
+          plannedMinutes: dto.plannedMinutes,
+          scheduledDate: dto.scheduledDate,
+          position,
+        },
+      });
     });
   }
   async updateItem(
@@ -169,12 +189,43 @@ export class NorthService {
           }
         : {}),
     };
-    return this.prisma.northItem
-      .update({ where: { id }, data, include: itemInclude })
-      .then(serializeItem);
+    return this.transaction(async (tx) => {
+      if (dto.position !== undefined) {
+        const count = await tx.northItem.count({
+          where: { trackId: item.trackId },
+        });
+        const next = Math.max(1, Math.min(dto.position, count));
+        if (next < item.position)
+          await tx.northItem.updateMany({
+            where: {
+              trackId: item.trackId,
+              position: { gte: next, lt: item.position },
+            },
+            data: { position: { increment: 1 } },
+          });
+        if (next > item.position)
+          await tx.northItem.updateMany({
+            where: {
+              trackId: item.trackId,
+              position: { gt: item.position, lte: next },
+            },
+            data: { position: { decrement: 1 } },
+          });
+        data.position = next;
+      }
+      return tx.northItem
+        .update({ where: { id }, data, include: itemInclude })
+        .then(serializeItem);
+    });
   }
   async removeItem(user: AuthenticatedUser, id: string) {
-    await this.findItem(user, id);
-    await this.prisma.northItem.delete({ where: { id } });
+    const item = await this.findItem(user, id);
+    await this.transaction(async (tx) => {
+      await tx.northItem.delete({ where: { id } });
+      await tx.northItem.updateMany({
+        where: { trackId: item.trackId, position: { gt: item.position } },
+        data: { position: { decrement: 1 } },
+      });
+    });
   }
 }

@@ -28,6 +28,7 @@ export type Task = {
   estimatedMinutes: number | null;
   actualMinutes: number | null;
   dueDate: string | null;
+  plannedFor: string | null;
   completedAt: string | null;
   createdAt: string;
   updatedAt: string;
@@ -40,6 +41,7 @@ export type TaskInput = {
   priority?: TaskPriority;
   estimatedMinutes?: number;
   dueDate?: string;
+  plannedFor?: string;
 };
 
 export type UpdateTaskInput = Omit<
@@ -47,11 +49,15 @@ export type UpdateTaskInput = Omit<
   "dueDate" | "estimatedMinutes"
 > & {
   dueDate?: string | null;
+  plannedFor?: string | null;
   estimatedMinutes?: number | null;
   status?: TaskStatus;
 };
 export type TaskFilters = Partial<
-  Pick<Task, "status" | "area" | "priority"> & { search: string }
+  Pick<Task, "status" | "area" | "priority"> & {
+    search: string;
+    plannedFor: string;
+  }
 >;
 
 export const areaLabels: Record<TaskArea, string> = {

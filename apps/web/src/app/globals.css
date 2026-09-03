@@ -96,4 +96,21 @@
   a {
     -webkit-tap-highlight-color: transparent;
   }
+  a,
+  button,
+  [role="button"],
+  [role="menuitem"],
+  [role="option"],
+  [role="tab"],
+  input[type="checkbox"],
+  input[type="radio"],
+  select,
+  summary {
+    cursor: pointer;
+  }
+  button:disabled,
+  input:disabled,
+  select:disabled {
+    cursor: not-allowed;
+  }
 }

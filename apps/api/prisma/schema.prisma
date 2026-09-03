@@ -89,6 +89,7 @@ model Task {
   estimatedMinutes Int?         @map("estimated_minutes")
   actualMinutes    Int?         @map("actual_minutes")
   dueDate          DateTime?    @map("due_date") @db.Date
+  plannedFor       DateTime?    @map("planned_for") @db.Date
   completedAt      DateTime?    @map("completed_at") @db.Timestamptz(6)
   createdAt        DateTime     @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt        DateTime     @updatedAt @map("updated_at") @db.Timestamptz(6)
@@ -97,6 +98,7 @@ model Task {
 
   @@index([userId, status], map: "tasks_user_status_idx")
   @@index([userId, dueDate], map: "tasks_user_due_date_idx")
+  @@index([userId, plannedFor], map: "tasks_user_planned_for_idx")
   @@map("tasks")
 }
 

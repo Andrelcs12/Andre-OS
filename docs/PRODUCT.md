@@ -1,43 +1,21 @@
 # Produto — ANDRÉ OS
 
-## Visão
+ANDRÉ OS não tenta organizar toda a vida. Ele reduz a distância entre intenção e execução.
 
-ANDRÉ OS é o sistema operacional pessoal de André Lucas: um lugar para transformar intenções em execução consistente, aprendizado mensurável e evolução contínua.
+O fluxo central é capturar, escolher o que importa, executar, concluir e revisar. A interface não usa XP, streaks, badges ou score de produtividade.
 
-## Problema e usuário
+## Conceitos
 
-O produto reduz a fragmentação entre tarefas, rotinas, estudos, projetos, referências e registro de tempo. O usuário principal é o próprio André; não há ambição de SaaS público ou colaboração multi-tenant neste momento.
+- **Norte:** a prioridade maior atual. Há somente um Norte ativo por usuário; os anteriores ficam pausados ou concluídos.
+- **Hoje:** compromisso real do dia. `plannedFor` é independente do prazo (`dueDate`).
+- **Agora:** a execução corrente, representada por uma única sessão de tempo ativa.
+- **Inbox:** tarefas capturadas sem decisão ou planejamento.
+- **Revisão:** evidência do que aconteceu: tarefas concluídas, tempo focado, Norte, rotinas e histórico.
 
-## Módulos
+## Navegação
 
-- **Today:** foco e execução do dia.
-- **Tasks:** tarefas e prioridades.
-- **Routines:** hábitos e check-ins recorrentes.
-- **Links:** referências salvas e contextualizadas.
-- **History:** histórico de execução.
-- **Time Tracking:** tempo investido por área e atividade.
-- **Analytics:** leitura diária, semanal e mensal da evolução.
-- **Norte:** trilha principal de estudo e trabalho profundo, executada em sequência.
+Hoje, Tarefas, Norte e Revisão são os destinos principais. Rotinas e Links ficam em Mais. Histórico e Analytics redirecionam para Revisão por compatibilidade.
 
-## Áreas
+## Autenticação
 
-Engineering, University, Career, Product, Distribution e Personal são os recortes iniciais para classificar o trabalho.
-
-## Princípios
-
-Pessoal antes de genérico; execução antes de volume de recursos; dados privados por padrão; interface técnica, calma e direta; evolução incremental baseada em uso real.
-
-## Escopo atual
-
-Tasks, Routines, Links, Time Tracking, History, Analytics, Today e Norte usam a API Nest e PostgreSQL. O login é Google OAuth administrado pela API, com cookie HttpOnly da aplicação.
-
-## Fora de escopo atual
-
-Multi-tenant, compartilhamento social, marketplace, integrações amplas de terceiros e gamificação não fazem parte do produto neste estágio.
-
-## Roadmap macro
-
-1. Consolidar infraestrutura e autenticação real.
-2. Implementar Tasks com CRUD, validação e persistência.
-3. Evoluir Today, Routines, Links e Time Tracking.
-4. Construir History e Analytics sobre dados reais.
+Supabase Auth administra Google e e-mail/senha. O Next envia o Bearer token para o Nest, o guard valida com `supabase.auth.getUser()`, associa o usuário local e os serviços aplicam ownership. O acesso é pessoal: `ALLOWED_EMAILS` deve conter os e-mails autorizados.

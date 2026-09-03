@@ -1,6 +1,6 @@
 "use client";
 
-import { LogOut, Menu } from "lucide-react";
+import { Link2, LogOut, Menu, Repeat2 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
@@ -48,6 +48,26 @@ function Navigation({ onNavigate }: { onNavigate?: () => void }) {
           </Link>
         );
       })}
+      <div className="my-3 border-t" />
+      <p className="px-3 pb-1 text-xs font-medium tracking-wide text-muted-foreground uppercase">
+        Mais
+      </p>
+      <Link
+        href="/routines"
+        onClick={onNavigate}
+        className="flex h-9 items-center gap-3 rounded-[10px] px-3 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
+      >
+        <Repeat2 className="size-4" />
+        Rotinas
+      </Link>
+      <Link
+        href="/links"
+        onClick={onNavigate}
+        className="flex h-9 items-center gap-3 rounded-[10px] px-3 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
+      >
+        <Link2 className="size-4" />
+        Links
+      </Link>
     </nav>
   );
 }

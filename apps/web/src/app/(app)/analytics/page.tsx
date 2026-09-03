@@ -1,4 +1,4 @@
-import { AnalyticsDashboard } from "@/features/analytics/components/analytics-overview";
+import { redirect } from "next/navigation";
 export default function AnalyticsPage() {
-  return <AnalyticsDashboard initial={null} />;
+  redirect("/review");
 }

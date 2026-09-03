@@ -7,6 +7,7 @@ import {
 } from "@nestjs/common";
 import type { AuthenticatedUser } from "../auth/auth.types.js";
 import { Prisma } from "../generated/prisma/client.js";
+import { NorthItemStatus, TaskStatus } from "../generated/prisma/enums.js";
 import { PrismaService } from "../prisma/prisma.service.js";
 import type { ListTimeEntriesQueryDto } from "./dto/list-time-entries-query.dto.js";
 import type { StartTimeEntryDto } from "./dto/start-time-entry.dto.js";
@@ -21,6 +22,13 @@ export function calculateDurationMinutes(startedAt: Date, endedAt: Date) {
 @Injectable()
 export class TimeEntriesService {
   constructor(@Inject(PrismaService) private readonly prisma: PrismaService) {}
+  private transaction<T>(
+    callback: (tx: Prisma.TransactionClient) => Promise<T>,
+  ) {
+    return typeof this.prisma.$transaction === "function"
+      ? this.prisma.$transaction(callback)
+      : callback(this.prisma as unknown as Prisma.TransactionClient);
+  }
   list(user: AuthenticatedUser, query: ListTimeEntriesQueryDto) {
     return this.prisma.timeEntry.findMany({
       where: { userId: user.id },
@@ -64,19 +72,34 @@ export class TimeEntriesService {
     if (await this.active(user))
       throw new ConflictException("Já existe uma sessão ativa.");
     try {
-      return await this.prisma.timeEntry.create({
-        data: {
-          userId: user.id,
-          taskId: dto.taskId,
-          northItemId: dto.northItemId,
-          description: dto.description?.trim() || null,
-          area: dto.area,
-          startedAt: new Date(),
-        },
-        include: {
-          task: { select: { id: true, title: true } },
-          northItem: { select: { id: true, title: true } },
-        },
+      return await this.transaction(async (tx) => {
+        if (dto.taskId)
+          await tx.task.update({
+            where: { id: dto.taskId },
+            data: { status: TaskStatus.IN_PROGRESS, completedAt: null },
+          });
+        if (dto.northItemId)
+          await tx.northItem.updateMany({
+            where: {
+              id: dto.northItemId,
+              status: { not: NorthItemStatus.COMPLETED },
+            },
+            data: { status: NorthItemStatus.IN_PROGRESS, completedAt: null },
+          });
+        return tx.timeEntry.create({
+          data: {
+            userId: user.id,
+            taskId: dto.taskId,
+            northItemId: dto.northItemId,
+            description: dto.description?.trim() || null,
+            area: dto.area,
+            startedAt: new Date(),
+          },
+          include: {
+            task: { select: { id: true, title: true } },
+            northItem: { select: { id: true, title: true } },
+          },
+        });
       });
     } catch (error) {
       if (

@@ -25,8 +25,9 @@ export class CreateTaskDto {
   @MaxLength(2_000)
   description?: string;
 
+  @IsOptional()
   @IsEnum(Area)
-  area!: Area;
+  area?: Area;
 
   @IsOptional()
   @IsEnum(TaskPriority)
@@ -43,4 +44,9 @@ export class CreateTaskDto {
   @Type(() => Date)
   @IsDate()
   dueDate?: Date;
+
+  @IsOptional()
+  @Type(() => Date)
+  @IsDate()
+  plannedFor?: Date;
 }

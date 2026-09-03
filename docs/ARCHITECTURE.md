@@ -23,7 +23,7 @@
 └─────────────────────┘
 ```
 
-`apps/web` é exclusivamente UI. `apps/api` é a API e concentra autenticação, autorização, ownership e Prisma. A sessão é JWT assinado em cookie HttpOnly com `SameSite=Lax` e `Secure` em produção; não há tokens sensíveis em localStorage.
+`apps/web` é exclusivamente UI. `apps/api` concentra autorização, ownership e Prisma. O Supabase Auth mantém a sessão em cookie SSR; o Next envia o access token Bearer à API, que o valida com `supabase.auth.getUser()`. Não há JWT próprio, Passport ou token sensível em localStorage.
 
 No frontend, `app/` contém routing e composição de página; `features/` agrupa código por domínio; `components/` é reservado para UI compartilhada; e `lib/` concentra infraestrutura técnica compartilhada.
 

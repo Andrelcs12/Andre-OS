@@ -1,22 +1,11 @@
 import type { LucideIcon } from "lucide-react";
-import {
-  BarChart3,
-  CheckSquare,
-  Compass,
-  History,
-  House,
-  Link2,
-  Repeat2,
-} from "lucide-react";
+import { CheckSquare, Compass, House, MoreHorizontal } from "lucide-react";
 
 export type NavigationItem = { href: string; label: string; icon: LucideIcon };
 
 export const navigationItems: NavigationItem[] = [
   { href: "/today", label: "Hoje", icon: House },
   { href: "/tasks", label: "Tarefas", icon: CheckSquare },
-  { href: "/routines", label: "Rotinas", icon: Repeat2 },
   { href: "/north", label: "Norte", icon: Compass },
-  { href: "/links", label: "Links", icon: Link2 },
-  { href: "/history", label: "Histórico", icon: History },
-  { href: "/analytics", label: "Analytics", icon: BarChart3 },
+  { href: "/review", label: "Revisão", icon: MoreHorizontal },
 ];

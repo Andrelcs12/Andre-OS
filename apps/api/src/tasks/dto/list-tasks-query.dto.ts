@@ -1,4 +1,10 @@
-import { IsEnum, IsOptional, IsString, MaxLength } from "class-validator";
+import {
+  IsDateString,
+  IsEnum,
+  IsOptional,
+  IsString,
+  MaxLength,
+} from "class-validator";
 
 import {
   Area,
@@ -23,4 +29,8 @@ export class ListTasksQueryDto {
   @IsString()
   @MaxLength(120)
   search?: string;
+
+  @IsOptional()
+  @IsDateString()
+  plannedFor?: string;
 }

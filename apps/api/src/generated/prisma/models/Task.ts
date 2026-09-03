@@ -47,6 +47,7 @@ export type TaskMinAggregateOutputType = {
   estimatedMinutes: number | null
   actualMinutes: number | null
   dueDate: Date | null
+  plannedFor: Date | null
   completedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -63,6 +64,7 @@ export type TaskMaxAggregateOutputType = {
   estimatedMinutes: number | null
   actualMinutes: number | null
   dueDate: Date | null
+  plannedFor: Date | null
   completedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -79,6 +81,7 @@ export type TaskCountAggregateOutputType = {
   estimatedMinutes: number
   actualMinutes: number
   dueDate: number
+  plannedFor: number
   completedAt: number
   createdAt: number
   updatedAt: number
@@ -107,6 +110,7 @@ export type TaskMinAggregateInputType = {
   estimatedMinutes?: true
   actualMinutes?: true
   dueDate?: true
+  plannedFor?: true
   completedAt?: true
   createdAt?: true
   updatedAt?: true
@@ -123,6 +127,7 @@ export type TaskMaxAggregateInputType = {
   estimatedMinutes?: true
   actualMinutes?: true
   dueDate?: true
+  plannedFor?: true
   completedAt?: true
   createdAt?: true
   updatedAt?: true
@@ -139,6 +144,7 @@ export type TaskCountAggregateInputType = {
   estimatedMinutes?: true
   actualMinutes?: true
   dueDate?: true
+  plannedFor?: true
   completedAt?: true
   createdAt?: true
   updatedAt?: true
@@ -242,6 +248,7 @@ export type TaskGroupByOutputType = {
   estimatedMinutes: number | null
   actualMinutes: number | null
   dueDate: Date | null
+  plannedFor: Date | null
   completedAt: Date | null
   createdAt: Date
   updatedAt: Date
@@ -281,6 +288,7 @@ export type TaskWhereInput = {
   estimatedMinutes?: Prisma.IntNullableFilter<"Task"> | number | null
   actualMinutes?: Prisma.IntNullableFilter<"Task"> | number | null
   dueDate?: Prisma.DateTimeNullableFilter<"Task"> | Date | string | null
+  plannedFor?: Prisma.DateTimeNullableFilter<"Task"> | Date | string | null
   completedAt?: Prisma.DateTimeNullableFilter<"Task"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Task"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Task"> | Date | string
@@ -299,6 +307,7 @@ export type TaskOrderByWithRelationInput = {
   estimatedMinutes?: Prisma.SortOrderInput | Prisma.SortOrder
   actualMinutes?: Prisma.SortOrderInput | Prisma.SortOrder
   dueDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  plannedFor?: Prisma.SortOrderInput | Prisma.SortOrder
   completedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -320,6 +329,7 @@ export type TaskWhereUniqueInput = Prisma.AtLeast<{
   estimatedMinutes?: Prisma.IntNullableFilter<"Task"> | number | null
   actualMinutes?: Prisma.IntNullableFilter<"Task"> | number | null
   dueDate?: Prisma.DateTimeNullableFilter<"Task"> | Date | string | null
+  plannedFor?: Prisma.DateTimeNullableFilter<"Task"> | Date | string | null
   completedAt?: Prisma.DateTimeNullableFilter<"Task"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Task"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Task"> | Date | string
@@ -338,6 +348,7 @@ export type TaskOrderByWithAggregationInput = {
   estimatedMinutes?: Prisma.SortOrderInput | Prisma.SortOrder
   actualMinutes?: Prisma.SortOrderInput | Prisma.SortOrder
   dueDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  plannedFor?: Prisma.SortOrderInput | Prisma.SortOrder
   completedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -362,6 +373,7 @@ export type TaskScalarWhereWithAggregatesInput = {
   estimatedMinutes?: Prisma.IntNullableWithAggregatesFilter<"Task"> | number | null
   actualMinutes?: Prisma.IntNullableWithAggregatesFilter<"Task"> | number | null
   dueDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Task"> | Date | string | null
+  plannedFor?: Prisma.DateTimeNullableWithAggregatesFilter<"Task"> | Date | string | null
   completedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Task"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Task"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Task"> | Date | string
@@ -377,6 +389,7 @@ export type TaskCreateInput = {
   estimatedMinutes?: number | null
   actualMinutes?: number | null
   dueDate?: Date | string | null
+  plannedFor?: Date | string | null
   completedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -395,6 +408,7 @@ export type TaskUncheckedCreateInput = {
   estimatedMinutes?: number | null
   actualMinutes?: number | null
   dueDate?: Date | string | null
+  plannedFor?: Date | string | null
   completedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -411,6 +425,7 @@ export type TaskUpdateInput = {
   estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   actualMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  plannedFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -429,6 +444,7 @@ export type TaskUncheckedUpdateInput = {
   estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   actualMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  plannedFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -446,6 +462,7 @@ export type TaskCreateManyInput = {
   estimatedMinutes?: number | null
   actualMinutes?: number | null
   dueDate?: Date | string | null
+  plannedFor?: Date | string | null
   completedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -461,6 +478,7 @@ export type TaskUpdateManyMutationInput = {
   estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   actualMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  plannedFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -477,6 +495,7 @@ export type TaskUncheckedUpdateManyInput = {
   estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   actualMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  plannedFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -503,6 +522,7 @@ export type TaskCountOrderByAggregateInput = {
   estimatedMinutes?: Prisma.SortOrder
   actualMinutes?: Prisma.SortOrder
   dueDate?: Prisma.SortOrder
+  plannedFor?: Prisma.SortOrder
   completedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -524,6 +544,7 @@ export type TaskMaxOrderByAggregateInput = {
   estimatedMinutes?: Prisma.SortOrder
   actualMinutes?: Prisma.SortOrder
   dueDate?: Prisma.SortOrder
+  plannedFor?: Prisma.SortOrder
   completedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -540,6 +561,7 @@ export type TaskMinOrderByAggregateInput = {
   estimatedMinutes?: Prisma.SortOrder
   actualMinutes?: Prisma.SortOrder
   dueDate?: Prisma.SortOrder
+  plannedFor?: Prisma.SortOrder
   completedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -647,6 +669,7 @@ export type TaskCreateWithoutUserInput = {
   estimatedMinutes?: number | null
   actualMinutes?: number | null
   dueDate?: Date | string | null
+  plannedFor?: Date | string | null
   completedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -663,6 +686,7 @@ export type TaskUncheckedCreateWithoutUserInput = {
   estimatedMinutes?: number | null
   actualMinutes?: number | null
   dueDate?: Date | string | null
+  plannedFor?: Date | string | null
   completedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -709,6 +733,7 @@ export type TaskScalarWhereInput = {
   estimatedMinutes?: Prisma.IntNullableFilter<"Task"> | number | null
   actualMinutes?: Prisma.IntNullableFilter<"Task"> | number | null
   dueDate?: Prisma.DateTimeNullableFilter<"Task"> | Date | string | null
+  plannedFor?: Prisma.DateTimeNullableFilter<"Task"> | Date | string | null
   completedAt?: Prisma.DateTimeNullableFilter<"Task"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Task"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Task"> | Date | string
@@ -724,6 +749,7 @@ export type TaskCreateWithoutTimeEntriesInput = {
   estimatedMinutes?: number | null
   actualMinutes?: number | null
   dueDate?: Date | string | null
+  plannedFor?: Date | string | null
   completedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -741,6 +767,7 @@ export type TaskUncheckedCreateWithoutTimeEntriesInput = {
   estimatedMinutes?: number | null
   actualMinutes?: number | null
   dueDate?: Date | string | null
+  plannedFor?: Date | string | null
   completedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -772,6 +799,7 @@ export type TaskUpdateWithoutTimeEntriesInput = {
   estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   actualMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  plannedFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -789,6 +817,7 @@ export type TaskUncheckedUpdateWithoutTimeEntriesInput = {
   estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   actualMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  plannedFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -804,6 +833,7 @@ export type TaskCreateManyUserInput = {
   estimatedMinutes?: number | null
   actualMinutes?: number | null
   dueDate?: Date | string | null
+  plannedFor?: Date | string | null
   completedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -819,6 +849,7 @@ export type TaskUpdateWithoutUserInput = {
   estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   actualMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  plannedFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -835,6 +866,7 @@ export type TaskUncheckedUpdateWithoutUserInput = {
   estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   actualMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  plannedFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -851,6 +883,7 @@ export type TaskUncheckedUpdateManyWithoutUserInput = {
   estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   actualMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  plannedFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -898,6 +931,7 @@ export type TaskSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   estimatedMinutes?: boolean
   actualMinutes?: boolean
   dueDate?: boolean
+  plannedFor?: boolean
   completedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -917,6 +951,7 @@ export type TaskSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   estimatedMinutes?: boolean
   actualMinutes?: boolean
   dueDate?: boolean
+  plannedFor?: boolean
   completedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -934,6 +969,7 @@ export type TaskSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   estimatedMinutes?: boolean
   actualMinutes?: boolean
   dueDate?: boolean
+  plannedFor?: boolean
   completedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -951,12 +987,13 @@ export type TaskSelectScalar = {
   estimatedMinutes?: boolean
   actualMinutes?: boolean
   dueDate?: boolean
+  plannedFor?: boolean
   completedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type TaskOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "title" | "description" | "area" | "status" | "priority" | "estimatedMinutes" | "actualMinutes" | "dueDate" | "completedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["task"]>
+export type TaskOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "title" | "description" | "area" | "status" | "priority" | "estimatedMinutes" | "actualMinutes" | "dueDate" | "plannedFor" | "completedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["task"]>
 export type TaskInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   timeEntries?: boolean | Prisma.Task$timeEntriesArgs<ExtArgs>
@@ -986,6 +1023,7 @@ export type $TaskPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     estimatedMinutes: number | null
     actualMinutes: number | null
     dueDate: Date | null
+    plannedFor: Date | null
     completedAt: Date | null
     createdAt: Date
     updatedAt: Date
@@ -1424,6 +1462,7 @@ export interface TaskFieldRefs {
   readonly estimatedMinutes: Prisma.FieldRef<"Task", 'Int'>
   readonly actualMinutes: Prisma.FieldRef<"Task", 'Int'>
   readonly dueDate: Prisma.FieldRef<"Task", 'DateTime'>
+  readonly plannedFor: Prisma.FieldRef<"Task", 'DateTime'>
   readonly completedAt: Prisma.FieldRef<"Task", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"Task", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Task", 'DateTime'>

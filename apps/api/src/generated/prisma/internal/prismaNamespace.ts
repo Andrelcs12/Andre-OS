@@ -1080,6 +1080,7 @@ export const TaskScalarFieldEnum = {
   estimatedMinutes: 'estimatedMinutes',
   actualMinutes: 'actualMinutes',
   dueDate: 'dueDate',
+  plannedFor: 'plannedFor',
   completedAt: 'completedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

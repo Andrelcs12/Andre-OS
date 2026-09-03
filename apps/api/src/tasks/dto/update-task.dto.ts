@@ -51,6 +51,11 @@ export class UpdateTaskDto {
   dueDate?: Date | null;
 
   @IsOptional()
+  @Type(() => Date)
+  @IsDate()
+  plannedFor?: Date | null;
+
+  @IsOptional()
   @IsEnum(TaskStatus)
   status?: TaskStatus;
 }
