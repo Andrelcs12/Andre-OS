@@ -57,6 +57,17 @@ export function TodayWorkspace({
   const [active, setActive] = useState(initialActive);
   const [pending, setPending] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
+  const [focusMode, setFocusMode] = useState(false);
+  useEffect(() => {
+    const onKey = (event: KeyboardEvent) => {
+      const tag = (event.target as HTMLElement | null)?.tagName;
+      if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
+      if (event.key === "Escape") setFocusMode(false);
+      if (event.key.toLowerCase() === "f" && active) setFocusMode(true);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [active]);
   const start = async (input: {
     taskId?: string;
     northItemId?: string;
@@ -144,6 +155,14 @@ export function TodayWorkspace({
     north?.items.filter((item) => item.status === "COMPLETED").length ?? 0;
   return (
     <div className="space-y-5">
+      {focusMode && active ? (
+        <FocusOverlay
+          active={active}
+          onExit={() => setFocusMode(false)}
+          onFinish={() => void finish()}
+          onStop={() => void stop()}
+        />
+      ) : null}
       <header className="flex items-end justify-between gap-4">
         <div>
           <h1 className="text-xl font-semibold tracking-tight">
@@ -188,6 +207,7 @@ export function TodayWorkspace({
         }
         finish={() => void finish()}
         stop={() => void stop()}
+        focus={() => setFocusMode(true)}
       />
       {message ? (
         <p
@@ -241,6 +261,7 @@ function Now({
   choose,
   finish,
   stop,
+  focus,
 }: {
   active: TimeEntry | null;
   error: boolean;
@@ -248,6 +269,7 @@ function Now({
   choose: () => void;
   finish: () => void;
   stop: () => void;
+  focus: () => void;
 }) {
   const [seconds, setSeconds] = useState(
     active ? elapsed(active.startedAt) : 0,
@@ -311,6 +333,9 @@ function Now({
                 onClick={stop}
               >
                 <Pause /> Parar
+              </Button>
+              <Button size="sm" variant="ghost" onClick={focus}>
+                Modo foco
               </Button>
             </div>
           </div>
@@ -558,6 +583,60 @@ function ErrorBlock({ label }: { label: string }) {
       >
         Tentar novamente
       </Button>
+    </div>
+  );
+}
+function FocusOverlay({
+  active,
+  onExit,
+  onFinish,
+  onStop,
+}: {
+  active: TimeEntry;
+  onExit: () => void;
+  onFinish: () => void;
+  onStop: () => void;
+}) {
+  const [seconds, setSeconds] = useState(() => elapsed(active.startedAt));
+  useEffect(() => {
+    const id = window.setInterval(
+      () => setSeconds(elapsed(active.startedAt)),
+      1000,
+    );
+    return () => window.clearInterval(id);
+  }, [active.startedAt]);
+  return (
+    <div className="fixed inset-0 z-50 grid place-items-center bg-background p-6">
+      <section className="w-full max-w-xl space-y-6 text-center">
+        <p className="text-xs font-semibold tracking-[.16em] text-primary uppercase">
+          Modo foco
+        </p>
+        <h1 className="text-2xl font-semibold">
+          {active.task?.title ??
+            active.northItem?.title ??
+            active.description ??
+            "Sessão em foco"}
+        </h1>
+        <p className="font-mono text-6xl font-semibold tabular-nums">
+          {format(seconds)}
+        </p>
+        <textarea
+          aria-label="Nota da sessão"
+          placeholder="Nota opcional"
+          className="min-h-20 w-full rounded-lg border bg-background p-3 text-sm"
+        />
+        <div className="flex justify-center gap-2">
+          <Button onClick={onFinish}>
+            <Check /> Concluir
+          </Button>
+          <Button variant="outline" onClick={onStop}>
+            <Pause /> Parar
+          </Button>
+          <Button variant="ghost" onClick={onExit}>
+            Sair (Esc)
+          </Button>
+        </div>
+      </section>
     </div>
   );
 }
