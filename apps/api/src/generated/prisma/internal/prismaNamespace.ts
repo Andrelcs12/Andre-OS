@@ -1139,6 +1139,9 @@ export const TimeEntryScalarFieldEnum = {
   taskId: 'taskId',
   northItemId: 'northItemId',
   description: 'description',
+  note: 'note',
+  mode: 'mode',
+  focusEndsAt: 'focusEndsAt',
   area: 'area',
   startedAt: 'startedAt',
   endedAt: 'endedAt',
@@ -1315,6 +1318,20 @@ export type ListEnumRoutineScheduleFieldRefInput<$PrismaModel> = FieldRefInputTy
  */
 export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
+
+
+/**
+ * Reference to a field of type 'TimeEntryMode'
+ */
+export type EnumTimeEntryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TimeEntryMode'>
+
+
+
+/**
+ * Reference to a field of type 'TimeEntryMode[]'
+ */
+export type ListEnumTimeEntryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TimeEntryMode[]'>
+
 
 
 /**
@@ -1579,4 +1596,3 @@ export type PrismaAction =
  * `PrismaClient` proxy available in interactive transactions.
  */
 export type TransactionClient = Omit<DefaultPrismaClient, runtime.ITXClientDenyList>
-

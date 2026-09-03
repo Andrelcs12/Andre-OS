@@ -22,13 +22,17 @@ export default async function TodayPage() {
   const date = new Intl.DateTimeFormat("en-CA", {
     timeZone: "America/Fortaleza",
   }).format(new Date());
-  const [profile, tasks, north, routines, active] = await Promise.all([
-    getCurrentProfile(),
-    resource<Task[]>(`/tasks?plannedFor=${date}`),
-    resource<NorthOverview>("/north"),
-    resource<DailyRoutine[]>(`/routines/today?date=${date}`),
-    resource<TimeEntry | null>("/time-entries/active"),
-  ]);
+  const [profile, tasks, north, routines, active, analytics] =
+    await Promise.all([
+      getCurrentProfile(),
+      resource<Task[]>(`/tasks?plannedFor=${date}`),
+      resource<NorthOverview>("/north"),
+      resource<DailyRoutine[]>(`/routines/today?date=${date}`),
+      resource<TimeEntry | null>("/time-entries/active"),
+      resource<AnalyticsOverview>(
+        `/analytics/overview?from=${date}&to=${date}`,
+      ),
+    ]);
   return (
     <TodayWorkspace
       name={profile?.displayName.split(" ")[0] ?? "André"}
@@ -37,6 +41,7 @@ export default async function TodayPage() {
       north={north.data}
       routines={routines.data ?? []}
       active={active.data}
+      todayStats={analytics.data?.summary ?? null}
       errors={{
         tasks: tasks.error,
         north: north.error,
@@ -46,3 +51,5 @@ export default async function TodayPage() {
     />
   );
 }
+
+import type { AnalyticsOverview } from "@/features/analytics/types/analytics.types";

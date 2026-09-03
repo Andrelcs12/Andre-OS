@@ -65,3 +65,12 @@ export const NorthItemStatus = {
 } as const
 
 export type NorthItemStatus = (typeof NorthItemStatus)[keyof typeof NorthItemStatus]
+
+
+export const TimeEntryMode = {
+  FREE: 'FREE',
+  POMODORO: 'POMODORO',
+  MANUAL: 'MANUAL'
+} as const
+
+export type TimeEntryMode = (typeof TimeEntryMode)[keyof typeof TimeEntryMode]

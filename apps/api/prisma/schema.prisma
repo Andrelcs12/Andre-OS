@@ -59,6 +59,14 @@ enum NorthItemStatus {
   @@map("north_item_status")
 }
 
+enum TimeEntryMode {
+  FREE
+  POMODORO
+  MANUAL
+
+  @@map("time_entry_mode")
+}
+
 model User {
   id             String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   authUserId     String?        @unique @map("auth_user_id") @db.Uuid
@@ -158,6 +166,9 @@ model TimeEntry {
   taskId          String?    @map("task_id") @db.Uuid
   northItemId     String?    @map("north_item_id") @db.Uuid
   description     String?
+  note            String?
+  mode            TimeEntryMode @default(FREE)
+  focusEndsAt     DateTime? @map("focus_ends_at") @db.Timestamptz(6)
   area            Area?
   startedAt       DateTime   @map("started_at") @db.Timestamptz(6)
   endedAt         DateTime?  @map("ended_at") @db.Timestamptz(6)

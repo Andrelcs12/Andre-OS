@@ -314,6 +314,23 @@ export type BoolWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedBoolFilter<$PrismaModel>
 }
 
+export type EnumTimeEntryModeFilter<$PrismaModel = never> = {
+  equals?: $Enums.TimeEntryMode | Prisma.EnumTimeEntryModeFieldRefInput<$PrismaModel>
+  in?: $Enums.TimeEntryMode[] | Prisma.ListEnumTimeEntryModeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.TimeEntryMode[] | Prisma.ListEnumTimeEntryModeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumTimeEntryModeFilter<$PrismaModel> | $Enums.TimeEntryMode
+}
+
+export type EnumTimeEntryModeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.TimeEntryMode | Prisma.EnumTimeEntryModeFieldRefInput<$PrismaModel>
+  in?: $Enums.TimeEntryMode[] | Prisma.ListEnumTimeEntryModeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.TimeEntryMode[] | Prisma.ListEnumTimeEntryModeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumTimeEntryModeWithAggregatesFilter<$PrismaModel> | $Enums.TimeEntryMode
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumTimeEntryModeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumTimeEntryModeFilter<$PrismaModel>
+}
+
 export type EnumNorthTrackStatusFilter<$PrismaModel = never> = {
   equals?: $Enums.NorthTrackStatus | Prisma.EnumNorthTrackStatusFieldRefInput<$PrismaModel>
   in?: $Enums.NorthTrackStatus[] | Prisma.ListEnumNorthTrackStatusFieldRefInput<$PrismaModel>
@@ -682,6 +699,23 @@ export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedBoolFilter<$PrismaModel>
   _max?: Prisma.NestedBoolFilter<$PrismaModel>
+}
+
+export type NestedEnumTimeEntryModeFilter<$PrismaModel = never> = {
+  equals?: $Enums.TimeEntryMode | Prisma.EnumTimeEntryModeFieldRefInput<$PrismaModel>
+  in?: $Enums.TimeEntryMode[] | Prisma.ListEnumTimeEntryModeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.TimeEntryMode[] | Prisma.ListEnumTimeEntryModeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumTimeEntryModeFilter<$PrismaModel> | $Enums.TimeEntryMode
+}
+
+export type NestedEnumTimeEntryModeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.TimeEntryMode | Prisma.EnumTimeEntryModeFieldRefInput<$PrismaModel>
+  in?: $Enums.TimeEntryMode[] | Prisma.ListEnumTimeEntryModeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.TimeEntryMode[] | Prisma.ListEnumTimeEntryModeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumTimeEntryModeWithAggregatesFilter<$PrismaModel> | $Enums.TimeEntryMode
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumTimeEntryModeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumTimeEntryModeFilter<$PrismaModel>
 }
 
 export type NestedEnumNorthTrackStatusFilter<$PrismaModel = never> = {

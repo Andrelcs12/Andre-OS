@@ -97,6 +97,7 @@ export class AnalyticsService {
           trackedMinutes: 0,
           trackedSessions: 0,
           averageSessionMinutes: 0,
+          longestSessionMinutes: 0,
         },
       };
     const from = dates[0];
@@ -130,6 +131,7 @@ export class AnalyticsService {
         where: { userId: user.id, endedAt: { gte: from, lt: until } },
         select: {
           endedAt: true,
+          startedAt: true,
           durationMinutes: true,
           area: true,
           task: { select: { area: true } },
@@ -208,6 +210,10 @@ export class AnalyticsService {
         averageSessionMinutes: timeEntries.length
           ? Math.round(trackedMinutes / timeEntries.length)
           : 0,
+        longestSessionMinutes: Math.max(
+          0,
+          ...timeEntries.map((entry) => entry.durationMinutes ?? 0),
+        ),
       },
       daily,
       areas: [...areas.values()].sort(

@@ -9,6 +9,7 @@ export type AnalyticsOverview = {
     trackedMinutes: number;
     trackedSessions: number;
     averageSessionMinutes: number;
+    longestSessionMinutes: number;
   };
   daily: Array<{
     date: string;

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import type { AnalyticsOverview } from "@/features/analytics/types/analytics.types";
 import { updateItem } from "@/features/north/services/north.service";
 import type { NorthOverview } from "@/features/north/types/north.types";
 import { setRoutineEntry } from "@/features/routines/services/routines.service";
@@ -16,6 +17,7 @@ import {
   stopTimeEntry,
 } from "@/features/time-tracking/services/time-tracking.service";
 import type { TimeEntry } from "@/features/time-tracking/types/time-tracking.types";
+import { formatDuration } from "@/features/time-tracking/utils/time-tracking.utils";
 
 const elapsed = (at: string) =>
   Math.max(0, Math.floor((Date.now() - new Date(at).getTime()) / 1000));
@@ -37,6 +39,7 @@ export function TodayWorkspace({
   north,
   routines: initialRoutines,
   active: initialActive,
+  todayStats,
   errors,
 }: {
   name: string;
@@ -45,6 +48,7 @@ export function TodayWorkspace({
   north: NorthOverview | null;
   routines: DailyRoutine[];
   active: TimeEntry | null;
+  todayStats: AnalyticsOverview["summary"] | null;
   errors: Record<string, boolean>;
 }) {
   const router = useRouter();
@@ -53,7 +57,12 @@ export function TodayWorkspace({
   const [active, setActive] = useState(initialActive);
   const [pending, setPending] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
-  const start = async (input: { taskId?: string; northItemId?: string }) => {
+  const start = async (input: {
+    taskId?: string;
+    northItemId?: string;
+    mode?: "FREE" | "POMODORO";
+    focusMinutes?: number;
+  }) => {
     setPending(true);
     setMessage(null);
     try {
@@ -148,11 +157,25 @@ export function TodayWorkspace({
             }).format(new Date())}
           </p>
         </div>
-        <Button asChild size="sm">
-          <Link href="/tasks">
-            <Plus /> Capturar
-          </Link>
-        </Button>
+        <div className="flex items-center gap-3">
+          {todayStats ? (
+            <Link
+              href="/review"
+              className="hidden text-right text-xs text-muted-foreground transition-colors hover:text-foreground sm:block"
+            >
+              <span className="block font-medium text-foreground">
+                {formatDuration(todayStats.trackedMinutes)} focadas
+              </span>
+              {todayStats.trackedSessions}{" "}
+              {todayStats.trackedSessions === 1 ? "sessão" : "sessões"}
+            </Link>
+          ) : null}
+          <Button asChild size="sm">
+            <Link href="/tasks">
+              <Plus /> Capturar
+            </Link>
+          </Button>
+        </div>
       </header>
       <Now
         active={active}
@@ -188,6 +211,9 @@ export function TodayWorkspace({
           error={errors.tasks}
           pending={pending}
           start={(task) => void start({ taskId: task.id })}
+          pomodoro={(task) =>
+            void start({ taskId: task.id, mode: "POMODORO", focusMinutes: 25 })
+          }
           complete={async (task) => {
             setTasks((all) => all.filter((item) => item.id !== task.id));
             try {
@@ -253,12 +279,27 @@ function Now({
                   "Sessão em foco"}
               </p>
               <p className="mt-1 text-sm text-muted-foreground">
-                {active.northItem ? "Norte atual" : "Tarefa em execução"}
+                {active.mode === "POMODORO"
+                  ? "Pomodoro · foco de 25 min"
+                  : active.northItem
+                    ? "Norte atual"
+                    : "Tarefa em execução"}
               </p>
             </div>
             <div className="flex items-center gap-3">
               <span className="font-mono text-2xl font-semibold tabular-nums">
-                {format(seconds)}
+                {active.mode === "POMODORO" && active.focusEndsAt
+                  ? format(
+                      Math.max(
+                        0,
+                        Math.floor(
+                          (new Date(active.focusEndsAt).getTime() -
+                            Date.now()) /
+                            1000,
+                        ),
+                      ),
+                    )
+                  : format(seconds)}
               </span>
               <Button size="sm" disabled={pending} onClick={finish}>
                 <Check /> Concluir
@@ -362,12 +403,14 @@ function Tasks({
   error,
   pending,
   start,
+  pomodoro,
   complete,
 }: {
   tasks: Task[];
   error: boolean;
   pending: boolean;
   start: (task: Task) => void;
+  pomodoro: (task: Task) => void;
   complete: (task: Task) => void;
 }) {
   return (
@@ -411,6 +454,15 @@ function Tasks({
                   onClick={() => start(task)}
                 >
                   <Play /> Começar
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  disabled={pending}
+                  aria-label={`Iniciar Pomodoro de 25 minutos: ${task.title}`}
+                  onClick={() => pomodoro(task)}
+                >
+                  25
                 </Button>
               </div>
             ))}

@@ -6,6 +6,9 @@ export type TimeEntry = {
   task: Pick<Task, "id" | "title"> | null;
   northItem: { id: string; title: string } | null;
   description: string | null;
+  note: string | null;
+  mode: "FREE" | "POMODORO" | "MANUAL";
+  focusEndsAt: string | null;
   area: TaskArea | null;
   startedAt: string;
   endedAt: string | null;
@@ -17,4 +20,6 @@ export type StartTimeEntryInput = {
   northItemId?: string;
   description?: string;
   area?: TaskArea;
+  mode?: "FREE" | "POMODORO";
+  focusMinutes?: number;
 };

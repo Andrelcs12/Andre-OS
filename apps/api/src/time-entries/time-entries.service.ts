@@ -7,7 +7,11 @@ import {
 } from "@nestjs/common";
 import type { AuthenticatedUser } from "../auth/auth.types.js";
 import { Prisma } from "../generated/prisma/client.js";
-import { NorthItemStatus, TaskStatus } from "../generated/prisma/enums.js";
+import {
+  NorthItemStatus,
+  TaskStatus,
+  TimeEntryMode,
+} from "../generated/prisma/enums.js";
 import { PrismaService } from "../prisma/prisma.service.js";
 import type { ListTimeEntriesQueryDto } from "./dto/list-time-entries-query.dto.js";
 import type { StartTimeEntryDto } from "./dto/start-time-entry.dto.js";
@@ -93,6 +97,11 @@ export class TimeEntriesService {
             northItemId: dto.northItemId,
             description: dto.description?.trim() || null,
             area: dto.area,
+            mode: dto.mode ?? TimeEntryMode.FREE,
+            focusEndsAt:
+              dto.mode === TimeEntryMode.POMODORO && dto.focusMinutes
+                ? new Date(Date.now() + dto.focusMinutes * 60_000)
+                : null,
             startedAt: new Date(),
           },
           include: {
