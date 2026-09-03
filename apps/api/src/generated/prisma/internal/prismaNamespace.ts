@@ -1097,6 +1097,7 @@ export const RoutineScalarFieldEnum = {
   area: 'area',
   schedule: 'schedule',
   daysOfWeek: 'daysOfWeek',
+  targetMinutes: 'targetMinutes',
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -1138,6 +1139,7 @@ export const TimeEntryScalarFieldEnum = {
   userId: 'userId',
   taskId: 'taskId',
   northItemId: 'northItemId',
+  routineId: 'routineId',
   description: 'description',
   note: 'note',
   mode: 'mode',

@@ -502,38 +502,44 @@ function Routines({
   return (
     <Card>
       <CardHeader className="pb-3">
-        <CardTitle className="text-sm">ROTINAS</CardTitle>
+        <CardTitle className="text-sm">ESSENCIAIS</CardTitle>
       </CardHeader>
       <CardContent>
         {error ? (
           <ErrorBlock label="rotinas" />
         ) : routines.length ? (
-          <div className="flex flex-wrap gap-x-5 gap-y-3">
-            {routines.map((routine) => (
-              <label
-                key={routine.id}
-                className="flex cursor-pointer items-center gap-2 text-sm"
-              >
-                <input
-                  type="checkbox"
-                  checked={routine.completed}
-                  onChange={() => void toggle(routine)}
-                />
-                <span
-                  className={
-                    routine.completed
-                      ? "text-muted-foreground line-through"
-                      : ""
-                  }
+          <>
+            <p className="mb-3 text-xs text-muted-foreground">
+              {routines.filter((routine) => routine.completed).length} /{" "}
+              {routines.length} concluídos
+            </p>
+            <div className="flex flex-wrap gap-x-5 gap-y-3">
+              {routines.map((routine) => (
+                <label
+                  key={routine.id}
+                  className="flex cursor-pointer items-center gap-2 text-sm"
                 >
-                  {routine.title}
-                </span>
-              </label>
-            ))}
-          </div>
+                  <input
+                    type="checkbox"
+                    checked={routine.completed}
+                    onChange={() => void toggle(routine)}
+                  />
+                  <span
+                    className={
+                      routine.completed
+                        ? "text-muted-foreground line-through"
+                        : ""
+                    }
+                  >
+                    {routine.title}
+                  </span>
+                </label>
+              ))}
+            </div>
+          </>
         ) : (
           <p className="text-sm text-muted-foreground">
-            Nenhuma rotina planejada para hoje.
+            Nenhum essencial agendado para hoje.
           </p>
         )}
       </CardContent>

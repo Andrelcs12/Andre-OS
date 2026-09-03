@@ -60,6 +60,9 @@ export class RoutinesService {
         area: dto.area,
         schedule: dto.schedule,
         daysOfWeek: normalizedDays(dto.schedule, dto.daysOfWeek),
+        ...(dto.targetMinutes !== undefined
+          ? { targetMinutes: dto.targetMinutes }
+          : {}),
       },
     });
   }
@@ -73,6 +76,9 @@ export class RoutinesService {
         ? { description: dto.description?.trim() || null }
         : {}),
       ...(dto.area !== undefined ? { area: dto.area } : {}),
+      ...(dto.targetMinutes !== undefined
+        ? { targetMinutes: dto.targetMinutes }
+        : {}),
       ...(dto.isActive !== undefined ? { isActive: dto.isActive } : {}),
       ...(dto.schedule !== undefined || dto.daysOfWeek !== undefined
         ? { schedule, daysOfWeek: normalizedDays(schedule, days) }

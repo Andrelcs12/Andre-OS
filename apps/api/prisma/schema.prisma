@@ -118,11 +118,13 @@ model Routine {
   area        Area?
   schedule    RoutineSchedule @default(DAILY)
   daysOfWeek  Int[]           @default([]) @map("days_of_week")
+  targetMinutes Int?          @map("target_minutes")
   isActive    Boolean         @default(true) @map("is_active")
   createdAt   DateTime        @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt   DateTime        @updatedAt @map("updated_at") @db.Timestamptz(6)
   user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
   entries     RoutineEntry[]
+  timeEntries TimeEntry[]
 
   @@index([userId], map: "routines_user_id_idx")
   @@map("routines")
@@ -165,6 +167,7 @@ model TimeEntry {
   userId          String     @map("user_id") @db.Uuid
   taskId          String?    @map("task_id") @db.Uuid
   northItemId     String?    @map("north_item_id") @db.Uuid
+  routineId       String?    @map("routine_id") @db.Uuid
   description     String?
   note            String?
   mode            TimeEntryMode @default(FREE)
@@ -177,10 +180,12 @@ model TimeEntry {
   user            User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   task            Task?      @relation(fields: [taskId], references: [id], onDelete: SetNull)
   northItem       NorthItem? @relation(fields: [northItemId], references: [id], onDelete: SetNull)
+  routine         Routine?   @relation(fields: [routineId], references: [id], onDelete: SetNull)
 
   @@index([userId, startedAt(sort: Desc)], map: "time_entries_user_started_at_idx")
   @@index([taskId], map: "time_entries_task_id_idx")
   @@index([northItemId], map: "time_entries_north_item_id_idx")
+  @@index([routineId], map: "time_entries_routine_id_idx")
   @@map("time_entries")
 }
 

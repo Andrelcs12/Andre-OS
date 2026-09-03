@@ -28,10 +28,12 @@ export type AggregateRoutine = {
 
 export type RoutineAvgAggregateOutputType = {
   daysOfWeek: number | null
+  targetMinutes: number | null
 }
 
 export type RoutineSumAggregateOutputType = {
   daysOfWeek: number[]
+  targetMinutes: number | null
 }
 
 export type RoutineMinAggregateOutputType = {
@@ -41,6 +43,7 @@ export type RoutineMinAggregateOutputType = {
   description: string | null
   area: $Enums.Area | null
   schedule: $Enums.RoutineSchedule | null
+  targetMinutes: number | null
   isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -53,6 +56,7 @@ export type RoutineMaxAggregateOutputType = {
   description: string | null
   area: $Enums.Area | null
   schedule: $Enums.RoutineSchedule | null
+  targetMinutes: number | null
   isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -66,6 +70,7 @@ export type RoutineCountAggregateOutputType = {
   area: number
   schedule: number
   daysOfWeek: number
+  targetMinutes: number
   isActive: number
   createdAt: number
   updatedAt: number
@@ -75,10 +80,12 @@ export type RoutineCountAggregateOutputType = {
 
 export type RoutineAvgAggregateInputType = {
   daysOfWeek?: true
+  targetMinutes?: true
 }
 
 export type RoutineSumAggregateInputType = {
   daysOfWeek?: true
+  targetMinutes?: true
 }
 
 export type RoutineMinAggregateInputType = {
@@ -88,6 +95,7 @@ export type RoutineMinAggregateInputType = {
   description?: true
   area?: true
   schedule?: true
+  targetMinutes?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
@@ -100,6 +108,7 @@ export type RoutineMaxAggregateInputType = {
   description?: true
   area?: true
   schedule?: true
+  targetMinutes?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
@@ -113,6 +122,7 @@ export type RoutineCountAggregateInputType = {
   area?: true
   schedule?: true
   daysOfWeek?: true
+  targetMinutes?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
@@ -213,6 +223,7 @@ export type RoutineGroupByOutputType = {
   area: $Enums.Area | null
   schedule: $Enums.RoutineSchedule
   daysOfWeek: number[]
+  targetMinutes: number | null
   isActive: boolean
   createdAt: Date
   updatedAt: Date
@@ -249,11 +260,13 @@ export type RoutineWhereInput = {
   area?: Prisma.EnumAreaNullableFilter<"Routine"> | $Enums.Area | null
   schedule?: Prisma.EnumRoutineScheduleFilter<"Routine"> | $Enums.RoutineSchedule
   daysOfWeek?: Prisma.IntNullableListFilter<"Routine">
+  targetMinutes?: Prisma.IntNullableFilter<"Routine"> | number | null
   isActive?: Prisma.BoolFilter<"Routine"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Routine"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Routine"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   entries?: Prisma.RoutineEntryListRelationFilter
+  timeEntries?: Prisma.TimeEntryListRelationFilter
 }
 
 export type RoutineOrderByWithRelationInput = {
@@ -264,11 +277,13 @@ export type RoutineOrderByWithRelationInput = {
   area?: Prisma.SortOrderInput | Prisma.SortOrder
   schedule?: Prisma.SortOrder
   daysOfWeek?: Prisma.SortOrder
+  targetMinutes?: Prisma.SortOrderInput | Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   entries?: Prisma.RoutineEntryOrderByRelationAggregateInput
+  timeEntries?: Prisma.TimeEntryOrderByRelationAggregateInput
 }
 
 export type RoutineWhereUniqueInput = Prisma.AtLeast<{
@@ -282,11 +297,13 @@ export type RoutineWhereUniqueInput = Prisma.AtLeast<{
   area?: Prisma.EnumAreaNullableFilter<"Routine"> | $Enums.Area | null
   schedule?: Prisma.EnumRoutineScheduleFilter<"Routine"> | $Enums.RoutineSchedule
   daysOfWeek?: Prisma.IntNullableListFilter<"Routine">
+  targetMinutes?: Prisma.IntNullableFilter<"Routine"> | number | null
   isActive?: Prisma.BoolFilter<"Routine"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Routine"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Routine"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   entries?: Prisma.RoutineEntryListRelationFilter
+  timeEntries?: Prisma.TimeEntryListRelationFilter
 }, "id">
 
 export type RoutineOrderByWithAggregationInput = {
@@ -297,6 +314,7 @@ export type RoutineOrderByWithAggregationInput = {
   area?: Prisma.SortOrderInput | Prisma.SortOrder
   schedule?: Prisma.SortOrder
   daysOfWeek?: Prisma.SortOrder
+  targetMinutes?: Prisma.SortOrderInput | Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -318,6 +336,7 @@ export type RoutineScalarWhereWithAggregatesInput = {
   area?: Prisma.EnumAreaNullableWithAggregatesFilter<"Routine"> | $Enums.Area | null
   schedule?: Prisma.EnumRoutineScheduleWithAggregatesFilter<"Routine"> | $Enums.RoutineSchedule
   daysOfWeek?: Prisma.IntNullableListFilter<"Routine">
+  targetMinutes?: Prisma.IntNullableWithAggregatesFilter<"Routine"> | number | null
   isActive?: Prisma.BoolWithAggregatesFilter<"Routine"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Routine"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Routine"> | Date | string
@@ -330,11 +349,13 @@ export type RoutineCreateInput = {
   area?: $Enums.Area | null
   schedule?: $Enums.RoutineSchedule
   daysOfWeek?: Prisma.RoutineCreatedaysOfWeekInput | number[]
+  targetMinutes?: number | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutRoutinesInput
   entries?: Prisma.RoutineEntryCreateNestedManyWithoutRoutineInput
+  timeEntries?: Prisma.TimeEntryCreateNestedManyWithoutRoutineInput
 }
 
 export type RoutineUncheckedCreateInput = {
@@ -345,10 +366,12 @@ export type RoutineUncheckedCreateInput = {
   area?: $Enums.Area | null
   schedule?: $Enums.RoutineSchedule
   daysOfWeek?: Prisma.RoutineCreatedaysOfWeekInput | number[]
+  targetMinutes?: number | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   entries?: Prisma.RoutineEntryUncheckedCreateNestedManyWithoutRoutineInput
+  timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutRoutineInput
 }
 
 export type RoutineUpdateInput = {
@@ -358,11 +381,13 @@ export type RoutineUpdateInput = {
   area?: Prisma.NullableEnumAreaFieldUpdateOperationsInput | $Enums.Area | null
   schedule?: Prisma.EnumRoutineScheduleFieldUpdateOperationsInput | $Enums.RoutineSchedule
   daysOfWeek?: Prisma.RoutineUpdatedaysOfWeekInput | number[]
+  targetMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutRoutinesNestedInput
   entries?: Prisma.RoutineEntryUpdateManyWithoutRoutineNestedInput
+  timeEntries?: Prisma.TimeEntryUpdateManyWithoutRoutineNestedInput
 }
 
 export type RoutineUncheckedUpdateInput = {
@@ -373,10 +398,12 @@ export type RoutineUncheckedUpdateInput = {
   area?: Prisma.NullableEnumAreaFieldUpdateOperationsInput | $Enums.Area | null
   schedule?: Prisma.EnumRoutineScheduleFieldUpdateOperationsInput | $Enums.RoutineSchedule
   daysOfWeek?: Prisma.RoutineUpdatedaysOfWeekInput | number[]
+  targetMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   entries?: Prisma.RoutineEntryUncheckedUpdateManyWithoutRoutineNestedInput
+  timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutRoutineNestedInput
 }
 
 export type RoutineCreateManyInput = {
@@ -387,6 +414,7 @@ export type RoutineCreateManyInput = {
   area?: $Enums.Area | null
   schedule?: $Enums.RoutineSchedule
   daysOfWeek?: Prisma.RoutineCreatedaysOfWeekInput | number[]
+  targetMinutes?: number | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -399,6 +427,7 @@ export type RoutineUpdateManyMutationInput = {
   area?: Prisma.NullableEnumAreaFieldUpdateOperationsInput | $Enums.Area | null
   schedule?: Prisma.EnumRoutineScheduleFieldUpdateOperationsInput | $Enums.RoutineSchedule
   daysOfWeek?: Prisma.RoutineUpdatedaysOfWeekInput | number[]
+  targetMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -412,6 +441,7 @@ export type RoutineUncheckedUpdateManyInput = {
   area?: Prisma.NullableEnumAreaFieldUpdateOperationsInput | $Enums.Area | null
   schedule?: Prisma.EnumRoutineScheduleFieldUpdateOperationsInput | $Enums.RoutineSchedule
   daysOfWeek?: Prisma.RoutineUpdatedaysOfWeekInput | number[]
+  targetMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -443,6 +473,7 @@ export type RoutineCountOrderByAggregateInput = {
   area?: Prisma.SortOrder
   schedule?: Prisma.SortOrder
   daysOfWeek?: Prisma.SortOrder
+  targetMinutes?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -450,6 +481,7 @@ export type RoutineCountOrderByAggregateInput = {
 
 export type RoutineAvgOrderByAggregateInput = {
   daysOfWeek?: Prisma.SortOrder
+  targetMinutes?: Prisma.SortOrder
 }
 
 export type RoutineMaxOrderByAggregateInput = {
@@ -459,6 +491,7 @@ export type RoutineMaxOrderByAggregateInput = {
   description?: Prisma.SortOrder
   area?: Prisma.SortOrder
   schedule?: Prisma.SortOrder
+  targetMinutes?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -471,6 +504,7 @@ export type RoutineMinOrderByAggregateInput = {
   description?: Prisma.SortOrder
   area?: Prisma.SortOrder
   schedule?: Prisma.SortOrder
+  targetMinutes?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -478,11 +512,17 @@ export type RoutineMinOrderByAggregateInput = {
 
 export type RoutineSumOrderByAggregateInput = {
   daysOfWeek?: Prisma.SortOrder
+  targetMinutes?: Prisma.SortOrder
 }
 
 export type RoutineScalarRelationFilter = {
   is?: Prisma.RoutineWhereInput
   isNot?: Prisma.RoutineWhereInput
+}
+
+export type RoutineNullableScalarRelationFilter = {
+  is?: Prisma.RoutineWhereInput | null
+  isNot?: Prisma.RoutineWhereInput | null
 }
 
 export type RoutineCreateNestedManyWithoutUserInput = {
@@ -562,6 +602,22 @@ export type RoutineUpdateOneRequiredWithoutEntriesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.RoutineUpdateToOneWithWhereWithoutEntriesInput, Prisma.RoutineUpdateWithoutEntriesInput>, Prisma.RoutineUncheckedUpdateWithoutEntriesInput>
 }
 
+export type RoutineCreateNestedOneWithoutTimeEntriesInput = {
+  create?: Prisma.XOR<Prisma.RoutineCreateWithoutTimeEntriesInput, Prisma.RoutineUncheckedCreateWithoutTimeEntriesInput>
+  connectOrCreate?: Prisma.RoutineCreateOrConnectWithoutTimeEntriesInput
+  connect?: Prisma.RoutineWhereUniqueInput
+}
+
+export type RoutineUpdateOneWithoutTimeEntriesNestedInput = {
+  create?: Prisma.XOR<Prisma.RoutineCreateWithoutTimeEntriesInput, Prisma.RoutineUncheckedCreateWithoutTimeEntriesInput>
+  connectOrCreate?: Prisma.RoutineCreateOrConnectWithoutTimeEntriesInput
+  upsert?: Prisma.RoutineUpsertWithoutTimeEntriesInput
+  disconnect?: Prisma.RoutineWhereInput | boolean
+  delete?: Prisma.RoutineWhereInput | boolean
+  connect?: Prisma.RoutineWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.RoutineUpdateToOneWithWhereWithoutTimeEntriesInput, Prisma.RoutineUpdateWithoutTimeEntriesInput>, Prisma.RoutineUncheckedUpdateWithoutTimeEntriesInput>
+}
+
 export type RoutineCreateWithoutUserInput = {
   id?: string
   title: string
@@ -569,10 +625,12 @@ export type RoutineCreateWithoutUserInput = {
   area?: $Enums.Area | null
   schedule?: $Enums.RoutineSchedule
   daysOfWeek?: Prisma.RoutineCreatedaysOfWeekInput | number[]
+  targetMinutes?: number | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   entries?: Prisma.RoutineEntryCreateNestedManyWithoutRoutineInput
+  timeEntries?: Prisma.TimeEntryCreateNestedManyWithoutRoutineInput
 }
 
 export type RoutineUncheckedCreateWithoutUserInput = {
@@ -582,10 +640,12 @@ export type RoutineUncheckedCreateWithoutUserInput = {
   area?: $Enums.Area | null
   schedule?: $Enums.RoutineSchedule
   daysOfWeek?: Prisma.RoutineCreatedaysOfWeekInput | number[]
+  targetMinutes?: number | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   entries?: Prisma.RoutineEntryUncheckedCreateNestedManyWithoutRoutineInput
+  timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutRoutineInput
 }
 
 export type RoutineCreateOrConnectWithoutUserInput = {
@@ -625,6 +685,7 @@ export type RoutineScalarWhereInput = {
   area?: Prisma.EnumAreaNullableFilter<"Routine"> | $Enums.Area | null
   schedule?: Prisma.EnumRoutineScheduleFilter<"Routine"> | $Enums.RoutineSchedule
   daysOfWeek?: Prisma.IntNullableListFilter<"Routine">
+  targetMinutes?: Prisma.IntNullableFilter<"Routine"> | number | null
   isActive?: Prisma.BoolFilter<"Routine"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Routine"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Routine"> | Date | string
@@ -637,10 +698,12 @@ export type RoutineCreateWithoutEntriesInput = {
   area?: $Enums.Area | null
   schedule?: $Enums.RoutineSchedule
   daysOfWeek?: Prisma.RoutineCreatedaysOfWeekInput | number[]
+  targetMinutes?: number | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutRoutinesInput
+  timeEntries?: Prisma.TimeEntryCreateNestedManyWithoutRoutineInput
 }
 
 export type RoutineUncheckedCreateWithoutEntriesInput = {
@@ -651,9 +714,11 @@ export type RoutineUncheckedCreateWithoutEntriesInput = {
   area?: $Enums.Area | null
   schedule?: $Enums.RoutineSchedule
   daysOfWeek?: Prisma.RoutineCreatedaysOfWeekInput | number[]
+  targetMinutes?: number | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutRoutineInput
 }
 
 export type RoutineCreateOrConnectWithoutEntriesInput = {
@@ -679,10 +744,12 @@ export type RoutineUpdateWithoutEntriesInput = {
   area?: Prisma.NullableEnumAreaFieldUpdateOperationsInput | $Enums.Area | null
   schedule?: Prisma.EnumRoutineScheduleFieldUpdateOperationsInput | $Enums.RoutineSchedule
   daysOfWeek?: Prisma.RoutineUpdatedaysOfWeekInput | number[]
+  targetMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutRoutinesNestedInput
+  timeEntries?: Prisma.TimeEntryUpdateManyWithoutRoutineNestedInput
 }
 
 export type RoutineUncheckedUpdateWithoutEntriesInput = {
@@ -693,9 +760,87 @@ export type RoutineUncheckedUpdateWithoutEntriesInput = {
   area?: Prisma.NullableEnumAreaFieldUpdateOperationsInput | $Enums.Area | null
   schedule?: Prisma.EnumRoutineScheduleFieldUpdateOperationsInput | $Enums.RoutineSchedule
   daysOfWeek?: Prisma.RoutineUpdatedaysOfWeekInput | number[]
+  targetMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutRoutineNestedInput
+}
+
+export type RoutineCreateWithoutTimeEntriesInput = {
+  id?: string
+  title: string
+  description?: string | null
+  area?: $Enums.Area | null
+  schedule?: $Enums.RoutineSchedule
+  daysOfWeek?: Prisma.RoutineCreatedaysOfWeekInput | number[]
+  targetMinutes?: number | null
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutRoutinesInput
+  entries?: Prisma.RoutineEntryCreateNestedManyWithoutRoutineInput
+}
+
+export type RoutineUncheckedCreateWithoutTimeEntriesInput = {
+  id?: string
+  userId: string
+  title: string
+  description?: string | null
+  area?: $Enums.Area | null
+  schedule?: $Enums.RoutineSchedule
+  daysOfWeek?: Prisma.RoutineCreatedaysOfWeekInput | number[]
+  targetMinutes?: number | null
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  entries?: Prisma.RoutineEntryUncheckedCreateNestedManyWithoutRoutineInput
+}
+
+export type RoutineCreateOrConnectWithoutTimeEntriesInput = {
+  where: Prisma.RoutineWhereUniqueInput
+  create: Prisma.XOR<Prisma.RoutineCreateWithoutTimeEntriesInput, Prisma.RoutineUncheckedCreateWithoutTimeEntriesInput>
+}
+
+export type RoutineUpsertWithoutTimeEntriesInput = {
+  update: Prisma.XOR<Prisma.RoutineUpdateWithoutTimeEntriesInput, Prisma.RoutineUncheckedUpdateWithoutTimeEntriesInput>
+  create: Prisma.XOR<Prisma.RoutineCreateWithoutTimeEntriesInput, Prisma.RoutineUncheckedCreateWithoutTimeEntriesInput>
+  where?: Prisma.RoutineWhereInput
+}
+
+export type RoutineUpdateToOneWithWhereWithoutTimeEntriesInput = {
+  where?: Prisma.RoutineWhereInput
+  data: Prisma.XOR<Prisma.RoutineUpdateWithoutTimeEntriesInput, Prisma.RoutineUncheckedUpdateWithoutTimeEntriesInput>
+}
+
+export type RoutineUpdateWithoutTimeEntriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  area?: Prisma.NullableEnumAreaFieldUpdateOperationsInput | $Enums.Area | null
+  schedule?: Prisma.EnumRoutineScheduleFieldUpdateOperationsInput | $Enums.RoutineSchedule
+  daysOfWeek?: Prisma.RoutineUpdatedaysOfWeekInput | number[]
+  targetMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutRoutinesNestedInput
+  entries?: Prisma.RoutineEntryUpdateManyWithoutRoutineNestedInput
+}
+
+export type RoutineUncheckedUpdateWithoutTimeEntriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  area?: Prisma.NullableEnumAreaFieldUpdateOperationsInput | $Enums.Area | null
+  schedule?: Prisma.EnumRoutineScheduleFieldUpdateOperationsInput | $Enums.RoutineSchedule
+  daysOfWeek?: Prisma.RoutineUpdatedaysOfWeekInput | number[]
+  targetMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  entries?: Prisma.RoutineEntryUncheckedUpdateManyWithoutRoutineNestedInput
 }
 
 export type RoutineCreateManyUserInput = {
@@ -705,6 +850,7 @@ export type RoutineCreateManyUserInput = {
   area?: $Enums.Area | null
   schedule?: $Enums.RoutineSchedule
   daysOfWeek?: Prisma.RoutineCreatedaysOfWeekInput | number[]
+  targetMinutes?: number | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -717,10 +863,12 @@ export type RoutineUpdateWithoutUserInput = {
   area?: Prisma.NullableEnumAreaFieldUpdateOperationsInput | $Enums.Area | null
   schedule?: Prisma.EnumRoutineScheduleFieldUpdateOperationsInput | $Enums.RoutineSchedule
   daysOfWeek?: Prisma.RoutineUpdatedaysOfWeekInput | number[]
+  targetMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   entries?: Prisma.RoutineEntryUpdateManyWithoutRoutineNestedInput
+  timeEntries?: Prisma.TimeEntryUpdateManyWithoutRoutineNestedInput
 }
 
 export type RoutineUncheckedUpdateWithoutUserInput = {
@@ -730,10 +878,12 @@ export type RoutineUncheckedUpdateWithoutUserInput = {
   area?: Prisma.NullableEnumAreaFieldUpdateOperationsInput | $Enums.Area | null
   schedule?: Prisma.EnumRoutineScheduleFieldUpdateOperationsInput | $Enums.RoutineSchedule
   daysOfWeek?: Prisma.RoutineUpdatedaysOfWeekInput | number[]
+  targetMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   entries?: Prisma.RoutineEntryUncheckedUpdateManyWithoutRoutineNestedInput
+  timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutRoutineNestedInput
 }
 
 export type RoutineUncheckedUpdateManyWithoutUserInput = {
@@ -743,6 +893,7 @@ export type RoutineUncheckedUpdateManyWithoutUserInput = {
   area?: Prisma.NullableEnumAreaFieldUpdateOperationsInput | $Enums.Area | null
   schedule?: Prisma.EnumRoutineScheduleFieldUpdateOperationsInput | $Enums.RoutineSchedule
   daysOfWeek?: Prisma.RoutineUpdatedaysOfWeekInput | number[]
+  targetMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -755,10 +906,12 @@ export type RoutineUncheckedUpdateManyWithoutUserInput = {
 
 export type RoutineCountOutputType = {
   entries: number
+  timeEntries: number
 }
 
 export type RoutineCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   entries?: boolean | RoutineCountOutputTypeCountEntriesArgs
+  timeEntries?: boolean | RoutineCountOutputTypeCountTimeEntriesArgs
 }
 
 /**
@@ -778,6 +931,13 @@ export type RoutineCountOutputTypeCountEntriesArgs<ExtArgs extends runtime.Types
   where?: Prisma.RoutineEntryWhereInput
 }
 
+/**
+ * RoutineCountOutputType without action
+ */
+export type RoutineCountOutputTypeCountTimeEntriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TimeEntryWhereInput
+}
+
 
 export type RoutineSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -787,11 +947,13 @@ export type RoutineSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   area?: boolean
   schedule?: boolean
   daysOfWeek?: boolean
+  targetMinutes?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   entries?: boolean | Prisma.Routine$entriesArgs<ExtArgs>
+  timeEntries?: boolean | Prisma.Routine$timeEntriesArgs<ExtArgs>
   _count?: boolean | Prisma.RoutineCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["routine"]>
 
@@ -803,6 +965,7 @@ export type RoutineSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   area?: boolean
   schedule?: boolean
   daysOfWeek?: boolean
+  targetMinutes?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -817,6 +980,7 @@ export type RoutineSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   area?: boolean
   schedule?: boolean
   daysOfWeek?: boolean
+  targetMinutes?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -831,15 +995,17 @@ export type RoutineSelectScalar = {
   area?: boolean
   schedule?: boolean
   daysOfWeek?: boolean
+  targetMinutes?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type RoutineOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "title" | "description" | "area" | "schedule" | "daysOfWeek" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["routine"]>
+export type RoutineOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "title" | "description" | "area" | "schedule" | "daysOfWeek" | "targetMinutes" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["routine"]>
 export type RoutineInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   entries?: boolean | Prisma.Routine$entriesArgs<ExtArgs>
+  timeEntries?: boolean | Prisma.Routine$timeEntriesArgs<ExtArgs>
   _count?: boolean | Prisma.RoutineCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type RoutineIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -854,6 +1020,7 @@ export type $RoutinePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   objects: {
     user: Prisma.$UserPayload<ExtArgs>
     entries: Prisma.$RoutineEntryPayload<ExtArgs>[]
+    timeEntries: Prisma.$TimeEntryPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -863,6 +1030,7 @@ export type $RoutinePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     area: $Enums.Area | null
     schedule: $Enums.RoutineSchedule
     daysOfWeek: number[]
+    targetMinutes: number | null
     isActive: boolean
     createdAt: Date
     updatedAt: Date
@@ -1262,6 +1430,7 @@ export interface Prisma__RoutineClient<T, Null = never, ExtArgs extends runtime.
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   entries<T extends Prisma.Routine$entriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Routine$entriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RoutineEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  timeEntries<T extends Prisma.Routine$timeEntriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Routine$timeEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TimeEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1298,6 +1467,7 @@ export interface RoutineFieldRefs {
   readonly area: Prisma.FieldRef<"Routine", 'Area'>
   readonly schedule: Prisma.FieldRef<"Routine", 'RoutineSchedule'>
   readonly daysOfWeek: Prisma.FieldRef<"Routine", 'Int[]'>
+  readonly targetMinutes: Prisma.FieldRef<"Routine", 'Int'>
   readonly isActive: Prisma.FieldRef<"Routine", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Routine", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Routine", 'DateTime'>
@@ -1723,6 +1893,30 @@ export type Routine$entriesArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   distinct?: Prisma.RoutineEntryScalarFieldEnum | Prisma.RoutineEntryScalarFieldEnum[]
+}
+
+/**
+ * Routine.timeEntries
+ */
+export type Routine$timeEntriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TimeEntry
+   */
+  select?: Prisma.TimeEntrySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TimeEntry
+   */
+  omit?: Prisma.TimeEntryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TimeEntryInclude<ExtArgs> | null
+  where?: Prisma.TimeEntryWhereInput
+  orderBy?: Prisma.TimeEntryOrderByWithRelationInput | Prisma.TimeEntryOrderByWithRelationInput[]
+  cursor?: Prisma.TimeEntryWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TimeEntryScalarFieldEnum | Prisma.TimeEntryScalarFieldEnum[]
 }
 
 /**

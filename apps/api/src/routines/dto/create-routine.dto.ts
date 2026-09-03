@@ -37,4 +37,9 @@ export class CreateRoutineDto {
   @Min(0, { each: true })
   @Max(6, { each: true })
   daysOfWeek?: number[];
+  @IsOptional()
+  @IsInt()
+  @Min(1)
+  @Max(1440)
+  targetMinutes?: number;
 }

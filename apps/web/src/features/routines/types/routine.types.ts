@@ -13,6 +13,7 @@ export type Routine = {
   area: RoutineArea | null;
   schedule: RoutineSchedule;
   daysOfWeek: number[];
+  targetMinutes: number | null;
   isActive: boolean;
   createdAt: string;
   updatedAt: string;
@@ -28,6 +29,7 @@ export type RoutineInput = {
   schedule: RoutineSchedule;
   daysOfWeek?: number[];
   isActive?: boolean;
+  targetMinutes?: number | null;
 };
 export const routineAreas: RoutineArea[] = [
   "ENGINEERING",

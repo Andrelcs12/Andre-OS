@@ -55,9 +55,9 @@ export class TimeEntriesService {
     });
   }
   async start(user: AuthenticatedUser, dto: StartTimeEntryDto) {
-    if (dto.taskId && dto.northItemId)
+    if ([dto.taskId, dto.northItemId, dto.routineId].filter(Boolean).length > 1)
       throw new BadRequestException(
-        "Escolha uma tarefa ou um item do Norte, não ambos.",
+        "Escolha uma tarefa, item do Norte ou essencial, não mais de um.",
       );
     if (dto.taskId) {
       const task = await this.prisma.task.findFirst({
@@ -72,6 +72,13 @@ export class TimeEntriesService {
       });
       if (!item) throw new NotFoundException("Item do Norte não encontrado.");
       dto.area ??= item.track.area ?? undefined;
+    }
+    if (dto.routineId) {
+      const routine = await this.prisma.routine.findFirst({
+        where: { id: dto.routineId, userId: user.id },
+      });
+      if (!routine) throw new NotFoundException("Essencial não encontrado.");
+      dto.area ??= routine.area ?? undefined;
     }
     if (await this.active(user))
       throw new ConflictException("Já existe uma sessão ativa.");
@@ -95,6 +102,7 @@ export class TimeEntriesService {
             userId: user.id,
             taskId: dto.taskId,
             northItemId: dto.northItemId,
+            routineId: dto.routineId,
             description: dto.description?.trim() || null,
             area: dto.area,
             mode: dto.mode ?? TimeEntryMode.FREE,

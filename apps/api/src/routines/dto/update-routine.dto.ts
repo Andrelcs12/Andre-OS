@@ -43,4 +43,9 @@ export class UpdateRoutineDto {
   @IsOptional()
   @IsBoolean()
   isActive?: boolean;
+  @IsOptional()
+  @IsInt()
+  @Min(1)
+  @Max(1440)
+  targetMinutes?: number | null;
 }
