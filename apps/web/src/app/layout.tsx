@@ -16,8 +16,11 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: { default: "ANDRÉ OS", template: "%s · ANDRÉ OS" },
   description:
-    "Personal operating system for tasks, routines, saved links, time tracking and personal analytics.",
+    "Sistema operacional pessoal para executar metas, tarefas, rotinas, foco e evolução.",
   applicationName: "ANDRÉ OS",
+  keywords: ["produtividade", "tarefas", "rotinas", "foco", "ANDRÉ OS"],
+  authors: [{ name: "André Lucas" }],
+  creator: "André Lucas",
   manifest: "/manifest.webmanifest",
   icons: {
     icon: [

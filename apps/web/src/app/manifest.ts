@@ -5,7 +5,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: "ANDRÉ OS",
     short_name: "ANDRÉ OS",
     description:
-      "Personal operating system for tasks, routines, saved links, time tracking and personal analytics.",
+      "Sistema operacional pessoal para metas, tarefas, rotinas e foco.",
     start_url: "/",
     display: "standalone",
     background_color: "#0F1014",

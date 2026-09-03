@@ -36,7 +36,10 @@ export class AuthService {
     if (error || !data.user?.email) return null;
     const metadata = data.user.user_metadata;
     const displayName =
-      metadata.full_name ?? metadata.name ?? data.user.email.split("@")[0];
+      metadata.full_name ??
+      metadata.name ??
+      metadata.display_name ??
+      data.user.email.split("@")[0];
     return {
       authUserId: data.user.id,
       email: data.user.email,

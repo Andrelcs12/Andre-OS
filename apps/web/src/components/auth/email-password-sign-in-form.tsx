@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -62,6 +63,15 @@ export function EmailPasswordSignInForm() {
       <Button type="submit" size="lg" disabled={pending}>
         {pending ? "Entrando..." : "Entrar com e-mail"}
       </Button>
+      <p className="text-center text-sm text-muted-foreground">
+        Ainda não tem acesso?{" "}
+        <Link
+          href="/cadastro"
+          className="font-medium text-primary hover:underline"
+        >
+          Criar conta
+        </Link>
+      </p>
     </form>
   );
 }
