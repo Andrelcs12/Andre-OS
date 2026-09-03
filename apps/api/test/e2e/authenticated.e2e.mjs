@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { ServiceUnavailableException } from "@nestjs/common";
 
 import { SessionAuthGuard } from "../../dist/auth/guards/session-auth.guard.js";
 
@@ -45,4 +46,16 @@ test("a autenticação injeta somente a identidade confirmada pelo Supabase", as
     id: "d12e729c-5095-4d92-aa91-d29e35d0982f",
     email: "andre@example.test",
   });
+});
+
+test("uma API sem configuração Supabase informa indisponibilidade", async () => {
+  const unavailable = new ServiceUnavailableException("Supabase Auth ausente");
+  const auth = { getIdentity: async () => Promise.reject(unavailable) };
+  const users = { upsertSupabaseUser: async () => undefined };
+  const guard = new SessionAuthGuard(auth, users);
+
+  await assert.rejects(
+    () => guard.canActivate(context({ authorization: "Bearer token" })),
+    (error) => error === unavailable,
+  );
 });

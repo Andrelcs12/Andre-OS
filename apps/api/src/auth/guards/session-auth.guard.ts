@@ -3,6 +3,7 @@ import {
   type ExecutionContext,
   Inject,
   Injectable,
+  ServiceUnavailableException,
   UnauthorizedException,
 } from "@nestjs/common";
 import type { FastifyRequest } from "fastify";
@@ -34,7 +35,8 @@ export class SessionAuthGuard implements CanActivate {
       const user = await this.users.upsertSupabaseUser(identity);
       request.user = { id: user.id, email: user.email };
       return true;
-    } catch {
+    } catch (error) {
+      if (error instanceof ServiceUnavailableException) throw error;
       throw new UnauthorizedException();
     }
   }
