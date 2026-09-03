@@ -1,13 +1,6 @@
 import { Inject, Injectable } from "@nestjs/common";
-
+import type { SupabaseUserIdentity } from "../auth/auth.types.js";
 import { PrismaService } from "../prisma/prisma.service.js";
-
-export type GoogleUserIdentity = {
-  googleId: string;
-  email: string;
-  displayName: string;
-  avatarUrl: string | null;
-};
 
 @Injectable()
 export class UsersService {
@@ -17,15 +10,28 @@ export class UsersService {
     return this.prisma.user.findUnique({ where: { id } });
   }
 
-  upsertGoogleUser(identity: GoogleUserIdentity) {
-    return this.prisma.user.upsert({
-      where: { googleId: identity.googleId },
-      create: identity,
-      update: {
-        email: identity.email,
-        displayName: identity.displayName,
-        avatarUrl: identity.avatarUrl,
-      },
+  async upsertSupabaseUser(identity: SupabaseUserIdentity) {
+    const byAuthUserId = await this.prisma.user.findUnique({
+      where: { authUserId: identity.authUserId },
+    });
+    const existing =
+      byAuthUserId ??
+      (await this.prisma.user.findUnique({ where: { email: identity.email } }));
+
+    if (existing) {
+      return this.prisma.user.update({
+        where: { id: existing.id },
+        data: {
+          authUserId: identity.authUserId,
+          email: identity.email,
+          displayName: identity.displayName,
+          avatarUrl: identity.avatarUrl,
+        },
+      });
+    }
+
+    return this.prisma.user.create({
+      data: identity,
     });
   }
 }

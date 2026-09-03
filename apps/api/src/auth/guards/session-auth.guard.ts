@@ -5,46 +5,34 @@ import {
   Injectable,
   UnauthorizedException,
 } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
-import { JwtService } from "@nestjs/jwt";
 import type { FastifyRequest } from "fastify";
+import { UsersService } from "../../users/users.service.js";
 import { AuthService } from "../auth.service.js";
 import type { AuthenticatedUser } from "../auth.types.js";
 
 type AuthenticatedRequest = FastifyRequest & { user?: AuthenticatedUser };
-type SessionPayload = { sub: string; email: string };
-
-function readCookie(header: string | undefined, name: string) {
-  return header
-    ?.split(";")
-    .map((item) => item.trim())
-    .find((item) => item.startsWith(`${name}=`))
-    ?.slice(name.length + 1);
+function readBearerToken(header: string | undefined) {
+  const [scheme, token] = header?.split(" ") ?? [];
+  return scheme?.toLowerCase() === "bearer" && token ? token : null;
 }
 
 @Injectable()
 export class SessionAuthGuard implements CanActivate {
   constructor(
     @Inject(AuthService) private readonly auth: AuthService,
-    @Inject(ConfigService) private readonly config: ConfigService,
-    @Inject(JwtService) private readonly jwt: JwtService,
+    @Inject(UsersService) private readonly users: UsersService,
   ) {}
 
   async canActivate(context: ExecutionContext) {
     const request = context.switchToHttp().getRequest<AuthenticatedRequest>();
-    const token = readCookie(
-      request.headers.cookie,
-      this.auth.getSessionCookieName(),
-    );
+    const token = readBearerToken(request.headers.authorization);
     if (!token) throw new UnauthorizedException();
 
     try {
-      const payload = await this.jwt.verifyAsync<SessionPayload>(token, {
-        secret: this.config.getOrThrow<string>("AUTH_SECRET"),
-      });
-      request.user = { id: payload.sub, email: payload.email };
-      if (!request.user.id || !request.user.email)
-        throw new UnauthorizedException();
+      const identity = await this.auth.getIdentity(token);
+      if (!identity) throw new UnauthorizedException();
+      const user = await this.users.upsertSupabaseUser(identity);
+      request.user = { id: user.id, email: user.email };
       return true;
     } catch {
       throw new UnauthorizedException();

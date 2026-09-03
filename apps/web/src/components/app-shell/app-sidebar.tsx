@@ -20,8 +20,8 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { apiFetch } from "@/lib/api/api-client";
 import { navigationItems } from "@/lib/constants/navigation";
+import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils";
 import type { AuthenticatedProfile } from "@/types/auth";
 
@@ -68,7 +68,9 @@ function UserMenu({ profile }: { profile: AuthenticatedProfile }) {
         </Avatar>
         <div className="min-w-0 flex-1">
           <p className="truncate text-sm font-medium">{profile.displayName}</p>
-          <p className="truncate text-xs text-muted-foreground">Conta Google</p>
+          <p className="truncate text-xs text-muted-foreground">
+            Conta autenticada
+          </p>
         </div>
         <Tooltip>
           <TooltipTrigger asChild>
@@ -78,7 +80,7 @@ function UserMenu({ profile }: { profile: AuthenticatedProfile }) {
               size="icon-sm"
               aria-label="Sair"
               onClick={async () => {
-                await apiFetch("/auth/logout", { method: "POST" });
+                await createSupabaseBrowserClient().auth.signOut();
                 router.replace("/login");
                 router.refresh();
               }}

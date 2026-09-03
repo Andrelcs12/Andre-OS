@@ -4,65 +4,44 @@ import {
   ServiceUnavailableException,
 } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import { JwtService } from "@nestjs/jwt";
-import type { FastifyReply } from "fastify";
+import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
-import { UsersService } from "../users/users.service.js";
-import type { GoogleProfileData } from "./auth.types.js";
-
-const sessionCookieName = "andre_os_session";
-const sessionMaxAge = 60 * 60 * 24 * 7;
+import type { SupabaseUserIdentity } from "./auth.types.js";
 
 @Injectable()
 export class AuthService {
-  constructor(
-    @Inject(ConfigService) private readonly config: ConfigService,
-    @Inject(JwtService) private readonly jwt: JwtService,
-    @Inject(UsersService) private readonly users: UsersService,
-  ) {}
+  constructor(@Inject(ConfigService) private readonly config: ConfigService) {}
 
-  isGoogleConfigured() {
-    return Boolean(
-      this.config.get<string>("GOOGLE_CLIENT_ID") &&
-        this.config.get<string>("GOOGLE_CLIENT_SECRET") &&
-        this.config.get<string>("GOOGLE_CALLBACK_URL"),
-    );
-  }
+  private client?: SupabaseClient;
 
-  assertGoogleConfigured() {
-    if (!this.isGoogleConfigured()) {
+  private getClient() {
+    if (this.client) return this.client;
+    const url = this.config.get<string>("SUPABASE_URL");
+    const key =
+      this.config.get<string>("SUPABASE_PUBLISHABLE_KEY") ??
+      this.config.get<string>("SUPABASE_ANON_KEY");
+    if (!url || !key) {
       throw new ServiceUnavailableException(
-        "Google OAuth ainda não está configurado.",
+        "Supabase Auth não está configurado na API.",
       );
     }
+    this.client = createClient(url, key, {
+      auth: { autoRefreshToken: false, persistSession: false },
+    });
+    return this.client;
   }
 
-  async completeGoogleSignIn(reply: FastifyReply, profile: GoogleProfileData) {
-    const user = await this.users.upsertGoogleUser(profile);
-    const token = await this.jwt.signAsync(
-      { sub: user.id, email: user.email },
-      {
-        secret: this.config.getOrThrow<string>("AUTH_SECRET"),
-        expiresIn: "7d",
-      },
-    );
-
-    const secure =
-      this.config.get<string>("NODE_ENV") === "production" ? "; Secure" : "";
-    reply.header(
-      "set-cookie",
-      `${sessionCookieName}=${encodeURIComponent(token)}; HttpOnly; SameSite=Lax; Path=/; Max-Age=${sessionMaxAge}${secure}`,
-    );
-  }
-
-  clearSession(reply: FastifyReply) {
-    reply.header(
-      "set-cookie",
-      `${sessionCookieName}=; HttpOnly; SameSite=Lax; Path=/; Max-Age=0`,
-    );
-  }
-
-  getSessionCookieName() {
-    return sessionCookieName;
+  async getIdentity(accessToken: string): Promise<SupabaseUserIdentity | null> {
+    const { data, error } = await this.getClient().auth.getUser(accessToken);
+    if (error || !data.user?.email) return null;
+    const metadata = data.user.user_metadata;
+    const displayName =
+      metadata.full_name ?? metadata.name ?? data.user.email.split("@")[0];
+    return {
+      authUserId: data.user.id,
+      email: data.user.email,
+      displayName,
+      avatarUrl: metadata.avatar_url ?? null,
+    };
   }
 }

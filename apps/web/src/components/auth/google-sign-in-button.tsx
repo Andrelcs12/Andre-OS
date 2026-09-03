@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { getApiUrl } from "@/lib/api/api-client";
+import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 
 function GoogleMark() {
   return (
@@ -26,14 +26,24 @@ function GoogleMark() {
   );
 }
 
-export function GoogleSignInButton() {
+export function GoogleSignInButton({ next = "/today" }: { next?: string }) {
   return (
     <Button
       type="button"
       className="w-full"
       size="lg"
-      onClick={() => {
-        window.location.assign(`${getApiUrl()}/auth/google`);
+      onClick={async () => {
+        const { error } =
+          await createSupabaseBrowserClient().auth.signInWithOAuth({
+            provider: "google",
+            options: {
+              redirectTo: new URL(
+                `/auth/callback?next=${encodeURIComponent(next)}`,
+                window.location.origin,
+              ).toString(),
+            },
+          });
+        if (error) throw error;
       }}
     >
       <GoogleMark />

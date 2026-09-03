@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-
+import { EmailPasswordSignInForm } from "@/components/auth/email-password-sign-in-form";
 import { GoogleSignInButton } from "@/components/auth/google-sign-in-button";
 import { BrandLogo } from "@/components/brand/brand-logo";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
@@ -39,6 +39,10 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
           </CardDescription>
         </CardHeader>
         <CardContent>
+          <EmailPasswordSignInForm />
+          <div className="my-4 flex items-center gap-3 text-xs text-muted-foreground before:h-px before:flex-1 before:bg-border after:h-px after:flex-1 after:bg-border">
+            ou
+          </div>
           <GoogleSignInButton />
           {error ? (
             <p role="alert" className="mt-4 text-sm text-destructive">
@@ -46,7 +50,8 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
             </p>
           ) : null}
           <p className="mt-4 text-xs leading-5 text-muted-foreground">
-            A conta é autenticada pelo Google através da API do ANDRÉ OS.
+            A autenticação é feita pelo Supabase. Contas por e-mail são criadas
+            manualmente pelo administrador.
           </p>
         </CardContent>
       </Card>

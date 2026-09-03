@@ -61,7 +61,8 @@ enum NorthItemStatus {
 
 model User {
   id             String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  googleId       String         @unique @map("google_id")
+  authUserId     String?        @unique @map("auth_user_id") @db.Uuid
+  googleId       String?        @unique @map("google_id")
   email          String         @unique
   displayName    String         @map("display_name")
   avatarUrl      String?        @map("avatar_url")

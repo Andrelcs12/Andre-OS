@@ -1,11 +1,18 @@
-import { cookies } from "next/headers";
-
+import { createSupabaseServerClient } from "../supabase/server";
 import { getApiUrl } from "./api-client";
 
 export async function serverApiFetch(path: string) {
-  const cookieStore = await cookies();
+  const supabase = await createSupabaseServerClient();
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
   return fetch(`${getApiUrl()}${path}`, {
-    headers: { Cookie: cookieStore.toString(), Accept: "application/json" },
+    headers: {
+      Accept: "application/json",
+      ...(session?.access_token
+        ? { Authorization: `Bearer ${session.access_token}` }
+        : {}),
+    },
     cache: "no-store",
     signal: AbortSignal.timeout(3_000),
   });

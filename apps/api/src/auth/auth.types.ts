@@ -3,8 +3,8 @@ export type AuthenticatedUser = {
   email: string;
 };
 
-export type GoogleProfileData = {
-  googleId: string;
+export type SupabaseUserIdentity = {
+  authUserId: string;
   email: string;
   displayName: string;
   avatarUrl: string | null;

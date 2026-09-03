@@ -10,10 +10,10 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 # ANDRÉ OS Web
 
-`apps/web` é a UI Next.js App Router. Ela não acessa PostgreSQL, Prisma ou Supabase Data/Auth. A fronteira pública é `NEXT_PUBLIC_API_URL` e toda chamada passa por `src/lib/api` com credentials.
+`apps/web` é a UI Next.js App Router. Ela não acessa PostgreSQL, Prisma ou Supabase Data. Supabase Auth é usado somente para sessão, Google OAuth e e-mail/senha; a fronteira de dados é `NEXT_PUBLIC_API_URL`.
 
 - Server Components por padrão; componentes client somente para interação e Browser APIs.
-- Sessão é cookie HttpOnly emitido pela API Nest. Layouts consultam `/auth/me` no servidor e fazem proteção visual; não valide banco no proxy Next.
+- Sessão é cookie gerenciado pelo Supabase SSR. Layouts consultam `/auth/me` com access token no servidor e fazem proteção visual; `proxy.ts` apenas mantém a sessão renovada.
 - Não implemente regra de negócio no frontend. Services web apenas consomem a API.
 - UI usa tokens em `src/app/globals.css`, Geist Sans/Mono, shadcn/ui e Lucide. Evite cores hardcoded, glow, neon e excessos de radius/sombra.
 - A marca oficial está em `public/brand`; metadata, manifest e ícone estão no App Router.

@@ -1,6 +1,5 @@
 import "reflect-metadata";
 
-import fastifyCookie from "@fastify/cookie";
 import { ValidationPipe } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { NestFactory } from "@nestjs/core";
@@ -8,7 +7,6 @@ import {
   FastifyAdapter,
   type NestFastifyApplication,
 } from "@nestjs/platform-fastify";
-import type { FastifyPluginAsync } from "fastify";
 
 import { AppModule } from "./app.module.js";
 
@@ -20,7 +18,6 @@ async function bootstrap() {
   const config = app.get(ConfigService);
   const webUrl = config.get<string>("WEB_URL") ?? "http://localhost:3000";
 
-  await app.register(fastifyCookie as unknown as FastifyPluginAsync);
   app.enableCors({ origin: webUrl, credentials: true });
   app.useGlobalPipes(
     new ValidationPipe({

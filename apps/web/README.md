@@ -4,7 +4,7 @@ Personal operating system for tasks, routines, saved links, time tracking and pe
 
 ## Status
 
-**Phase 2 — infraestrutura real de dados e autenticação.** A aplicação usa Supabase SSR, Google OAuth, migrations SQL e RLS. O código é versionável sem credenciais; a configuração externa depende de um projeto Supabase e de credenciais Google reais.
+Supabase Auth é responsável por Google OAuth, e-mail/senha e cookies SSR. A API Nest recebe access tokens Bearer e aplica autorização no PostgreSQL via Prisma.
 
 ## Stack
 
@@ -39,20 +39,12 @@ npm run db:types
 ## Arquitetura
 
 ```text
-UI
- ↓
-Client Supabase / Server Action / Route Handler
- ↓
-Services
- ↓
-Supabase SSR clients
- ↓
-PostgreSQL + RLS
+UI → Supabase Auth → API Nest → Services → Prisma → PostgreSQL
 ```
 
 ## Banco de dados
 
-As migrations estão em `supabase/migrations`. A migration inicial cria:
+As migrations relacionais em uso estão em `../api/prisma/migrations`. A migration inicial histórica cria:
 
 - profiles
 - tasks
@@ -66,7 +58,7 @@ Todas as tabelas de usuário usam RLS e policies por proprietário. O profile é
 ## Configuração automatizada
 
 - Clients Supabase para browser, servidor e `proxy.ts`.
-- Login Google, callback PKCE e logout.
+- Login Google, e-mail/senha, callback PKCE e logout.
 - Proteção SSR de rotas e refresh de sessão.
 - Schema, constraints, índices, RLS e policies versionados.
 - Assets oficiais em `public/brand` e metadata/manifest configurados.
@@ -75,8 +67,8 @@ Todas as tabelas de usuário usam RLS e policies por proprietário. O profile é
 
 1. Crie ou vincule um projeto Supabase.
 2. Adicione `http://localhost:3000/auth/callback` às Redirect URLs de Auth.
-3. Aplique a migration em `supabase/migrations`.
-4. Copie a Project URL e a Publishable Key para `.env.local`.
+3. Aplique as migrations Prisma em `../api/prisma/migrations`.
+4. Copie a Project URL e a Publishable Key para `.env.local` e para a API.
 5. No Google Cloud, crie um OAuth Web Client e registre a callback fornecida pelo provider Google no Supabase.
 6. No Supabase Auth, habilite Google e informe o Client ID e Client Secret do Google.
 

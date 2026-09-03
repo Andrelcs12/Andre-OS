@@ -27,4 +27,4 @@
 
 No frontend, `app/` contém routing e composição de página; `features/` agrupa código por domínio; `components/` é reservado para UI compartilhada; e `lib/` concentra infraestrutura técnica compartilhada.
 
-O login inicia em `GET /auth/google`, retorna em `/auth/google/callback` e redireciona para `WEB_URL/today`. `GET /auth/me` exige o guard de sessão; `POST /auth/logout` invalida o cookie. Google OAuth só solicita `openid`, `email` e `profile`.
+O login inicia no Next.js com Supabase Auth. Google retorna ao callback do Supabase e, em seguida, para `/auth/callback`, que troca o código PKCE pela sessão. E-mail/senha também é autenticado pelo Supabase. `GET /auth/me` e as rotas de negócio exigem um access token Bearer confirmado server-side pela API com `supabase.auth.getUser()`.

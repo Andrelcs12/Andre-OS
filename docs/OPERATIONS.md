@@ -8,7 +8,7 @@ npm run dev:web
 npm run dev:api
 ```
 
-Web: `NEXT_PUBLIC_API_URL`. API: `PORT`, `WEB_URL`, `DATABASE_URL`, `DIRECT_URL`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GOOGLE_CALLBACK_URL` e `AUTH_SECRET` conforme `apps/api/.env.example`. Nunca registre valores reais.
+Web: `NEXT_PUBLIC_API_URL`, `NEXT_PUBLIC_SUPABASE_URL` e `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`. API: `PORT`, `WEB_URL`, `DATABASE_URL`, `DIRECT_URL`, `SUPABASE_URL` e `SUPABASE_PUBLISHABLE_KEY` conforme os arquivos `.env.example`. Nunca registre valores reais.
 
 `DATABASE_URL` é usada pela API em runtime e pode apontar para o pooler. `DIRECT_URL` é usada pelo Prisma CLI para migrations e deve usar uma conexão direta compatível. Em produção, `WEB_URL` deve ser a origem exata da web para CORS com cookies; o cookie de sessão recebe `Secure` automaticamente.
 
