@@ -21,15 +21,38 @@ export const metadata: Metadata = {
   keywords: ["produtividade", "tarefas", "rotinas", "foco", "ANDRÉ OS"],
   authors: [{ name: "André Lucas" }],
   creator: "André Lucas",
+  openGraph: {
+    type: "website",
+    locale: "pt_BR",
+    siteName: "ANDRÉ OS",
+    title: "ANDRÉ OS",
+    description:
+      "Sistema operacional pessoal para executar metas, tarefas, rotinas, foco e evolução.",
+    images: [
+      {
+        url: "/brand/full-wordmark-light.png",
+        width: 2172,
+        height: 724,
+        alt: "ANDRÉ OS",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "ANDRÉ OS",
+    description:
+      "Sistema operacional pessoal para executar metas, tarefas, rotinas, foco e evolução.",
+    images: ["/brand/full-wordmark-light.png"],
+  },
   manifest: "/manifest.webmanifest",
   icons: {
     icon: [
       {
-        url: "/brand/app-icon-dark.png",
+        url: "/brand/symbol-white.png",
         media: "(prefers-color-scheme: dark)",
       },
       {
-        url: "/brand/app-icon-light.png",
+        url: "/brand/symbol-primary.png",
         media: "(prefers-color-scheme: light)",
       },
     ],
